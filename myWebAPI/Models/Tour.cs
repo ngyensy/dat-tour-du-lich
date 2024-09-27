@@ -1,0 +1,29 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using WebApi.Entities;
+
+public class TourModel
+{
+    public string Id { get; set; } // ID của tour
+    public string Name { get; set; } // Tên của tour
+    public string Description { get; set; } // Mô tả về tour
+    public int Duration { get; set; } // Thời gian tour (số ngày)
+    
+    // Giá dành cho người lớn và trẻ em
+    public decimal Price { get; set; } // Giá người lớn
+    public decimal ChildPrice { get; set; } // Giá trẻ em
+    
+    public string DepartureLocation { get; set; } // Nơi khởi hành
+    public string Destination { get; set; } // Điểm đến
+    
+    public DateTime StartDate { get; set; } // Ngày bắt đầu
+    public DateTime EndDate { get; set; } // Ngày kết thúc
+    
+    public int AvailableSlots { get; set; } // Số chỗ còn lại
+    public bool IsActive { get; set; } // Trạng thái hoạt động
+    public string Image { get; set; } // URL hình ảnh (hoặc tên hình ảnh nếu bạn lưu hình ảnh trong cơ sở dữ liệu)
+
+    // Foreign key to Category
+    public int CategoryId { get; set; } // Liên kết với ID của Category
+    public Category Category { get; set; } // Đối tượng Category
+}
