@@ -6,6 +6,7 @@
   import Footer from '../components/Footer';
   import { MapPinIcon, CurrencyDollarIcon, TicketIcon } from '@heroicons/react/24/outline';
   import axios from 'axios';
+  import PaymentMethod from '../components/PaymentMethod';
 
   const BookingPage = () => {
     const location = useLocation();
@@ -13,19 +14,21 @@
     const { tour } = location.state || {}; // Lấy thông tin tour từ state
     const { user } = useAuth(); // Lấy thông tin người dùng từ AuthContext
     const [totalPrice, setTotalPrice] = useState(0); 
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
     
 
     const [formData, setFormData] = useState({
       guestName: '',
       guestEmail: '',
-      guestPhone: '',
+      guestPhoneNumber: '',
       guestAddress: '',
       numberOfAdults: 1,
       numberOfChildren: 0,
       singleRoom: false,
       notes: '',
     });
+    
 
     useEffect(() => {
       if (user) {
@@ -33,7 +36,7 @@
           ...formData,
           guestName: user.name || '',
           guestEmail: user.email || '',
-          guestPhone: user.phoneNumber || '',
+          guestPhoneNumber: user.phoneNumber || '',
           guestAddress: user.address || ''
         });
       }
@@ -57,6 +60,11 @@
       });
     };
 
+    const bookingDate = new Date(); // Tạo một đối tượng Date mới
+    const localOffset = bookingDate.getTimezoneOffset(); // Lấy offset múi giờ địa phương
+    // Tính toán thời gian địa phương
+    const localDate = new Date(bookingDate.getTime() - localOffset * 60000); // Chuyển đổi sang UTC
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
@@ -65,13 +73,15 @@
           userId: user?.id || null, // ID người dùng nếu có
           guestName: formData.guestName,
           guestEmail: formData.guestEmail,
-          guestPhone: formData.guestPhone,
+          guestPhoneNumber: formData.guestPhoneNumber,
           guestAddress: formData.guestAddress,
           numberOfAdults: formData.numberOfAdults,
           numberOfChildren: formData.numberOfChildren,
           singleRoom: formData.singleRoom,
           totalPrice: totalPrice,
           notes: formData.notes,
+          paymentMethod: selectedPaymentMethod,
+          bookingDate: localDate.toISOString().split('.')[0] + 'Z', 
         };
   
         const response = await axios.post('http://localhost:4000/v1/booking', bookingData);
@@ -139,27 +149,27 @@
                     />
                   </div>
                   <div className="w-full md:w-1/2 px-2">
-                    <label className="block font-semibold" htmlFor="guestPhone">Điện thoại <span className='text-red-600'>*</span></label>
+                    <label className="block font-semibold" htmlFor="guestPhoneNumber">Điện thoại <span className='text-red-600'>*</span></label>
                       <input
                         type="text"
-                        id="guestPhone"
-                        name="guestPhone"
+                        id="guestPhoneNumber"
+                        name="guestPhoneNumber"
                         className="border w-full p-2 rounded-lg"
                         placeholder="Nhập số điện thoại"
-                        value={formData.guestPhone}
+                        value={formData.guestPhoneNumber}
                         onChange={handleChange}
                         required
                     />
                   </div>
                   <div className="w-full md:w-1/2 px-2">
-                    <label className="block font-semibold" htmlFor="address">Địa chỉ</label>
+                    <label className="block font-semibold" htmlFor="guestAddress">Địa chỉ</label>
                     <input
                       type="text"
-                      id="address"
-                      name="address"
+                      id="guestAddress"
+                      name="guestAddress"
                       className="border w-full p-2 rounded-lg"
                       placeholder="Nhập địa chỉ"
-                      value={formData.address}
+                      value={formData.guestAddress}
                       onChange={handleChange}
                     />
                   </div>
@@ -240,6 +250,8 @@
                   onChange={handleChange}
                 />
               </div>
+
+              <PaymentMethod onSelectPayment={setSelectedPaymentMethod} />
 
                 <button
                   type="submit"

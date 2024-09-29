@@ -21,7 +21,7 @@ namespace WebApi.Models
         public string TourId { get; set; } // ID tour được đặt
         public TourModel Tour { get; set; }
 
-        public DateTime BookingDate { get; set; } // Ngày đặt
+        public DateTimeOffset BookingDate { get; set; } // Ngày đặt
 
         // Số lượng người lớn và trẻ em
         public int NumberOfAdults { get; set; } // Số người lớn

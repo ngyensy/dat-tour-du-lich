@@ -24,7 +24,7 @@ namespace WebApi.Entities
         public Tour Tour { get; set; } // Foreign key reference to Tour entity
 
         [Column("BookingDate")]
-        public DateTime BookingDate { get; set; }
+        public DateTimeOffset BookingDate { get; set; }
 
         // Số lượng người lớn và trẻ em
         [Column("NumberOfAdults")]

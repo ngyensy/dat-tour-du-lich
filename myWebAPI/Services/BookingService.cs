@@ -65,7 +65,11 @@ namespace WebApi.Services
                 // Chuyển đổi BookingModel thành Booking entity
                 var bookingEntity = _mapper.Map<Booking>(bookingModel);
 
+                // Tạo BookingId ngẫu nhiên
                 bookingEntity.Id = IdGenerator.GenerateBookingId(10);
+
+                // Chỉnh sửa thời gian đặt chỗ, loại bỏ mili giây
+                bookingEntity.BookingDate = bookingModel.BookingDate.AddMilliseconds(-bookingModel.BookingDate.Millisecond);
 
                 // Thêm entity vào cơ sở dữ liệu
                 _context.Bookings.Add(bookingEntity);
