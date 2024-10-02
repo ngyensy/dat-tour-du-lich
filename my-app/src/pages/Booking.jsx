@@ -7,6 +7,7 @@
   import { MapPinIcon, CurrencyDollarIcon, TicketIcon } from '@heroicons/react/24/outline';
   import axios from 'axios';
   import PaymentMethod from '../components/PaymentMethod';
+  import TermsAndConditions from '../components/TermsAndConditions';
 
   const BookingPage = () => {
     const location = useLocation();
@@ -15,6 +16,11 @@
     const { user } = useAuth(); // Lấy thông tin người dùng từ AuthContext
     const [totalPrice, setTotalPrice] = useState(0); 
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+    const [isAgreed, setIsAgreed] = useState(false);
+
+    const handleAgreementChange = (checked) => {
+      setIsAgreed(checked); // Cập nhật trạng thái đồng ý
+    };
 
     
 
@@ -60,6 +66,13 @@
       });
     };
 
+    const isFormValid = () => {
+      return formData.guestName
+      && formData.guestEmail
+      && formData.guestPhoneNumber
+       ; // Kiểm tra xem tất cả các trường đều đã được điền
+    };
+
     const bookingDate = new Date(); // Tạo một đối tượng Date mới
     const localOffset = bookingDate.getTimezoneOffset(); // Lấy offset múi giờ địa phương
     // Tính toán thời gian địa phương
@@ -67,6 +80,18 @@
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+
+      if(!selectedPaymentMethod) {
+        alert('Vui lòng chọn phương thức thanh toán!')
+        return;
+      }
+
+      // Kiểm tra trạng thái đồng ý trước khi thực hiện submit
+      if (!isAgreed) {
+        alert('Bạn cần đồng ý với các điều khoản trước khi đặt tour!');
+        return; // Ngừng thực hiện nếu chưa đồng ý
+      }
+
       try {
         const bookingData = {
           tourId: tour.id,
@@ -90,10 +115,11 @@
           alert('Đặt tour thành công!');
           navigate('/confirmation', { state: { bookingId: response.data.id } });
         }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Đã xảy ra lỗi khi đặt tour. Vui lòng thử lại.');
-      }
+        
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Đã xảy ra lỗi khi đặt tour. Vui lòng thử lại.');
+        }
     };
 
     if (!tour) {
@@ -105,7 +131,7 @@
         <Navbar />
         <CategoryNav />
 
-        <div className="container mx-auto my-8 px-32">
+        <div className="container mx-auto my-16 px-32">
           <div className="flex justify-between mb-6">
             <button className="text-blue-600" onClick={() => window.history.back()}>
               ← Quay lại
@@ -237,14 +263,14 @@
                   </div>
                 </div>
                 
-                <h3 className="text-xl font-bold mb-2">THÔNG TIN HÀNH KHÁCH</h3>
+                <h3 className="text-xl font-bold mb-2">GHI CHÚ</h3>
 
                 <div className="mb-4">
-                <label className="block font-semibold" htmlFor="notes">Ghi chú</label>
+                <label className="block font-semibold" htmlFor="notes">Quý khách có ghi chú lưu ý gì, hãy nói với chúng tôi</label>
                 <textarea
                   id="notes"
                   name="notes"
-                  className="border w-full p-2 rounded-lg"
+                  className="border w-full h-32 p-2 rounded-lg"
                   placeholder="Nhập ghi chú"
                   value={formData.notes}
                   onChange={handleChange}
@@ -253,17 +279,13 @@
 
               <PaymentMethod onSelectPayment={setSelectedPaymentMethod} />
 
-                <button
-                  type="submit"
-                  className="bg-red-600 text-white py-2 px-4 rounded-lg"
-                >
-                  Đặt tour
-                </button>
+              <TermsAndConditions onAgree={handleAgreementChange} />
+              
               </form>
             </div>
 
             {/* Phần tóm tắt chuyến đi */}
-            <div className='md:w-2/4 pl-4'>
+            <div className='md:w-2/4  pl-4'>
               <h3 className="text-xl font-bold mb-2">TÓM TẮT CHUYẾN ĐI</h3>
               <div className="bg-[#f8f8f8] rounded-xl">
                 <div className="border p-4 border-none">
@@ -318,6 +340,26 @@
                               <h4 className="text-red-600 text-4xl font-bold">
                                 {totalPrice.toLocaleString()} đ
                               </h4>
+                            </div>
+
+                            <div className='mt-4'>
+                              {!isFormValid() ? (
+
+                                  <button 
+                                  type="button"
+                                  className=" text-gray-500 text-lg w-full h-12 rounded-lg border border-gray-500 "
+                                  disabled={!isAgreed}>
+                                    Nhập thông tin để đặt Tour
+                                  </button>
+                                ) : (
+                                  <button 
+                                  type="button"
+                                  className="bg-red-600 text-white text-lg w-full h-12 rounded-lg "
+                                  onClick={handleSubmit}
+                                  >
+                                    Đặt Tour
+                                  </button>
+                                )}
                             </div>
                         </li>
                     </ul>

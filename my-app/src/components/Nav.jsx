@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'; // Import AuthContext
 import logo from '../assets/logo.png';
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logoutUser } = useAuth();
 
   return (
     <nav className="bg-white-500 py-4 flex px-40">
@@ -30,7 +30,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
               <span className="text-black text-lg">Xin chào, {user.name}</span>
               <button
-                onClick={logout}
+                onClick={logoutUser}
                 className="text-black hover:text-gray-600 border-2 border-black px-3 py-1 rounded-lg"
               >
                 Đăng xuất

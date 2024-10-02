@@ -27,7 +27,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest model)
-{
+    {
     // Tìm người dùng theo username
     var user = _userService.Authenticate(model.Username, model.Password);
     if (user == null)
@@ -63,7 +63,7 @@ public class AuthController : ControllerBase
         Role = user.Role,
         Token = tokenString
     });
-}
+    }   
 
 
     [Authorize]

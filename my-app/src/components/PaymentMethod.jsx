@@ -22,7 +22,7 @@ const PaymentMethod = ({ onSelectPayment }) => {
     };
 
     return (
-        <div className="">
+        <div className="mt-10">
           <h3 className="text-2xl font-bold mb-4">CÁC HÌNH THỨC THANH TOÁN</h3>
           <ul className="space-y-4">
             {paymentMethods.map((method) => (

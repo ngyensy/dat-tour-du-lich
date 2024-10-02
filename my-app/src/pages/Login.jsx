@@ -25,17 +25,18 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState('');  // State để lưu thông báo lỗi API
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { Userlogin } = useAuth();
 
   const mutation = useMutation(loginUser, {
     onSuccess: (data) => {
-      login(
+      Userlogin(
         {
           id: data.id,
           name: data.name,
           token: data.token,
           email: data.email,
-          phoneNumber: data.phoneNumber 
+          phoneNumber: data.phoneNumber, 
+          role: data.role,
         });  
       navigate('/');  
     },
