@@ -10,12 +10,12 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import CreateTour from './components/creatTour';
 
 // ------- Các thành phần admin ---------
-import AdminLayout from './admin/components/AdminLayout';
-import Dashboard from './admin/Dashboard';
-import TourManagement from './admin/TourManagement';
-import CategoryManagement from './admin/Category';
-import UserManagement from './admin/UserManagement';
-import BookingManagement from './admin/BookingManagement';
+import AdminLayout from './admin/AdminLayout';
+import Dashboard from './admin/components/Dashboard';
+import TourManagement from './admin/components/AdminTour/TourManagement';
+import CategoryManagement from './admin/components/Category';
+import UserManagement from './admin/components/UserManagement';
+import BookingManagement from './admin/components/BookingManagement';
 import AdminLoginForm from './admin/AdminLogin'; // Đường dẫn tới form đăng nhập admin
 import ProtectedRoute from './context/ProtectedRoute';
 

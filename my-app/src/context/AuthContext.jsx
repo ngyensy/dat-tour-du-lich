@@ -45,9 +45,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('userToken');
     localStorage.removeItem('user');
     console.log('User logged out'); // Log khi user đăng xuất
-
-    // Làm mới trang
-    window.location.reload();
 };
 
   // Đăng xuất cho admin
