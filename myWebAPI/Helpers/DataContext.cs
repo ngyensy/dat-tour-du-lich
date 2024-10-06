@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using WebApi.Entities;
@@ -25,5 +25,17 @@ namespace WebApi.Helpers
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Itinerary> Itineraries { get; set; }
+
+        // Phương thức OnModelCreating để cấu hình quan hệ
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Cấu hình quan hệ giữa Tour và Itinerary
+            modelBuilder.Entity<Tour>()
+                .HasMany(t => t.Itineraries)
+                .WithOne(i => i.Tour)
+                .HasForeignKey(i => i.TourId);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

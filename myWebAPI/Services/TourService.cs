@@ -16,6 +16,7 @@ namespace WebApi.Services
         void Create(TourModel tour);
         void Update(string id, TourModel tour);
         void Delete(string id);
+        Tour GetByIdWithItineraries(string id);
     }
 
 
@@ -36,6 +37,13 @@ namespace WebApi.Services
             {
                 var tours = _context.Tours.ToList();
                 return _mapper.Map<IEnumerable<TourModel>>(tours);
+            }
+
+            public Tour GetByIdWithItineraries(string id)
+            {
+                return _context.Tours
+                    .Include(t => t.Itineraries) // Bao gồm thông tin lịch trình
+                    .FirstOrDefault(t => t.Id == id);
             }
 
             public TourModel GetById(string id)

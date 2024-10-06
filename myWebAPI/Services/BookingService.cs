@@ -11,7 +11,7 @@ namespace WebApi.Services
 {
     public interface IBookingService
     {
-        IEnumerable<BookingModel> GetAll();
+        IEnumerable<BookingModel> GetAllBookings();
         BookingModel GetById(string id);
         void Create(BookingModel booking);
         void Update(string id, BookingModel booking);
@@ -31,15 +31,22 @@ namespace WebApi.Services
                 _mapper = mapper;
             }
 
-            public IEnumerable<BookingModel> GetAll()
+            public IEnumerable<BookingModel> GetAllBookings()
             {
-                var bookings = _context.Bookings.ToList();
-                return _mapper.Map<IEnumerable<BookingModel>>(bookings);
+                var bookings = _context.Bookings
+                           .Include(b => b.Tour) // Bao gồm thông tin Tour
+                           .ToList();
+
+                 return _mapper.Map<IEnumerable<BookingModel>>(bookings);
             }
 
             public BookingModel GetById(string id)
             {
-                var booking = _context.Bookings.Find(id);
+                // Truy vấn Booking cùng với Tour bằng Include
+                var booking = _context.Bookings
+                                    .Include(b => b.Tour) // Include để load thông tin Tour
+                                    .FirstOrDefault(b => b.Id == id); // Lấy booking theo id
+
                 return _mapper.Map<BookingModel>(booking);
             }
 

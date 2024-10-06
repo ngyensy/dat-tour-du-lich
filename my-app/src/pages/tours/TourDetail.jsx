@@ -6,6 +6,7 @@ import Navbar from '../../components/Nav';
 import CategoryNav from '../../components/CategoryNav';
 import Footer from '../../components/Footer';
 import { MapPinIcon, CalendarIcon, CurrencyDollarIcon, TicketIcon } from '@heroicons/react/24/outline';
+import ImportantInfo from '../../components/thongtinluuy';
 
 const TourDetail = () => {
   const navigate = useNavigate();  // Thay vì useHistory, sử dụng useNavigate
@@ -63,6 +64,9 @@ const TourDetail = () => {
             <div className="mb-4">
               <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="w-full h-auto object-cover rounded-lg" />
             </div>
+
+          <ImportantInfo />
+
           </div>
 
           {/* Phần thông tin chi tiết bên phải */}

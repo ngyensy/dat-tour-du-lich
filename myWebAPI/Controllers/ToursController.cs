@@ -6,6 +6,7 @@ using WebApi.Models;
 using WebApi.Services;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using Microsoft.EntityFrameworkCore; // Đảm bảo thêm namespace này cho Include()
 
 namespace WebApi.Controllers
 {
@@ -34,11 +35,11 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
-            var tour = _tourService.GetById(id);
+            var tour = _tourService.GetByIdWithItineraries(id); // Gọi dịch vụ lấy tour kèm lịch trình
             if (tour == null)
                 return NotFound();
 
-            return Ok(tour);
+            return Ok(tour); // Trả về thông tin tour kèm lịch trình
         }
 
         // POST: v1/tours

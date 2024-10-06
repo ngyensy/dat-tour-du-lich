@@ -56,7 +56,7 @@
         (formData.singleRoom ? tour.SingleRoomSurcharge : 0);
   
       setTotalPrice(calculatedPrice);
-    }, [formData, tour.Price, tour.childPrice, tour.SingleRoomSurcharge]);
+    }, [formData, tour.price, tour.childPrice, tour.SingleRoomSurcharge]);
   
     const handleChange = (e) => {
       const { name, value, type, checked } = e.target;

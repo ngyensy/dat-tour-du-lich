@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Security.Claims;
 using WebApi.Models;
 using WebApi.Services;
@@ -24,7 +25,10 @@ namespace WebApi.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var bookings = _bookingService.GetAll();
+            var bookings = _bookingService.GetAllBookings();
+            if (bookings == null || !bookings.Any())
+                return NotFound();
+
             return Ok(bookings);
         }
 

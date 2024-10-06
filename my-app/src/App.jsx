@@ -6,7 +6,7 @@ import BookingPage from './pages/Booking';
 import TourListPage from './pages/tours/TourListPage';
 import LoginForm from './pages/Login';
 import RegisterForm from './pages/Register';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import AuthProvider from './context/AuthContext';
 import CreateTour from './components/creatTour';
 
 // ------- Các thành phần admin ---------
@@ -18,6 +18,7 @@ import UserManagement from './admin/components/UserManagement';
 import BookingManagement from './admin/components/BookingManagement';
 import AdminLoginForm from './admin/AdminLogin'; // Đường dẫn tới form đăng nhập admin
 import ProtectedRoute from './context/ProtectedRoute';
+import BookingDetail from './admin/components/AdminBooking/BookingDetail';
 
 // Component AdminRoutes kiểm tra admin từ context
 const AdminRoutes = () => {
@@ -40,6 +41,7 @@ const AdminRoutes = () => {
         <Route path="categories" element={<CategoryManagement />} />
         <Route path="users" element={<UserManagement />} />
         <Route path="bookings" element={<BookingManagement />} />
+        <Route path="bookingDetail/:id" element={<BookingDetail />} />
       </Route>
     </Routes>
   );

@@ -28,5 +28,5 @@ public class TourModel
     public Category Category { get; set; } // Đối tượng Category
 
     // Thuộc tính cho lịch trình
-    public ICollection<Itinerary> Itineraries { get; set; } = new List<Itinerary>(); // Khởi tạo danh sách
+    public List<Itinerary> Itineraries { get; set; }
 }

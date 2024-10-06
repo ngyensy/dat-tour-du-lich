@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-//import TourList from './TourList'; // Component hiển thị danh sách các tour
+import TourList from './TourList'; // Component hiển thị danh sách các tour
 import AddTourForm from './AddTourForm'; // Component để thêm tour mới
 
 const TourManagement = () => {
@@ -17,7 +17,7 @@ const TourManagement = () => {
         {/* Danh sách tour */}
         <div>
           <h2 className="text-xl font-semibold mb-4">Danh sách Tour</h2>
-          
+          <TourList />
         </div>
 
         {/* Thêm tour mới */}

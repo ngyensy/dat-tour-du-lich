@@ -20,38 +20,42 @@ namespace WebApi
     public class Startup
     {
         public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-        // add services to the DI container
+
+        // Add services to the DI container
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>();
             services.AddCors();
             services.AddControllers().AddJsonOptions(x =>
             {
-                // serialize enums as strings in api responses (e.g. Role)
+                // Serialize enums as strings in API responses (e.g., Role)
                 x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
-                // ignore omitted parameters on models to enable optional params (e.g. User update)
+                // Ignore omitted parameters on models to enable optional params (e.g., User update)
                 x.JsonSerializerOptions.IgnoreNullValues = true;
+
+                // Handle reference cycles
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve; // Xử lý vòng tham chiếu
             });
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
-
-            // configure DI for application services
+            // Configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITourService, TourService>();
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<ICategoryService, CategoryService>();
 
-            // Cấu hình kết nối đến Redis
+            // Configure Redis connection
             var redisConnection = "localhost:6379"; // Thay đổi địa chỉ Redis nếu cần
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
 
-            // Cấu hình JWT
+            // Configure JWT
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
             var key = Encoding.ASCII.GetBytes(jwtSettings.Key); // Đảm bảo key có ít nhất 16 ký tự
 
@@ -74,38 +78,35 @@ namespace WebApi
                 };
             });
 
-            // Cấu hình phân quyền
+            // Configure authorization
             services.AddAuthorization();
             services.AddHttpContextAccessor();
-
         }
 
-
-
-        // configure the HTTP request pipeline
+        // Configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-                }
-                else
-                {
-                    app.UseExceptionHandler("/Error");
-                }
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
 
             app.UseRouting();
-            app.UseAuthentication(); //xác thực 
-            app.UseAuthorization(); //phân quyền
-            app.UseStaticFiles();   //up file tĩnh
+            app.UseAuthentication(); // Xác thực 
+            app.UseAuthorization(); // Phân quyền
+            app.UseStaticFiles();   // Up file tĩnh
 
-            // global cors policy
+            // Global CORS policy
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            // global error handler
+            // Global error handler
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseMiddleware<JwtMiddleware>();
 

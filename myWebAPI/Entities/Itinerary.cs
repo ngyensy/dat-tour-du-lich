@@ -18,13 +18,7 @@ namespace WebApi.Entities
         public Tour Tour { get; set; }  // Liên kết với bảng Tour
 
         [Column("DayNumber")]
-        public int DayNumber { get; set; }  // Ngày trong lịch trình (ví dụ: Ngày 1, Ngày 2)
-
-        [Column("Location")]
-        public string Location { get; set; }  // Địa điểm
-
-        [Column("Meals")]
-        public string Meals { get; set; }  // Số bữa ăn trong ngày (sáng, trưa, chiều)
+        public string DayNumber { get; set; }  // Ngày trong lịch trình (ví dụ: Ngày 1, Ngày 2)
 
         [Column("Description")]
         public string Description { get; set; }  // Mô tả chi tiết cho ngày đó (hoạt động, tham quan, v.v.)

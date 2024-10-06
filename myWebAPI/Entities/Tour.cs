@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -54,5 +55,6 @@ namespace WebApi.Entities
 
         [ForeignKey("CategoryId")]
         public Category Category { get; set; } // Navigation property
+        public ICollection<Itinerary> Itineraries { get; set; } // 1-nhiều với Itinerary
     }
 }
