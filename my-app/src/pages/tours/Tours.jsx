@@ -6,33 +6,36 @@ import TourCard from './TourCard';
 
 // Hàm lấy dữ liệu từ API
 const fetchTours = async () => {
-  const { data } = await axios.get('http://localhost:4000/v1/Tours');
-  return data;
+    const { data } = await axios.get('http://localhost:4000/v1/Tours');
+    return data.$values || []; // Trả về mảng bên trong $values
 };
 
 const Tours = () => {
-  const [visibleProducts, setVisibleProducts] = useState(6); // Số sản phẩm hiển thị ban đầu
+    const [visibleProducts, setVisibleProducts] = useState(6); // Số sản phẩm hiển thị ban đầu
 
-  // Sử dụng useQuery để lấy dữ liệu
-  const { data: tours, error, isLoading, isError } = useQuery('tours', fetchTours);
+    // Sử dụng useQuery để lấy dữ liệu
+    const { data: tours = [], error, isLoading, isError } = useQuery('tours', fetchTours);
 
-  const handleShowMore = () => {
-    setVisibleProducts((prev) => prev + 6); // Tăng số sản phẩm hiển thị lên 6 mỗi lần nhấp
-  };
+    const handleShowMore = () => {
+        setVisibleProducts((prev) => prev + 6); // Tăng số sản phẩm hiển thị lên 6 mỗi lần nhấp
+    };
 
-  // Xử lý trạng thái loading, error
-  if (isLoading) return <div>Đang tải dữ liệu...</div>;
-  if (isError) return <div>Lỗi: {error.message}</div>;
+    // Xử lý trạng thái loading, error
+    if (isLoading) return <div>Đang tải dữ liệu...</div>;
+    if (isError) return <div>Lỗi: {error.message}</div>;
 
-  return (
-    <div>
-      <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
-        {tours.slice(0, visibleProducts).map((tour, index) => (
-          <TourCard key={index} tour={tour} />
-        ))}
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
+                {tours.slice(0, visibleProducts).map((tour, index) => (
+                    <TourCard key={index} tour={tour} />
+                ))}
+            </div>
+            {visibleProducts < tours.length && (
+                <button onClick={handleShowMore}>Hiện thêm</button>
+            )}
+        </div>
+    );
 };
 
 export default Tours;
