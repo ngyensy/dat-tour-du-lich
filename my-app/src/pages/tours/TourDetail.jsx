@@ -7,6 +7,7 @@ import CategoryNav from '../../components/CategoryNav';
 import Footer from '../../components/Footer';
 import { MapPinIcon, CalendarIcon, CurrencyDollarIcon, TicketIcon } from '@heroicons/react/24/outline';
 import ImportantInfo from '../../components/thongtinluuy';
+import Itinerary from '../../components/itinerary';
 
 const TourDetail = () => {
   const navigate = useNavigate();  // Thay vì useHistory, sử dụng useNavigate
@@ -65,7 +66,13 @@ const TourDetail = () => {
               <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="w-full h-auto object-cover rounded-lg" />
             </div>
 
-          <ImportantInfo />
+            <div className='my-12'>
+              <Itinerary itineraries={tour.itineraries.$values} />
+            </div>
+
+            <div className='my-12'>
+            <ImportantInfo />
+            </div>
 
           </div>
 

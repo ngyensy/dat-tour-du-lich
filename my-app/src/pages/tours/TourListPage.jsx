@@ -11,7 +11,7 @@ import Footer from '../../components/Footer';
 // Hàm lấy dữ liệu từ API
 const fetchTours = async () => {
   const { data } = await axios.get('http://localhost:4000/v1/Tours');
-  return data;
+  return data.$values;
 };
 
 const TourListPage = () => {

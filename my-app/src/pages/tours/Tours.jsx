@@ -7,7 +7,7 @@ import TourCard from './TourCard';
 // Hàm lấy dữ liệu từ API
 const fetchTours = async () => {
     const { data } = await axios.get('http://localhost:4000/v1/Tours');
-    return data.$values || []; // Trả về mảng bên trong $values
+    return data.$values || []; 
 };
 
 const Tours = () => {

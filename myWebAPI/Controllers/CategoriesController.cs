@@ -38,7 +38,6 @@ namespace WebApi.Controllers
 
         // POST: api/category
         [HttpPost]
-        [Authorize(Policy = "AdminOnly")]
         public IActionResult Create([FromBody] CategoryModel categoryModel)
         {
             if (!ModelState.IsValid)
@@ -65,7 +64,6 @@ namespace WebApi.Controllers
 
         // DELETE: api/category/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = "AdminOnly")]
         public IActionResult Delete(int id)
         {
             _categoryService.Delete(id);

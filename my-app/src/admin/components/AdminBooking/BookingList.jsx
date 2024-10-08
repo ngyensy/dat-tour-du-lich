@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const BookingList = ({ onViewDetail }) => {
   const [bookings, setBookings] = useState([]);
@@ -8,13 +9,9 @@ const BookingList = ({ onViewDetail }) => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('http://localhost:4000/v1/booking');
-        if (!response.ok) {
-          throw new Error('Something went wrong!');
-        }
-        const data = await response.json();
-        console.log(data);
-        setBookings(data);
+        const response = await axios.get('http://localhost:4000/v1/booking');
+        console.log(response.data.$values);
+        setBookings(response.data.$values);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -24,6 +21,22 @@ const BookingList = ({ onViewDetail }) => {
 
     fetchBookings();
   }, []);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa booking này?');
+    if (!confirmDelete) return; // Hủy nếu không đồng ý xóa
+
+    try {
+      const response = await axios.delete(`http://localhost:4000/v1/booking/${id}`);
+      if (response.status !== 200) {
+        throw new Error('Không thể xóa booking.');
+      }
+      // Xóa booking thành công, cập nhật danh sách booking
+      setBookings((prevBookings) => prevBookings.filter((booking) => booking.id !== id));
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   if (loading) {
     return <p>Loading bookings...</p>;
@@ -63,14 +76,15 @@ const BookingList = ({ onViewDetail }) => {
                 <td className="py-2 px-4 border text-center">{booking.status}</td>
                 <td className="py-2 px-4 border text-center">{booking.totalPrice}</td>
                 <td className="py-2 px-4 border text-center">
-                  <button 
-                     className="bg-red-500 text-white px-3 py-1 ml-3 rounded hover:bg-red-600"
+                  <button
+                    className="bg-red-500 text-white px-3 py-1 ml-3 rounded hover:bg-red-600"
+                    onClick={() => handleDelete(booking.id)}  // Gọi hàm handleDelete để xóa booking
                   >
-                      Xóa
+                    Xóa
                   </button>
                   <button
                     className="bg-blue-500 text-white px-3 py-1 ml-3 rounded hover:bg-blue-600"
-                    onClick={() => onViewDetail(booking)} // Gọi hàm xử lý để hiển thị chi tiết
+                    onClick={() => onViewDetail(booking)}  // Gọi hàm xử lý để hiển thị chi tiết
                   >
                     Chi Tiết
                   </button>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const TourList = () => {
   const [tours, setTours] = useState([]);
@@ -6,9 +7,8 @@ const TourList = () => {
   // Hàm fetch dữ liệu tour từ API
   const fetchTours = async () => {
     try {
-      const response = await fetch('http://localhost:4000/v1/tours'); // URL đến API lấy danh sách tour
-      const data = await response.json();
-      setTours(data); // Giả sử API trả về một mảng danh sách tour
+      const response = await axios.get('http://localhost:4000/v1/tours'); // URL đến API lấy danh sách tour
+      setTours(response.data.$values); // Giả sử API trả về một mảng danh sách tour
     } catch (error) {
       console.error('Error fetching tours:', error);
     }
@@ -21,9 +21,7 @@ const TourList = () => {
 
   const handleDelete = async (tourId) => {
     try {
-      await fetch(`http://localhost:4000/v1/tours/${tourId}`, {
-        method: 'DELETE',
-      });
+      await axios.delete(`http://localhost:4000/v1/tours/${tourId}`);
       // Cập nhật lại danh sách tour sau khi xóa
       setTours(tours.filter((tour) => tour.id !== tourId));
     } catch (error) {
@@ -45,8 +43,8 @@ const TourList = () => {
                     Sửa
                   </button>
                   <button 
-                  onClick={() => handleDelete(tour.id)}
-                  className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
+                    onClick={() => handleDelete(tour.id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
                     Xóa
                   </button>
                 </div>

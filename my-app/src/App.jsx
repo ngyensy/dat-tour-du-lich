@@ -12,8 +12,8 @@ import CreateTour from './components/creatTour';
 // ------- Các thành phần admin ---------
 import AdminLayout from './admin/AdminLayout';
 import Dashboard from './admin/components/Dashboard';
-import TourManagement from './admin/components/AdminTour/TourManagement';
-import CategoryManagement from './admin/components/Category';
+import TourManagement from './admin/components/TourManagement';
+import CategoryManagement from './admin/components/CategoryManagement';
 import UserManagement from './admin/components/UserManagement';
 import BookingManagement from './admin/components/BookingManagement';
 import AdminLoginForm from './admin/AdminLogin'; // Đường dẫn tới form đăng nhập admin

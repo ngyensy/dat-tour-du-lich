@@ -10,7 +10,11 @@ const InfoItem = ({ title, children }) => {
          className="flex justify-between items-center font-medium text-lg w-full px-2 py-3 bg-gray-50 hover:bg-blue-200 text-left rounded-lg transition duration-200"
       >
         <span>{title}</span>
-        <span>{isOpen ? "▲" : "▼"}</span>
+        <span>{isOpen ? 
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                <path fill="#000" fillRule="evenodd" d="M6.414 9.532a.75.75 0 0 1 1.055-.118L12 13.04l4.532-3.626a.75.75 0 1 1 .936 1.172l-5 4a.75.75 0 0 1-.937 0l-5-4a.75.75 0 0 1-.117-1.054" clipRule="evenodd"></path></svg> 
+            : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" fillRule="evenodd" d="M17.586 14.469a.75.75 0 0 1-1.054.117L12 10.96l-4.532 3.626a.75.75 0 0 1-.937-1.172l5-4a.75.75 0 0 1 .938 0l5 4a.75.75 0 0 1 .117 1.055" clipRule="evenodd"></path></svg>
+        }</span>
       </button>
       {isOpen && (
         <div className="px-4 py-2">

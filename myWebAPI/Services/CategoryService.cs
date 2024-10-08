@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebApi.Entities;
@@ -31,13 +33,13 @@ namespace WebApi.Services
 
             public IEnumerable<CategoryModel> GetAll()
             {
-                var categories = _context.Categories.ToList();
+                var categories = _context.Categories.AsNoTracking().ToList();
                 return _mapper.Map<IEnumerable<CategoryModel>>(categories);
             }
 
             public CategoryModel GetById(int id)
             {
-                var category = _context.Categories.Find(id);
+                var category = _context.Categories.AsNoTracking().FirstOrDefault(c => c.Id == id);
                 return _mapper.Map<CategoryModel>(category);
             }
 
@@ -50,14 +52,24 @@ namespace WebApi.Services
 
             public void Update(int id, CategoryModel categoryModel)
             {
-                var existingCategory = _context.Categories.Find(id);
-                if (existingCategory == null) return;
+                try
+                {
+                    var existingCategory = _context.Categories.Find(id);
+                    if (existingCategory == null) return;
 
-                _mapper.Map(categoryModel, existingCategory);
-                _context.Categories.Update(existingCategory);
-                _context.SaveChanges();
+                    existingCategory.Name = categoryModel.Name;
+                    existingCategory.Description = categoryModel.Description;
+                    // Cập nhật các thuộc tính khác nếu cần
+
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception (hoặc in ra console để kiểm tra)
+                    Console.WriteLine(ex.InnerException?.Message);
+                    throw; // Ném lại lỗi sau khi log
+                }
             }
-
             public void Delete(int id)
             {
                 var category = _context.Categories.Find(id);
