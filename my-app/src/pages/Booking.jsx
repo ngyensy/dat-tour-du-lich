@@ -22,7 +22,13 @@
       setIsAgreed(checked); // Cập nhật trạng thái đồng ý
     };
 
-    
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng tính từ 0 nên cần +1
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
 
     const [formData, setFormData] = useState({
       guestName: '',
@@ -289,9 +295,9 @@
               <h3 className="text-xl font-bold mb-2">TÓM TẮT CHUYẾN ĐI</h3>
               <div className="bg-[#f8f8f8] rounded-xl">
                 <div className="border p-4 border-none">
-                  <div className="mb-4 border-b-2 border-gray-400">
-                      <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="rounded-lg" />
-                      <p className="font-semibold mt-2">{tour.name}</p>
+                  <div className="mb-4 border-b-2 border-gray-400 flex pb-3">
+                      <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="rounded-lg md:w-2/4" />
+                      <p className="font-semibold mt-2 md:w-2/4 ml-4 text-xl">{tour.name}</p>
                     </div>
                     <ul className="text-gray-700 space-y-2">
                       <li className='flex items-center '>
@@ -300,15 +306,24 @@
                         </li>
                       <li className='flex items-center pb-5 border-b-2 border-gray-400'>
                         <CurrencyDollarIcon className="w-6 h-6 text-gray-500 mr-1" />
-                        <strong>Thời gian:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.duration}</span>
+                        <strong>Thời gian:</strong> 
+                          <span className="text-blue-600 font-semibold pl-1">
+                            {`${tour.duration}N${tour.duration - 1}D`}
+                          </span>
                         
                         <MapPinIcon className="w-6 h-6 text-gray-500 mr-1 ml-11" />
                         <strong>Khởi hành:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.departureLocation}</span>
                       </li>
-                      <li className='flex items-center text-sm'>
-                        <strong>Ngày đi:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.startDate}</span>
-                        <strong className='ml-5'>Ngày về:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.endDate}</span>
-                        </li>
+                      <li className='flex justify-between text-lg'>
+                        <div>
+                          <strong>Ngày đi:</strong> 
+                          <span className="text-blue-600 font-semibold pl-1">{formatDate(tour.startDate)}</span>
+                        </div>
+                        <div>
+                          <strong>Ngày về:</strong> 
+                          <span className="text-blue-600 font-semibold pl-1">{formatDate(tour.endDate)}</span>
+                        </div>
+                      </li>
                       
                       <li className=" pb-5 border-b-2 border-gray-400">
                             <div className='flex items-center mt-6'>

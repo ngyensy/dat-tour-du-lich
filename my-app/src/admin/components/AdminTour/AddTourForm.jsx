@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddTourForm = () => {
   const [tourData, setTourData] = useState({
@@ -9,8 +11,8 @@ const AddTourForm = () => {
     childPrice: 0,
     departureLocation: '',
     destination: '',
-    startDate: '',
-    endDate: '',
+    startDate: null,
+    endDate: null,
     duration: 0,
     availableSlots: 0,
     isActive: true,
@@ -21,6 +23,7 @@ const AddTourForm = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredCategories, setFilteredCategories] = useState([]);
+  const today = new Date();
 
   useEffect(() => {
     axios.get('http://localhost:4000/v1/categories')
@@ -39,11 +42,18 @@ const AddTourForm = () => {
     setFilteredCategories(results);
   }, [searchTerm, categories]);
 
+  const formatNumber = (value) => {
+    if (!value) return '';
+    return Number(value).toLocaleString('vi-VN', { maximumFractionDigits: 0 });
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue = value.replace(/\./g, '');
+    newValue = newValue.replace(/[^0-9]/g, '');
     setTourData({
       ...tourData,
-      [name]: value,
+      [name]: newValue,
     });
   };
 
@@ -56,6 +66,15 @@ const AddTourForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const startDate = new Date(tourData.startDate);
+    const endDate = new Date(tourData.endDate);
+    
+    if (startDate >= endDate) {
+      alert("Ngày khởi hành phải trước ngày kết thúc.");
+      return;
+    }
+
     console.log('Tour Data:', tourData);
 
     const formData = new FormData();
@@ -94,7 +113,7 @@ const AddTourForm = () => {
             value={tourData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
         </div>
 
@@ -105,31 +124,31 @@ const AddTourForm = () => {
             value={tourData.description}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-700">Giá người lớn</label>
           <input
-            type="number"
+            type="text"
             name="Price"
-            value={tourData.Price}
+            value={formatNumber(tourData.Price)}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-700">Giá trẻ em</label>
           <input
-            type="number"
+            type="text"
             name="childPrice"
-            value={tourData.childPrice}
+            value={formatNumber(tourData.childPrice)}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
         </div>
 
@@ -141,7 +160,7 @@ const AddTourForm = () => {
             value={tourData.departureLocation}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
         </div>
 
@@ -153,32 +172,34 @@ const AddTourForm = () => {
             value={tourData.destination}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
         </div>
 
         {/* Cột phải */}
+        {/* Ngày bắt đầu */}
         <div className="mb-4">
           <label className="block text-gray-700">Ngày bắt đầu</label>
-          <input
-            type="date"
-            name="startDate"
-            value={tourData.startDate}
-            onChange={handleChange}
+          <DatePicker
+            selected={tourData.startDate}
+            onChange={(date) => setTourData({ ...tourData, startDate: date })}
+            dateFormat="dd/MM/yyyy"
+            minDate={today}
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
             required
-            className="w-full px-4 py-2 border rounded"
           />
         </div>
 
+        {/* Ngày kết thúc */}
         <div className="mb-4">
           <label className="block text-gray-700">Ngày kết thúc</label>
-          <input
-            type="date"
-            name="endDate"
-            value={tourData.endDate}
-            onChange={handleChange}
+          <DatePicker
+            selected={tourData.endDate}
+            onChange={(date) => setTourData({ ...tourData, endDate: date })}
+            dateFormat="dd/MM/yyyy"
+            minDate={tourData.startDate ? new Date(tourData.startDate) : today}
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
             required
-            className="w-full px-4 py-2 border rounded"
           />
         </div>
 
@@ -190,7 +211,7 @@ const AddTourForm = () => {
             value={tourData.duration}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
         </div>
 
@@ -202,7 +223,7 @@ const AddTourForm = () => {
             value={tourData.availableSlots}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
         </div>
 
@@ -213,7 +234,7 @@ const AddTourForm = () => {
             value={tourData.isActive}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           >
             <option value={true}>Active</option>
             <option value={false}>Inactive</option>
@@ -228,7 +249,7 @@ const AddTourForm = () => {
             placeholder="Tìm kiếm danh mục..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 border rounded mb-2"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
           {searchTerm && filteredCategories.length > 0 && (
             <ul className="max-h-60 overflow-auto border rounded">
@@ -245,23 +266,19 @@ const AddTourForm = () => {
           )}
         </div>
 
-        {/* Trường upload ảnh */}
         <div className="mb-4 col-span-2">
           <label className="block text-gray-700">Ảnh tour</label>
           <input
             type="file"
-            name="image"
             onChange={handleImageChange}
+            accept="image/*"
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           />
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 col-span-2"
-        >
-          Thêm tour
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded col-span-2">
+          Tạo tour
         </button>
       </form>
     </div>

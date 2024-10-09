@@ -16,6 +16,14 @@ const TourDetail = () => {
   const [loading, setLoading] = useState(true);  // State để quản lý trạng thái loading
   const [error, setError] = useState(null);  // State để lưu lỗi nếu có
 
+  const formattedDate = tour && tour.startDate ? (() => {
+    const formattedStartDate = new Date(tour.startDate);
+    const day = formattedStartDate.getDate().toString().padStart(2, '0');
+    const month = (formattedStartDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = formattedStartDate.getFullYear();
+    return `${day}-${month}-${year}`;
+  })() : 'Ngày không hợp lệ';
+
   // Hàm để gọi API lấy dữ liệu tour dựa trên id
   const fetchTour = async () => {
     try {
@@ -82,7 +90,7 @@ const TourDetail = () => {
               <span className="">Giá:</span>
             </div>
             <div className="text-3xl font-semibold mb-4">
-              <span className="text-red-600 font-bold">{tour.price} đ</span> <a className='font-medium text-lg'>/Khách</a>
+              <span className="text-red-600 font-bold">{tour.price.toLocaleString()} ₫</span><a className='font-normal text-2xl'>/Khách</a>
             </div>
 
             <ul className="space-y-2 mb-4">
@@ -92,14 +100,15 @@ const TourDetail = () => {
               <li className='flex items-center '> 
                 <MapPinIcon className="w-6 h-6 text-gray-500 mr-2" />
                 <strong>Khởi hành:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.departureLocation}</span></li>
-              <li className='flex items-center '>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-500 mr-2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
-              </svg>
-                <strong>Ngày khởi hành:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.startDate}</span></li>
+                <li className='flex items-center '>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-500 mr-2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
+                  </svg>
+                  <strong>Ngày khởi hành:</strong> <span className="text-blue-600 font-semibold pl-1">{formattedDate}</span>
+                </li>
               <li className='flex items-center '>
                 <CurrencyDollarIcon className="w-6 h-6 text-gray-500 mr-2" />
-                <strong>Thời gian:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.duration}</span></li>
+                <strong>Thời gian:</strong> <span className="text-blue-600 font-semibold pl-1">{`${tour.duration}N${tour.duration - 1}D`}</span></li>
             </ul>
 
             <div className="flex space-x-4 mb-4">

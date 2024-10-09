@@ -22,7 +22,7 @@ const TourItem = ({ tour }) => {
           <span className="text-lx ">Khởi hành:</span> <span className="text-blue-600 font-bold px-1">{tour.departureLocation}</span></p>
         <p className="flex items-center ml-8">
           <ClockIcon className="h-5 w-5 mr-1" />
-          <span className="text-lx ">Thời gian:</span> <span className="text-black font-semibold px-1">{tour.duration}</span></p>
+          <span className="text-lx ">Thời gian:</span> <span className="text-blue-600 font-semibold px-1">{`${tour.duration}N${tour.duration - 1}D`}</span></p>
           </div>
         <p className="flex items-center mb-3">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5 mr-1">
@@ -40,7 +40,7 @@ const TourItem = ({ tour }) => {
           <p className="text-sm font-bold">Giá từ: </p>
         </div>
         <div>
-          <span className='text-4xl font-extrabold text-red-600'>{tour.price} đ</span>
+          <span className='text-4xl font-bold text-red-600'>{tour.price.toLocaleString()} ₫</span>
           </div>
       </div>
       <button onClick={handleViewDetails} className="ml-auto bg-blue-500 text-white p-2 rounded">

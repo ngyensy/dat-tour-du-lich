@@ -25,11 +25,11 @@ const TourCard = ({ tour }) => {
           </div>
           <div className="flex items-center mb-1">
             <ClockIcon className="w-6 h-6 text-gray-500 mr-2" />
-            <span className="text-lx ">Thời gian:</span> <span className="text-black font-semibold px-1">{tour.duration}</span>
+            <span className="text-lx ">Thời gian:</span> <span className="text-blue-600 font-semibold px-1">{`${tour.duration}N${tour.duration - 1}D`}</span>
           </div>
           <div className="flex items-center">
             <CurrencyDollarIcon className="w-6 h-6 text-gray-500 mr-2" />
-            <span className="text-sm font-bold ">Giá từ: </span> <span className="text-red-600 font-semibold px-1">{tour.price}</span>
+            <span className="text-sm font-bold ">Giá từ: </span> <span className="text-red-600 font-semibold px-1">{tour.price.toLocaleString()} ₫</span>
           </div>
         </div>
       </div>
