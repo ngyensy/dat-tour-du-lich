@@ -28,7 +28,8 @@ namespace WebApi.Helpers
                     }
                 ));
 
-            CreateMap<Tour, TourModel>().ReverseMap();
+            CreateMap<Tour, TourModel>().ReverseMap()
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
             CreateMap<Booking, BookingModel>().ReverseMap();
             CreateMap<Category, CategoryModel>().ReverseMap();
         }

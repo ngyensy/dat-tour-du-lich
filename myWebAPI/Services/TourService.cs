@@ -43,6 +43,7 @@ namespace WebApi.Services
             {
                 return _context.Tours
                     .Include(t => t.Itineraries) // Bao gồm thông tin lịch trình
+                    .Include(t => t.Category)
                     .FirstOrDefault(t => t.Id == id);
             }
 

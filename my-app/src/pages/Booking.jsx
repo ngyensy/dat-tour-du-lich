@@ -292,92 +292,94 @@
 
             {/* Phần tóm tắt chuyến đi */}
             <div className='md:w-2/4  pl-4'>
-              <h3 className="text-xl font-bold mb-2">TÓM TẮT CHUYẾN ĐI</h3>
-              <div className="bg-[#f8f8f8] rounded-xl">
-                <div className="border p-4 border-none">
-                  <div className="mb-4 border-b-2 border-gray-400 flex pb-3">
-                      <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="rounded-lg md:w-2/4" />
-                      <p className="font-semibold mt-2 md:w-2/4 ml-4 text-xl">{tour.name}</p>
-                    </div>
-                    <ul className="text-gray-700 space-y-2">
-                      <li className='flex items-center '>
-                        <TicketIcon className="w-6 h-6 text-gray-500 mr-2" />
-                        <strong>Mã tour:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.id}</span>
+              <div className='sticky top-4'>
+                <h3 className="text-xl font-bold mb-2">TÓM TẮT CHUYẾN ĐI</h3>
+                <div className="bg-[#f8f8f8] rounded-xl">
+                  <div className="border p-4 border-none">
+                    <div className="mb-4 border-b-2 border-gray-400 flex pb-3">
+                        <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="rounded-lg md:w-2/4" />
+                        <p className="font-semibold mt-2 md:w-2/4 ml-4 text-xl">{tour.name}</p>
+                      </div>
+                      <ul className="text-gray-700 space-y-2">
+                        <li className='flex items-center '>
+                          <TicketIcon className="w-6 h-6 text-gray-500 mr-2" />
+                          <strong>Mã tour:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.id}</span>
+                          </li>
+                        <li className='flex items-center pb-5 border-b-2 border-gray-400'>
+                          <CurrencyDollarIcon className="w-6 h-6 text-gray-500 mr-1" />
+                          <strong>Thời gian:</strong> 
+                            <span className="text-blue-600 font-semibold pl-1">
+                              {`${tour.duration}N${tour.duration - 1}D`}
+                            </span>
+                          
+                          <MapPinIcon className="w-6 h-6 text-gray-500 mr-1 ml-11" />
+                          <strong>Khởi hành:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.departureLocation}</span>
                         </li>
-                      <li className='flex items-center pb-5 border-b-2 border-gray-400'>
-                        <CurrencyDollarIcon className="w-6 h-6 text-gray-500 mr-1" />
-                        <strong>Thời gian:</strong> 
-                          <span className="text-blue-600 font-semibold pl-1">
-                            {`${tour.duration}N${tour.duration - 1}D`}
-                          </span>
+                        <li className='flex justify-between text-lg'>
+                          <div>
+                            <strong>Ngày đi:</strong> 
+                            <span className="text-blue-600 font-semibold pl-1">{formatDate(tour.startDate)}</span>
+                          </div>
+                          <div>
+                            <strong>Ngày về:</strong> 
+                            <span className="text-blue-600 font-semibold pl-1">{formatDate(tour.endDate)}</span>
+                          </div>
+                        </li>
                         
-                        <MapPinIcon className="w-6 h-6 text-gray-500 mr-1 ml-11" />
-                        <strong>Khởi hành:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.departureLocation}</span>
-                      </li>
-                      <li className='flex justify-between text-lg'>
-                        <div>
-                          <strong>Ngày đi:</strong> 
-                          <span className="text-blue-600 font-semibold pl-1">{formatDate(tour.startDate)}</span>
-                        </div>
-                        <div>
-                          <strong>Ngày về:</strong> 
-                          <span className="text-blue-600 font-semibold pl-1">{formatDate(tour.endDate)}</span>
-                        </div>
-                      </li>
-                      
-                      <li className=" pb-5 border-b-2 border-gray-400">
-                            <div className='flex items-center mt-6'>
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
-                              </svg>
-                              <h3 className="text-lg font-bold mb-2 ml-2">KHÁCH HÀNG + PHỤ THU</h3>
-                            </div>
-                            <div className="flex font-bold justify-between mb-2">
-                              <span>Người lớn</span>
-                              <span>
-                                {formData.numberOfAdults} x {tour.price.toLocaleString()} đ
-                              </span>
-                            </div>
-                            <div className="flex font-bold justify-between mb-2">
-                              <span>Trẻ em</span>
-                              <span>
-                                {formData.numberOfChildren} x {tour.childPrice.toLocaleString()} đ
-                              </span>
-                            </div>
+                        <li className=" pb-5 border-b-2 border-gray-400">
+                              <div className='flex items-center mt-6'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                                </svg>
+                                <h3 className="text-lg font-bold mb-2 ml-2">KHÁCH HÀNG + PHỤ THU</h3>
+                              </div>
+                              <div className="flex font-bold justify-between mb-2">
+                                <span>Người lớn</span>
+                                <span>
+                                  {formData.numberOfAdults} x {tour.price.toLocaleString()} đ
+                                </span>
+                              </div>
+                              <div className="flex font-bold justify-between mb-2">
+                                <span>Trẻ em</span>
+                                <span>
+                                  {formData.numberOfChildren} x {tour.childPrice.toLocaleString()} đ
+                                </span>
+                              </div>
 
-                            <div className="flex font-bold justify-between mb-2">
-                              <span>Phụ thu phòng đơn</span>
-                              <span>{formData.singleRoom ? `${tour.SingleRoomSurcharge.toLocaleString()} đ` : '0 đ'}</span>
-                            </div>
+                              <div className="flex font-bold justify-between mb-2">
+                                <span>Phụ thu phòng đơn</span>
+                                <span>{formData.singleRoom ? `${tour.SingleRoomSurcharge.toLocaleString()} đ` : '0 đ'}</span>
+                              </div>
 
-                            <div className="flex justify-between mt-4 border-t-2 pt-4 border-gray-400">
-                              <h4 className="text-2xl font-bold">Tổng tiền</h4>
-                              <h4 className="text-red-600 text-4xl font-bold">
-                                {totalPrice.toLocaleString()} đ
-                              </h4>
-                            </div>
+                              <div className="flex justify-between mt-4 border-t-2 pt-4 border-gray-400">
+                                <h4 className="text-2xl font-bold">Tổng tiền</h4>
+                                <h4 className="text-red-600 text-4xl font-bold">
+                                  {totalPrice.toLocaleString()} đ
+                                </h4>
+                              </div>
 
-                            <div className='mt-4'>
-                              {!isFormValid() ? (
+                              <div className='mt-4'>
+                                {!isFormValid() ? (
 
-                                  <button 
-                                  type="button"
-                                  className=" text-gray-500 text-lg w-full h-12 rounded-lg border border-gray-500 "
-                                  disabled={!isAgreed}>
-                                    Nhập thông tin để đặt Tour
-                                  </button>
-                                ) : (
-                                  <button 
-                                  type="button"
-                                  className="bg-red-600 text-white text-lg w-full h-12 rounded-lg "
-                                  onClick={handleSubmit}
-                                  >
-                                    Đặt Tour
-                                  </button>
-                                )}
-                            </div>
-                        </li>
-                    </ul>
+                                    <button 
+                                    type="button"
+                                    className=" text-gray-500 text-lg w-full h-12 rounded-lg border border-gray-500 "
+                                    disabled={!isAgreed}>
+                                      Nhập thông tin để đặt Tour
+                                    </button>
+                                  ) : (
+                                    <button 
+                                    type="button"
+                                    className="bg-red-600 text-white text-lg w-full h-12 rounded-lg "
+                                    onClick={handleSubmit}
+                                    >
+                                      Đặt Tour
+                                    </button>
+                                  )}
+                              </div>
+                          </li>
+                      </ul>
+                  </div>
                 </div>
               </div>
           </div>

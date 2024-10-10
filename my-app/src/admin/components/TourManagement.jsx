@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
-import TourList from '../components/AdminTour/TourList'; // Component hiển thị danh sách các tour
-import AddTourForm from '../components/AdminTour/AddTourForm'; // Component để thêm tour mới
+import TourList from '../components/AdminTour/TourList'; 
+import AddTourForm from '../components/AdminTour/AddTourForm'; 
+import UpdateTourForm from '../components/AdminTour/UpdateTour'; // Import form cập nhật
 
 const TourManagement = () => {
-  const [view, setView] = useState('list'); // State để lưu trữ chế độ xem (danh sách hoặc form thêm tour)
+  const [view, setView] = useState('list');
+  const [editTour, setEditTour] = useState(null); // State để lưu tour cần chỉnh sửa
 
-  // Hàm chuyển đổi giữa danh sách tour và form thêm tour
   const switchToListView = () => {
     setView('list');
+    setEditTour(null); // Reset tour cần chỉnh sửa khi trở về danh sách
   };
 
   const switchToAddTourView = () => {
     setView('addTour');
+  };
+
+  const switchToEditTourView = (tour) => {
+    setEditTour(tour); // Lưu tour cần chỉnh sửa
+    setView('editTour');
   };
 
   return (
@@ -19,7 +26,6 @@ const TourManagement = () => {
       <h1 className="text-3xl font-bold mb-4">Quản lý Tour</h1>
 
       <div className="mb-4">
-        {/* Nút để chuyển đổi giữa hai chế độ xem */}
         {view === 'list' ? (
           <button
             onClick={switchToAddTourView}
@@ -37,16 +43,20 @@ const TourManagement = () => {
         )}
       </div>
 
-      {/* Hiển thị thành phần dựa trên giá trị của view */}
       {view === 'list' ? (
         <div>
           <h2 className="text-xl font-semibold mb-4">Danh sách Tour</h2>
-          <TourList /> {/* Hiển thị danh sách tour */}
+          <TourList onEdit={switchToEditTourView} /> {/* Thêm hàm onEdit */}
+        </div>
+      ) : view === 'addTour' ? (
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Thêm Tour mới</h2>
+          <AddTourForm />
         </div>
       ) : (
         <div>
-          <h2 className="text-xl font-semibold mb-4">Thêm Tour mới</h2>
-          <AddTourForm /> {/* Hiển thị form thêm tour */}
+          <h2 className="text-xl font-semibold mb-4">Chỉnh sửa Tour</h2>
+          <UpdateTourForm tour={editTour} /> {/* Truyền tour cần chỉnh sửa vào form */}
         </div>
       )}
     </div>
