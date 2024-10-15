@@ -64,21 +64,32 @@ namespace WebApi.Controllers
             return Ok(new { message = "Booking created successfully." });
         }
 
-        
+
         [HttpPut("{id}")]
         public IActionResult Update(string id, [FromBody] BookingModel bookingModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var existingBooking = _bookingService.GetById(id);
+            if (existingBooking == null)
+            {
+                return NotFound(new { message = "Booking not found." });
+            }
+
             _bookingService.Update(id, bookingModel);
             return Ok(new { message = "Booking updated successfully." });
         }
 
-        // DELETE: api/booking/5
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
+            var existingBooking = _bookingService.GetById(id);
+            if (existingBooking == null)
+            {
+                return NotFound(new { message = "Booking not found." });
+            }
+
             _bookingService.Delete(id);
             return Ok(new { message = "Booking deleted successfully." });
         }

@@ -87,27 +87,24 @@ namespace WebApi.Services
 
             public void Update(string id, BookingModel bookingModel)
             {
+               
+
                 var existingBooking = _context.Bookings.Include(b => b.Tour).FirstOrDefault(b => b.Id == id);
                 if (existingBooking == null) return;
 
-                // Áp dụng các thay đổi từ bookingModel
-                _mapper.Map(bookingModel, existingBooking);
+                // Chỉ cập nhật các trường cần thiết trong booking
+                existingBooking.GuestName = bookingModel.GuestName ?? existingBooking.GuestName;
+                existingBooking.GuestEmail = bookingModel.GuestEmail ?? existingBooking.GuestEmail;
+                existingBooking.GuestPhoneNumber = bookingModel.GuestPhoneNumber ?? existingBooking.GuestPhoneNumber;
+                existingBooking.GuestAddress = bookingModel.GuestAddress ?? existingBooking.GuestAddress;
+                existingBooking.NumberOfAdults = bookingModel.NumberOfAdults;
+                existingBooking.NumberOfChildren = bookingModel.NumberOfChildren;
+                existingBooking.TotalPrice = bookingModel.TotalPrice;
+                existingBooking.Notes = bookingModel.Notes;
+                existingBooking.PaymentMethod = bookingModel.PaymentMethod;
+                existingBooking.Status = bookingModel.Status;
 
-                // Cập nhật thông tin khách nếu UserId là null
-                if (bookingModel.UserId == null)
-                {
-                    existingBooking.GuestName = bookingModel.GuestName;
-                    existingBooking.GuestEmail = bookingModel.GuestEmail;
-                    existingBooking.GuestPhoneNumber = bookingModel.GuestPhoneNumber;
-                    existingBooking.GuestAddress = bookingModel.GuestAddress;
-                }
-
-                // Tính toán lại tổng giá
-                existingBooking.TotalPrice = (existingBooking.NumberOfAdults * existingBooking.Tour.Price) +
-                                              (existingBooking.NumberOfChildren * existingBooking.Tour.ChildPrice);
-
-                // Cập nhật booking trong cơ sở dữ liệu
-                _context.Bookings.Update(existingBooking);
+                // Lưu thay đổi vào cơ sở dữ liệu
                 _context.SaveChanges();
             }
 
