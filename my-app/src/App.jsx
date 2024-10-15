@@ -19,6 +19,8 @@ import BookingManagement from './admin/components/BookingManagement';
 import AdminLoginForm from './admin/AdminLogin'; // Đường dẫn tới form đăng nhập admin
 import ProtectedRoute from './context/ProtectedRoute';
 import BookingDetail from './admin/components/AdminBooking/BookingDetail';
+import ItineraryManagement from './admin/components/ItinenaryManagement';
+
 
 // Component AdminRoutes kiểm tra admin từ context
 const AdminRoutes = () => {
@@ -42,6 +44,7 @@ const AdminRoutes = () => {
         <Route path="users" element={<UserManagement />} />
         <Route path="bookings" element={<BookingManagement />} />
         <Route path="bookingDetail/:id" element={<BookingDetail />} />
+        <Route path="itinerary" element={<ItineraryManagement />} />
       </Route>
     </Routes>
   );

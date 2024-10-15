@@ -28,6 +28,12 @@ const AdminLayout =  React.memo(() => {
                 Quản lý Tour
               </NavLink>
             </li>
+            <NavLink
+                to="/admin/itinerary"
+                className="block py-2.5 px-4 hover:bg-gray-700"
+              >
+                Quản lý lịch trình Tour
+              </NavLink>
             <li>
               <NavLink
                 to="/admin/categories"

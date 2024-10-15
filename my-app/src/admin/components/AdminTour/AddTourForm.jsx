@@ -236,8 +236,8 @@ const AddTourForm = () => {
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded" // Đổi thành border-2
           >
-            <option value={true}>Active</option>
-            <option value={false}>Inactive</option>
+            <option value={true}>Kích hoạt</option>
+            <option value={false}>Ngừng hoạt động</option>
           </select>
         </div>
 

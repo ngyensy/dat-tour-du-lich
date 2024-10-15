@@ -3,7 +3,9 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
+
+const UpdateTourForm = ({ tour, onUpdateSuccess}) => {
+  
   const [tourData, setTourData] = useState({
     id: tour.id || '', 
     name: tour.name || '',
@@ -72,10 +74,15 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
   };
 
   const handleImageChange = (e) => {
-    setTourData({
-      ...tourData,
-      image: e.target.files[0],
-    });
+    const file = e.target.files[0];
+    if (file) {
+      const imagePreviewUrl = URL.createObjectURL(file);
+      setTourData({
+        ...tourData,
+        image: file,
+        imagePreview: imagePreviewUrl, // Lưu ảnh preview để hiển thị
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -110,6 +117,7 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
       });
   };
 
+
   const handleCategorySelect = (category) => {
     setTourData({
       ...tourData,
@@ -119,8 +127,11 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
     setFilteredCategories([]);
   };
 
+  
+
   return (
     <div className="bg-white p-6 shadow-md rounded">
+      
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Cột trái */}
         <div className="mb-4">
@@ -298,10 +309,14 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
 
         <div className="mb-4">
             <label className="block text-gray-700">Hình ảnh</label>
-            {tourData.image && (
-              <div className="mb-2">
+            {tourData.imagePreview ? ( 
+              // Hiển thị ảnh preview nếu người dùng đã chọn ảnh mới
+              <img src={tourData.imagePreview} alt="Preview" className="h-32 object-cover mb-2" />
+            ) : (
+              // Nếu chưa chọn ảnh mới, hiển thị ảnh hiện tại từ API
+              tourData.image && (
                 <img src={`http://localhost:4000${tourData.image}`} alt="Tour" className="h-32 object-cover mb-2" />
-              </div>
+              )
             )}
             <input
               type="file"

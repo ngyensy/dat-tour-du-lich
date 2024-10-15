@@ -56,7 +56,7 @@ const TourManagement = () => {
       ) : (
         <div>
           <h2 className="text-xl font-semibold mb-4">Chỉnh sửa Tour</h2>
-          <UpdateTourForm tour={editTour} /> {/* Truyền tour cần chỉnh sửa vào form */}
+          <UpdateTourForm tour={editTour} onCancel={switchToListView} /> {/* Truyền tour cần chỉnh sửa và onCancel */}
         </div>
       )}
     </div>
