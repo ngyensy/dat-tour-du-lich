@@ -297,7 +297,7 @@
                 <div className="bg-[#f8f8f8] rounded-xl">
                   <div className="border p-4 border-none">
                     <div className="mb-4 border-b-2 border-gray-400 flex pb-3">
-                        <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="rounded-lg md:w-2/4" />
+                        <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="rounded-lg md:w-2/4 max-h-56" />
                         <p className="font-semibold mt-2 md:w-2/4 ml-4 text-xl">{tour.name}</p>
                       </div>
                       <ul className="text-gray-700 space-y-2">

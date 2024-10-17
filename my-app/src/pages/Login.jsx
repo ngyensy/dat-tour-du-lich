@@ -37,6 +37,7 @@ const LoginForm = () => {
           email: data.email,
           phoneNumber: data.phoneNumber, 
           role: data.role,
+          avatar: data.avatar,
         });  
       navigate('/');  
     },

@@ -43,6 +43,7 @@ const AdminLoginForm = () => {
           token: data.token,
           email: data.email,
           role: data.role,
+          avatar: data.avatar,
         });
 
         // Chuyển hướng đến trang admin dashboard

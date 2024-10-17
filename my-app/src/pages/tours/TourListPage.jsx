@@ -20,8 +20,6 @@ const TourListPage = () => {
   // Sử dụng useQuery để lấy dữ liệu
   const { data: tours = [], error, isLoading, isError } = useQuery('tours', fetchTours);
 
-  console.log(tours);
-
   // Xử lý trạng thái loading, error
   if (isLoading) return <div>Đang tải dữ liệu...</div>;
   if (isError) return <div>Lỗi: {error.message}</div>;
@@ -46,7 +44,7 @@ const TourListPage = () => {
 
           <div className="main-content mt-6 ml-4 w-full">
             {/* Thông báo */}
-            <div className="flex border-b-2 border-gray-400 p-3 justify-between items-center mb-6 bo">
+            <div className="flex border-b-2 border-gray-400 p-3 justify-between items-center mb-6">
               <p className="font-normal text-lg">
                 {tours.length > 0 
                   ? `Chúng tôi tìm thấy ${tours.length} chương trình tour cho Quý khách` 
@@ -68,7 +66,7 @@ const TourListPage = () => {
             </div>
 
             {/* Danh sách tour */}  
-            <div className="tour-list ">
+            <div className="tour-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {tours.length > 0 ? (
                 sortedTours.map((tour) => (
                   <TourItem key={tour.id} tour={tour} />

@@ -6,6 +6,7 @@ namespace WebApi.Models.Users
     public class UpdateRequest
     {
         public string Title { get; set; }
+        public string Avatar {get; set;}
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }

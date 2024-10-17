@@ -71,7 +71,7 @@ const TourDetail = () => {
           {/* Phần hình ảnh bên trái */}
           <div className="md:w-2/3 pr-4">
             <div className="mb-4">
-              <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="w-full h-auto object-cover rounded-lg" />
+              <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="w-full h-[32rem] object-cover rounded-lg" />
             </div>
 
             <div className='my-12'>

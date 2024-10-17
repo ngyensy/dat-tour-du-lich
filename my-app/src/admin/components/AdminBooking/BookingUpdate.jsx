@@ -61,7 +61,7 @@ const UpdateBookingForm = ({ booking, onUpdate, onCancel }) => {
         return;
     }
     onUpdate({ ...updatedBooking, tourId: booking.tourId, id: booking.id }); // Thêm ID vào dữ liệu gửi đi
-};
+    };
 
   return (
     <form onSubmit={handleSubmit}>

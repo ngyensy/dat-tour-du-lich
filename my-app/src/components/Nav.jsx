@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react'; // Thêm useEffect và useRef
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useAuth } from '../context/AuthContext'; // Import AuthContext
 import logo from '../assets/logo.png';
@@ -6,6 +6,8 @@ import logo from '../assets/logo.png';
 const Navbar = () => {
   const { user, logoutUser } = useAuth();
   const navigate = useNavigate(); // Khởi tạo navigate
+  const [menuOpen, setMenuOpen] = useState(false); // Trạng thái menu
+  const menuRef = useRef(null); // Tạo ref cho menu
 
   // Hàm xử lý đăng xuất
   const handleLogout = () => {
@@ -13,9 +15,30 @@ const Navbar = () => {
     navigate('/'); // Điều hướng về trang chính
   };
 
+  // Hàm xử lý nhấp bên ngoài menu
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setMenuOpen(false); // Đóng menu nếu click bên ngoài
+    }
+  };
+
+  // Thêm event listener khi menu mở
+  useEffect(() => {
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Dọn dẹp listener khi component unmount
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuOpen]);
+
   return (
     <nav className="bg-white-500 py-4 flex px-40">
-      <div className="container mx-auto flex items-center h-12 ">
+      <div className="container mx-auto flex items-center h-12">
         <Link to="/" className="flex items-center mr-auto">
           <img src={logo} alt="Logo" className="h-20" />
         </Link>
@@ -34,14 +57,27 @@ const Navbar = () => {
           </ul>
 
           {user ? (
-            <div className="flex items-center space-x-4">
-              <span className="text-black text-lg">Xin chào, {user.name}</span>
-              <button
-                onClick={handleLogout} // Sử dụng hàm handleLogout
-                className="text-black hover:text-gray-600 border-2 border-black px-3 py-1 rounded-lg"
-              >
-                Đăng xuất
-              </button>
+            <div className="flex items-center relative"> {/* Thêm relative để menu được căn đúng */}
+              <img
+                src={`http://localhost:4000${user.avatar}`} // Hình ảnh avatar của người dùng
+                alt="Avatar"
+                className="w-10 h-10 rounded-full cursor-pointer"
+                onClick={() => setMenuOpen(!menuOpen)} // Hiện/ẩn menu khi nhấp vào avatar
+              />
+              <span className="text-black text-lg mx-2">{user.name}</span>
+              
+              {/* Menu thông tin người dùng */}
+              {menuOpen && (
+                <div ref={menuRef} className="absolute left-0 top-12 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                  <Link to="/user-info" className="block px-4 py-2 text-black hover:bg-blue-300">Thông tin người dùng</Link>
+                  <button
+                    onClick={handleLogout} // Sử dụng hàm handleLogout
+                    className="block w-full text-left px-4 py-2 text-black hover:bg-blue-300"
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <Link to="/login" className="text-black hover:text-gray-600 flex items-center justify-center w-9 h-9 bg-white border-2 border-black rounded-full">

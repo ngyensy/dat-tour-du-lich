@@ -61,7 +61,8 @@ public class AuthController : ControllerBase
         Name = user.Name,
         PhoneNumber = user.PhoneNumber,
         Role = user.Role,
-        Token = tokenString
+        Token = tokenString,
+        Avatar = user.Avatar,
     });
     }   
 

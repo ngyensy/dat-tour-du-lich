@@ -11,6 +11,9 @@ namespace WebApi.Entities
         [Column("Id")]
         public int Id { get; set; }
 
+        [Column("Avatar")]
+        public string Avatar {get; set;}
+
         [Column("Name")]
         public string Name { get; set; }
 

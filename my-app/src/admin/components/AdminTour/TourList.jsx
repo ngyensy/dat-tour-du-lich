@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UpdateTourForm from '../AdminTour/UpdateTour'; // Import component cập nhật
 
-const TourList = () => {
+const TourList = ({ onEdit }) => {
   const [tours, setTours] = useState([]);
   const [selectedTour, setSelectedTour] = useState(null); // State để lưu tour được chọn cho việc cập nhật
 
@@ -33,6 +33,7 @@ const TourList = () => {
 
   const handleEdit = (tour) => {
     setSelectedTour(tour); // Cập nhật tour được chọn
+    onEdit(tour); // Gọi hàm onEdit từ props để thông báo cho TourManagement
   };
 
   const handleUpdateSuccess = () => {

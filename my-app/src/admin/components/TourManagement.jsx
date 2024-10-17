@@ -46,7 +46,7 @@ const TourManagement = () => {
       {view === 'list' ? (
         <div>
           <h2 className="text-xl font-semibold mb-4">Danh sách Tour</h2>
-          <TourList onEdit={switchToEditTourView} /> {/* Thêm hàm onEdit */}
+          <TourList onEdit={switchToEditTourView} /> {/* Truyền hàm onEdit */}
         </div>
       ) : view === 'addTour' ? (
         <div>
@@ -56,7 +56,10 @@ const TourManagement = () => {
       ) : (
         <div>
           <h2 className="text-xl font-semibold mb-4">Chỉnh sửa Tour</h2>
-          <UpdateTourForm tour={editTour} onCancel={switchToListView} /> {/* Truyền tour cần chỉnh sửa và onCancel */}
+          <UpdateTourForm 
+            tour={editTour} 
+            onUpdateSuccess={switchToListView} // Gọi switchToListView khi cập nhật thành công
+          /> 
         </div>
       )}
     </div>

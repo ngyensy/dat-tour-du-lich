@@ -9,7 +9,7 @@ namespace WebApi.Models.Users
     {
         public int Id { get; set; }
 
-        [Required]
+        public string Avatar {get; set;}
         public string Name { get; set; }
         
         public string Role { get; set; } = "User"; 

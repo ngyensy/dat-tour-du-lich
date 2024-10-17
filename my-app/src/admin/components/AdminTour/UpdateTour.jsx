@@ -3,11 +3,9 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-
-const UpdateTourForm = ({ tour, onUpdateSuccess}) => {
-  
+const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
   const [tourData, setTourData] = useState({
-    id: tour.id || '', 
+    id: tour.id || '',
     name: tour.name || '',
     description: tour.description || '',
     Price: tour.price || 0,
@@ -32,7 +30,6 @@ const UpdateTourForm = ({ tour, onUpdateSuccess}) => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('http://localhost:4000/v1/categories');
-        // Kiểm tra nếu response.data là một mảng
         if (Array.isArray(response.data.$values)) {
           setCategories(response.data.$values);
         } else {
@@ -69,7 +66,7 @@ const UpdateTourForm = ({ tour, onUpdateSuccess}) => {
     newValue = newValue.replace(/[^0-9]/g, '');
     setTourData({
       ...tourData,
-      [name]: newValue,
+      [name]: name === 'departureLocation' || name === 'destination' ? value : newValue,
     });
   };
 
@@ -80,7 +77,7 @@ const UpdateTourForm = ({ tour, onUpdateSuccess}) => {
       setTourData({
         ...tourData,
         image: file,
-        imagePreview: imagePreviewUrl, // Lưu ảnh preview để hiển thị
+        imagePreview: imagePreviewUrl,
       });
     }
   };
@@ -110,13 +107,12 @@ const UpdateTourForm = ({ tour, onUpdateSuccess}) => {
       .then(response => {
         console.log('Update Success:', response.data);
         alert('Tour updated successfully!');
-        onUpdateSuccess(); // Gọi callback để thông báo thành công
+        onUpdateSuccess();
       })
       .catch(error => {
         console.error('Error updating tour:', error);
       });
   };
-
 
   const handleCategorySelect = (category) => {
     setTourData({
@@ -127,13 +123,9 @@ const UpdateTourForm = ({ tour, onUpdateSuccess}) => {
     setFilteredCategories([]);
   };
 
-  
-
   return (
     <div className="bg-white p-6 shadow-md rounded">
-      
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Cột trái */}
         <div className="mb-4">
           <label className="block text-gray-700">Tên tour</label>
           <input
@@ -205,7 +197,6 @@ const UpdateTourForm = ({ tour, onUpdateSuccess}) => {
           />
         </div>
 
-        {/* Cột phải */}
         <div className="mb-4">
           <label className="block text-gray-700">Ngày bắt đầu</label>
           <DatePicker
@@ -262,75 +253,58 @@ const UpdateTourForm = ({ tour, onUpdateSuccess}) => {
             onChange={(e) => setTourData({ ...tourData, isActive: e.target.value === 'true' })}
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           >
-            <option value="true">Kích hoạt</option>
+            <option value="true">Hoạt động</option>
             <option value="false">Ngừng hoạt động</option>
           </select>
         </div>
 
         <div className="mb-4">
-  <label className="block text-gray-700">Danh mục</label>
-  <div className="flex items-center">
-    <input
-      type="text"
-      value={searchTerm || (categories.find(category => category.id === tourData.categoryId)?.name || '')}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      placeholder="Tìm danh mục..."
-      className="w-full px-4 py-2 border-2 border-gray-300 rounded"
-    />
-    {tourData.categoryId && ( // Kiểm tra nếu đã có danh mục được chọn
-      <button
-        type="button"
-        onClick={() => {
-          setTourData({ ...tourData, categoryId: '' }); // Xóa danh mục đã chọn
-          setSearchTerm(''); // Đặt lại searchTerm
-          setFilteredCategories([]); // Xóa danh sách đã lọc
-        }}
-        className="ml-2 text-red-600 hover:text-red-800"
-      >
-        Xóa
-      </button>
-    )}
-  </div>
-  {searchTerm && filteredCategories.length > 0 && ( // Chỉ hiển thị khi searchTerm không rỗng
-    <ul className="absolute bg-white border border-gray-300 max-h-60 overflow-y-auto z-10">
-      {filteredCategories.map(category => (
-        <li
-          key={category.id}
-          onClick={() => handleCategorySelect(category)}
-          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-        >
-          {category.name}
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
-
+          <label className="block text-gray-700">Danh mục</label>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Tìm kiếm danh mục"
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded"
+          />
+          {filteredCategories.length > 0 && (
+            <ul className="border border-gray-300 mt-2">
+              {filteredCategories.map((category) => (
+                <li
+                  key={category.id}
+                  onClick={() => handleCategorySelect(category)}
+                  className="cursor-pointer hover:bg-gray-200 p-2"
+                >
+                  {category.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
         <div className="mb-4">
-            <label className="block text-gray-700">Hình ảnh</label>
-            {tourData.imagePreview ? ( 
-              // Hiển thị ảnh preview nếu người dùng đã chọn ảnh mới
-              <img src={tourData.imagePreview} alt="Preview" className="h-32 object-cover mb-2" />
-            ) : (
-              // Nếu chưa chọn ảnh mới, hiển thị ảnh hiện tại từ API
-              tourData.image && (
-                <img src={`http://localhost:4000${tourData.image}`} alt="Tour" className="h-32 object-cover mb-2" />
-              )
-            )}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full px-4 py-2 border-2 border-gray-300 rounded"
+          <label className="block text-gray-700">Ảnh</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded"
+          />
+          {tourData.imagePreview && (
+            <img
+              src={tourData.imagePreview}
+              alt="Preview"
+              className="mt-2 w-full h-40 object-cover"
             />
-          </div>
-
-        <div className="mb-4 col-span-2">
-          <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">
-            Cập nhật tour
-          </button>
+          )}
         </div>
+
+        <button
+          type="submit"
+          className="col-span-1 md:col-span-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Cập nhật tour
+        </button>
       </form>
     </div>
   );
