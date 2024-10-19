@@ -16,6 +16,7 @@ namespace WebApi.Services
         void Create(BookingModel booking);
         void Update(string id, BookingModel booking);
         void Delete(string id);
+        int GetBookingCount();
     }
 
     namespace WebApi.Services
@@ -116,6 +117,12 @@ namespace WebApi.Services
                 _context.Bookings.Remove(booking);
                 _context.SaveChanges();
             }
+
+            public int GetBookingCount()
+            {
+                return _context.Bookings.Count(); // Đếm số lượng booking trong cơ sở dữ liệu
+            }
+
         }
     }
 }

@@ -17,6 +17,7 @@ namespace WebApi.Services
         void Update(string id, TourModel tour);
         void Delete(string id);
         Tour GetByIdWithItineraries(string id);
+        int GetTourCount();
     }
 
 
@@ -107,6 +108,11 @@ namespace WebApi.Services
 
                 _context.Tours.Remove(tour);
                 _context.SaveChanges();
+            }
+
+            public int GetTourCount()
+            {
+                return _context.Tours.Count(); // Đếm số lượng tour trong cơ sở dữ liệu
             }
         }
     }

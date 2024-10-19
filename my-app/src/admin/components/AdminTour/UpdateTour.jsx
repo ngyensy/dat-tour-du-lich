@@ -290,12 +290,23 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
             onChange={handleImageChange}
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
-          {tourData.imagePreview && (
+          {/* Kiểm tra nếu có ảnh preview từ người dùng tải lên */}
+          {tourData.imagePreview ? (
             <img
               src={tourData.imagePreview}
               alt="Preview"
               className="mt-2 w-full h-40 object-cover"
             />
+          ) : (
+            // Nếu không có ảnh preview, hiển thị ảnh hiện tại của tour từ API
+            tourData.image && (
+              <img
+                // Nối địa chỉ API với đường dẫn ảnh tương đối
+                src={`http://localhost:4000/${tourData.image}`}
+                alt="Current tour image"
+                className="mt-2 w-full h-52 object-cover"
+              />
+            )
           )}
         </div>
 

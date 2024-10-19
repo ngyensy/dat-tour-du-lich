@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System;
 using WebApi.Models.Users;
 using WebApi.Services;
-
 
 namespace WebApi.Controllers
 {
@@ -44,10 +46,53 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateRequest model)
+        public IActionResult Update(int id, [FromForm] UpdateRequest model, [FromForm] IFormFile avatar = null)
         {
-            _userService.Update(id, model);
-            return Ok(new { message = "User updated" });
+            try
+            {
+                // Lấy thông tin người dùng hiện tại
+                var existingUser = _userService.GetById(id);
+                if (existingUser == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+
+                // Cập nhật thông tin người dùng
+                _userService.Update(id, model);
+
+                // Nếu có tệp avatar được tải lên, xử lý việc lưu trữ
+                if (avatar != null && avatar.Length > 0)
+                {
+                    // Đường dẫn thư mục lưu trữ avatar mới
+                    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/avatars");
+
+                    // Tạo thư mục nếu chưa tồn tại
+                    if (!Directory.Exists(uploadPath))
+                    {
+                        Directory.CreateDirectory(uploadPath);
+                    }
+
+                    // Tạo tên file mới để tránh trùng lặp
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(avatar.FileName)}";
+                    var filePath = Path.Combine(uploadPath, fileName);
+
+                    // Lưu file lên server
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        avatar.CopyTo(stream);
+                    }
+
+                    // Cập nhật đường dẫn avatar vào cơ sở dữ liệu (trong User)
+                    var avatarUrl = $"/avatars/{fileName}";
+                    _userService.UpdateAvatar(id, avatarUrl);
+                }
+
+                return Ok(new { message = "User updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpDelete("{id}")]
@@ -55,6 +100,45 @@ namespace WebApi.Controllers
         {
             _userService.Delete(id);
             return Ok(new { message = "User deleted" });
+        }
+
+        [HttpDelete("{id}/avatar")]
+        public IActionResult DeleteAvatar(int id)
+        {
+            try
+            {
+                // Lấy thông tin người dùng hiện tại
+                var existingUser = _userService.GetById(id);
+                if (existingUser == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+
+                // Đường dẫn của avatar cần xóa
+                var avatarPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existingUser.Avatar.TrimStart('/'));
+
+                // Kiểm tra và xóa file avatar nếu tồn tại
+                if (System.IO.File.Exists(avatarPath))
+                {
+                    System.IO.File.Delete(avatarPath); // Xóa tệp avatar trên server
+                }
+
+                // Cập nhật đường dẫn avatar trong cơ sở dữ liệu (nếu cần)
+                _userService.UpdateAvatar(id, null); // Xóa avatar trong cơ sở dữ liệu (nếu bạn muốn lưu thông tin này)
+
+                return Ok(new { message = "Avatar deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("count")]
+        public IActionResult GetUserCount()
+        {
+            var count = _userService.GetUserCount(); // Hàm này sẽ trả về số lượng người dùng
+            return Ok(new { count });
         }
     }
 }

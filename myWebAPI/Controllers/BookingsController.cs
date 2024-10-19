@@ -93,5 +93,12 @@ namespace WebApi.Controllers
             _bookingService.Delete(id);
             return Ok(new { message = "Booking deleted successfully." });
         }
+
+        [HttpGet("count")]
+        public IActionResult GetBookingCount()
+        {
+            var count = _bookingService.GetBookingCount(); // Hàm này sẽ trả về số lượng booking
+            return Ok(new { count });
+        }
     }
 }

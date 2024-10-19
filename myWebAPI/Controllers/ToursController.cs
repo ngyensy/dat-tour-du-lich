@@ -2,11 +2,9 @@
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using WebApi.Models;
 using WebApi.Services;
 using Microsoft.AspNetCore.Hosting;
 using System;
-using Microsoft.EntityFrameworkCore; // Đảm bảo thêm namespace này cho Include()
 
 namespace WebApi.Controllers
 {
@@ -119,6 +117,16 @@ namespace WebApi.Controllers
             }
 
             return $"/uploads/{uniqueFileName}";
+
+            
         }
+
+        [HttpGet("count")]
+        public IActionResult GetTourCount()
+        {
+            var count = _tourService.GetTourCount(); // Hàm này sẽ trả về số lượng tour
+            return Ok(new { count });
+        }
+
     }
 }

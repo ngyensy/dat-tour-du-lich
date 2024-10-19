@@ -5,14 +5,6 @@ using System.Linq;
 using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Models.Users;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System;
 using System.Net.Mail;
 
 namespace WebApi.Services
@@ -25,6 +17,9 @@ namespace WebApi.Services
         void Update(int id, UpdateRequest model);
         void Delete(int id);
         User Authenticate(string email, string password);
+        void UpdateAvatar(int userId, string avatarUrl);
+
+        int GetUserCount();
     }
 
     public class UserService : IUserService
@@ -152,6 +147,22 @@ namespace WebApi.Services
                 if (user == null) throw new KeyNotFoundException("User not found");
                 return user;
             }
-        }
-    
+
+            public void UpdateAvatar(int userId, string avatarUrl)
+            {
+                var user = _context.Users.Find(userId);
+                if (user == null) throw new KeyNotFoundException("User not found");
+
+                user.Avatar = avatarUrl;
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+
+            public int GetUserCount()
+            {
+                return _context.Users.Count(); // Đếm số lượng người dùng trong cơ sở dữ liệu
+            }
+
+    }
+
 }

@@ -61,11 +61,10 @@ const Navbar = () => {
               <img
                 src={`http://localhost:4000${user.avatar}`} // Hình ảnh avatar của người dùng
                 alt="Avatar"
-                className="w-10 h-10 rounded-full cursor-pointer"
+                className="w-10 h-10 rounded-full cursor-pointer border border-black"
                 onClick={() => setMenuOpen(!menuOpen)} // Hiện/ẩn menu khi nhấp vào avatar
               />
-              <span className="text-black text-lg mx-2">{user.name}</span>
-              
+    
               {/* Menu thông tin người dùng */}
               {menuOpen && (
                 <div ref={menuRef} className="absolute left-0 top-12 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
