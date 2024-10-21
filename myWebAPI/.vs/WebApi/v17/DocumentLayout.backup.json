@@ -3,8 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\controllers\\bookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:controllers\\bookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\controllers\\tourscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:controllers\\tourscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\services\\tourservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:services\\tourservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\wwwroot\\avatars\\28d69a25-bada-4f09-8763-948c7cc10dec.png||{177559E0-D141-11D0-92DF-00A0C9138C45}",
@@ -23,28 +43,8 @@
       "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:wwwroot\\avatars\\4563c4cc-301d-4204-8d6e-ab2d228659c4.png||{177559E0-D141-11D0-92DF-00A0C9138C45}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\services\\tourservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:services\\tourservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\controllers\\bookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|solutionrelative:controllers\\bookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C4CC460D-9165-4F71-A658-0F34406AB271}|WebApi.csproj|c:\\users\\84978\\travel-tour-web\\mywebapi\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -150,48 +150,76 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "ToursController.cs",
               "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\ToursController.cs",
               "RelativeDocumentMoniker": "Controllers\\ToursController.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\ToursController.cs",
               "RelativeToolTip": "Controllers\\ToursController.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAqwCQAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAAAIQAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-18T05:22:51.58Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TourService.cs",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\TourService.cs",
+              "RelativeDocumentMoniker": "Services\\TourService.cs",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\TourService.cs",
+              "RelativeToolTip": "Services\\TourService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T16:51:17.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Controllers\\UsersController.cs",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAAAIYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T05:36:22.654Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\UserService.cs",
+              "RelativeToolTip": "Services\\UserService.cs",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAAAKIAAABdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T16:46:43.835Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ffaa889b-2617-49dd-b3cc-4e43133f0e14.png - PNG [225x225, 8 bit, PNG]",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\ffaa889b-2617-49dd-b3cc-4e43133f0e14.png",
-              "RelativeDocumentMoniker": "wwwroot\\avatars\\ffaa889b-2617-49dd-b3cc-4e43133f0e14.png",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\ffaa889b-2617-49dd-b3cc-4e43133f0e14.png - PNG [225x225, 8 bit, PNG]",
-              "RelativeToolTip": "wwwroot\\avatars\\ffaa889b-2617-49dd-b3cc-4e43133f0e14.png - PNG [225x225, 8 bit, PNG]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
-              "WhenOpened": "2024-10-18T05:44:11.359Z",
-              "EditorCaption": " - PNG [225x225, 8 bit, PNG]"
+              "Title": "BookingsController.cs",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\BookingsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BookingsController.cs",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\BookingsController.cs",
+              "RelativeToolTip": "Controllers\\BookingsController.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAiwGMAAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T17:13:33.119Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png - PNG [766x766, 32 bit, PNG]",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png",
-              "RelativeDocumentMoniker": "wwwroot\\avatars\\86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png - PNG [766x766, 32 bit, PNG]",
-              "RelativeToolTip": "wwwroot\\avatars\\86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png - PNG [766x766, 32 bit, PNG]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
-              "WhenOpened": "2024-10-18T05:44:10.618Z",
-              "EditorCaption": " - PNG [766x766, 32 bit, PNG]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "4563c4cc-301d-4204-8d6e-ab2d228659c4.png - PNG [225x225, 8 bit, PNG]",
               "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\4563c4cc-301d-4204-8d6e-ab2d228659c4.png",
               "RelativeDocumentMoniker": "wwwroot\\avatars\\4563c4cc-301d-4204-8d6e-ab2d228659c4.png",
@@ -203,7 +231,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "BookingService.cs",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\BookingService.cs",
+              "RelativeDocumentMoniker": "Services\\BookingService.cs",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\BookingService.cs",
+              "RelativeToolTip": "Services\\BookingService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-15T03:49:09.468Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "28d69a25-bada-4f09-8763-948c7cc10dec.png - PNG [225x225, 8 bit, PNG]",
               "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\28d69a25-bada-4f09-8763-948c7cc10dec.png",
               "RelativeDocumentMoniker": "wwwroot\\avatars\\28d69a25-bada-4f09-8763-948c7cc10dec.png",
@@ -215,55 +256,27 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png - PNG [766x766, 32 bit, PNG]",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png",
+              "RelativeDocumentMoniker": "wwwroot\\avatars\\86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png - PNG [766x766, 32 bit, PNG]",
+              "RelativeToolTip": "wwwroot\\avatars\\86c3995c-a190-46e2-8f00-7eb5cd4fcb4e.png - PNG [766x766, 32 bit, PNG]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
+              "WhenOpened": "2024-10-18T05:44:10.618Z",
+              "EditorCaption": " - PNG [766x766, 32 bit, PNG]"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "BookingService.cs",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\BookingService.cs",
-              "RelativeDocumentMoniker": "Services\\BookingService.cs",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\BookingService.cs",
-              "RelativeToolTip": "Services\\BookingService.cs",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAcwGYAAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T03:49:09.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "Controllers\\UsersController.cs",
-              "ViewState": "AgIAAG4AAAAAAAAAAAAgwC4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T05:36:22.654Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\UserService.cs",
-              "RelativeDocumentMoniker": "Services\\UserService.cs",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\UserService.cs",
-              "RelativeToolTip": "Services\\UserService.cs",
-              "ViewState": "AgIAAFYAAAAAAAAAAAAmwGUAAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T16:46:43.835Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "TourService.cs",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\TourService.cs",
-              "RelativeDocumentMoniker": "Services\\TourService.cs",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\TourService.cs",
-              "RelativeToolTip": "Services\\TourService.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAASwCUAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T16:51:17.293Z",
-              "EditorCaption": ""
+              "Title": "ffaa889b-2617-49dd-b3cc-4e43133f0e14.png - PNG [225x225, 8 bit, PNG]",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\ffaa889b-2617-49dd-b3cc-4e43133f0e14.png",
+              "RelativeDocumentMoniker": "wwwroot\\avatars\\ffaa889b-2617-49dd-b3cc-4e43133f0e14.png",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\wwwroot\\avatars\\ffaa889b-2617-49dd-b3cc-4e43133f0e14.png - PNG [225x225, 8 bit, PNG]",
+              "RelativeToolTip": "wwwroot\\avatars\\ffaa889b-2617-49dd-b3cc-4e43133f0e14.png - PNG [225x225, 8 bit, PNG]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
+              "WhenOpened": "2024-10-18T05:44:11.359Z",
+              "EditorCaption": " - PNG [225x225, 8 bit, PNG]"
             },
             {
               "$type": "Document",
@@ -279,7 +292,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Entities\\User.cs",
               "RelativeDocumentMoniker": "Entities\\User.cs",
@@ -287,21 +300,7 @@
               "RelativeToolTip": "Entities\\User.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAAwBcAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T03:49:02.462Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "BookingsController.cs",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\BookingsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\BookingsController.cs",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\BookingsController.cs",
-              "RelativeToolTip": "Controllers\\BookingsController.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAUwEUAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T17:13:33.119Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-15T03:49:02.462Z"
             },
             {
               "$type": "Document",

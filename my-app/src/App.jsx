@@ -43,8 +43,8 @@ const AdminRoutes = () => {
         <Route path="categories" element={<CategoryManagement />} />
         <Route path="users" element={<UserManagement />} />
         <Route path="bookings" element={<BookingManagement />} />
-        <Route path="bookingDetail/:id" element={<BookingDetail />} />
         <Route path="itinerary" element={<ItineraryManagement />} />
+        <Route path="itineraries/:tourId" element={<ItineraryManagement />} />
       </Route>
     </Routes>
   );

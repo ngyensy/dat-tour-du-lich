@@ -21,7 +21,7 @@ const FilterComponent = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-100 rounded-lg shadow-md w-84">
+    <div className="p-4 bg-gray-200 rounded-lg shadow-md w-84">
 
       {/* Ngân sách */}
       <div className="mb-4">

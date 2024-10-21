@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Thay useHistory bằng useNavigate
 import UpdateTourForm from '../AdminTour/UpdateTour'; // Import component cập nhật
 
 const TourList = ({ onEdit }) => {
   const [tours, setTours] = useState([]);
-  const [selectedTour, setSelectedTour] = useState(null); // State để lưu tour được chọn cho việc cập nhật
+  const [selectedTour, setSelectedTour] = useState(null);
+  const navigate = useNavigate(); // Khởi tạo useNavigate
 
   // Hàm fetch dữ liệu tour từ API
   const fetchTours = async () => {
     try {
       const response = await axios.get('http://localhost:4000/v1/tours');
-      setTours(response.data.$values || response.data); // Đảm bảo API trả về mảng danh sách tour
+      setTours(response.data.$values || response.data);
     } catch (error) {
       console.error('Error fetching tours:', error);
     }
   };
 
-  // Lấy dữ liệu khi component được mount
   useEffect(() => {
     fetchTours();
   }, []);
@@ -24,7 +25,6 @@ const TourList = ({ onEdit }) => {
   const handleDelete = async (tourId) => {
     try {
       await axios.delete(`http://localhost:4000/v1/tours/${tourId}`);
-      // Cập nhật lại danh sách tour sau khi xóa
       setTours(prevTours => prevTours.filter((tour) => tour.id !== tourId));
     } catch (error) {
       console.error('Error deleting tour:', error);
@@ -32,13 +32,17 @@ const TourList = ({ onEdit }) => {
   };
 
   const handleEdit = (tour) => {
-    setSelectedTour(tour); // Cập nhật tour được chọn
-    onEdit(tour); // Gọi hàm onEdit từ props để thông báo cho TourManagement
+    setSelectedTour(tour);
+    onEdit(tour);
   };
 
   const handleUpdateSuccess = () => {
-    fetchTours(); // Cập nhật lại danh sách tour sau khi cập nhật thành công
-    setSelectedTour(null); // Đặt lại tour được chọn về null
+    fetchTours();
+    setSelectedTour(null);
+  };
+
+  const handleItinerary = (tourId) => {
+    navigate(`/admin/itinerary?tourId=${tourId}`); // Điều hướng đến ItineraryManagement với tourId
   };
 
   return (
@@ -54,10 +58,10 @@ const TourList = ({ onEdit }) => {
             <ul className="space-y-4">
               {tours.map((tour) => (
                 <li key={tour.id} className="border-b pb-2">
+                  <span className='font-semibold'>{tour.id}</span>
                   <div className="flex justify-between items-center">
                     <span className="font-semibold">{tour.name}</span>
                     <div className="space-x-2">
-                      {/* Nút chỉnh sửa và xóa */}
                       <button
                         onClick={() => handleEdit(tour)}
                         className="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500"
@@ -69,6 +73,13 @@ const TourList = ({ onEdit }) => {
                         className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                       >
                         Xóa
+                      </button>
+                      {/* Nút xem lịch trình */}
+                      <button
+                        onClick={() => handleItinerary(tour.id)}
+                        className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                      >
+                        Lịch trình
                       </button>
                     </div>
                   </div>

@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom';
 import { MapPinIcon, ClockIcon, CurrencyDollarIcon, TicketIcon } from '@heroicons/react/24/outline';
 
 const TourCard = ({ tour }) => {
+    // Giới hạn số ký tự cho tên tour
+    const titleLimit = 70; // Giới hạn ký tự
+
+    // Hàm để cắt bớt tên tour
+    const getShortTitle = (title) => {
+      return title.length > titleLimit ? `${title.substring(0, titleLimit)}...` : title;
+    };
+
   return (
     <Link to={`/tour/${tour.id}`} className="bg-white shadow-md rounded-lg overflow-hidden w-[320px] h-[500px] flex flex-col hover:shadow-lg transition-shadow duration-200">
       {/* Bọc div với class để đảm bảo kích thước */}
@@ -16,7 +24,7 @@ const TourCard = ({ tour }) => {
         {/* Nội dung thông tin tour */}
         <div className="p-4 flex-grow flex flex-col justify-between">
           {/* Tên tour */}
-          <h2 className="text-lg font-semibold mb-2">{tour.name}</h2>
+           <h2 className="text-lg font-semibold mb-2">{getShortTitle(tour.name)}</h2>
 
           {/* Mã tour */}
           <div className="flex items-center font-medium mb-1">

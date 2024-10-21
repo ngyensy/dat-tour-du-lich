@@ -36,6 +36,20 @@ namespace WebApi.Controllers
             return Ok(itinerary);
         }
 
+        // GET: api/itinerary?tourId={tourId}
+        [HttpGet("byTourId")]
+        public ActionResult<IEnumerable<Itinerary>> GetItinerariesByTourId(string tourId)
+        {
+            var itineraries = _context.Itineraries.Where(i => i.TourId == tourId).ToList();
+
+            if (itineraries.Count == 0)
+            {
+                return NotFound(new { message = $"Không có lịch trình nào cho Tour ID: {tourId}." });
+            }
+
+            return Ok(itineraries);
+        }
+
         // POST: api/itinerary
         [HttpPost]
         public ActionResult<Itinerary> CreateItinerary(Itinerary itinerary)

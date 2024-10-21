@@ -5,6 +5,7 @@ const BookingList = ({ onViewDetail }) => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(''); // State cho từ khóa tìm kiếm
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -38,6 +39,13 @@ const BookingList = ({ onViewDetail }) => {
     }
   };
 
+  // Lọc danh sách dựa trên từ khóa tìm kiếm
+  const filteredBookings = bookings.filter(
+    (booking) =>
+      booking.id.toString().includes(searchTerm.toLowerCase()) ||
+      booking.guestPhoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (loading) {
     return <p>Loading bookings...</p>;
   }
@@ -49,7 +57,17 @@ const BookingList = ({ onViewDetail }) => {
   return (
     <div>
       <h2 className="text-xl font-semibold mb-4">Danh sách Booking</h2>
-      {bookings.length === 0 ? (
+
+      {/* Thanh tìm kiếm */}
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)} // Cập nhật từ khóa tìm kiếm
+        placeholder="Tìm kiếm theo mã booking hoặc số điện thoại"
+        className="w-full px-4 py-2 mb-4 border rounded"
+      />
+
+      {filteredBookings.length === 0 ? (
         <p>No bookings available.</p>
       ) : (
         <table className="min-w-full bg-white border">
@@ -58,6 +76,7 @@ const BookingList = ({ onViewDetail }) => {
               <th className="py-2 px-4 border text-center">Mã Booking</th>
               <th className="py-2 px-4 border text-center">Tên Tour</th>
               <th className="py-2 px-4 border text-center">Tên Người Đặt</th>
+              <th className="py-2 px-4 border text-center">Số điện thoại</th>
               <th className="py-2 px-4 border text-center">Ngày Đặt</th>
               <th className="py-2 px-4 border text-center">Trạng Thái</th>
               <th className="py-2 px-4 border text-center">Tổng Tiền</th>
@@ -65,11 +84,12 @@ const BookingList = ({ onViewDetail }) => {
             </tr>
           </thead>
           <tbody>
-            {bookings.map((booking) => (
+            {filteredBookings.map((booking) => (
               <tr key={booking.id}>
                 <td className="py-2 px-4 border text-center">{booking.id}</td>
                 <td className="py-2 px-4 border text-center">{booking.tour?.name || 'N/A'}</td>
                 <td className="py-2 px-4 border text-center">{booking.guestName}</td>
+                <td className="py-2 px-4 border text-center">{booking.guestPhoneNumber}</td>
                 <td className="py-2 px-4 border text-center">
                   {new Date(booking.bookingDate).toLocaleDateString()}
                 </td>
