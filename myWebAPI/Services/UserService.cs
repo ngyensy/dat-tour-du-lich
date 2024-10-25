@@ -6,6 +6,8 @@ using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Models.Users;
 using System.Net.Mail;
+using StackExchange.Redis;
+using System;
 
 namespace WebApi.Services
 {
@@ -20,20 +22,25 @@ namespace WebApi.Services
         void UpdateAvatar(int userId, string avatarUrl);
 
         int GetUserCount();
+
+        void UpdateRefreshToken(int userId, string refreshToken);
     }
 
     public class UserService : IUserService
     {
         private DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IConnectionMultiplexer _redis;
 
         public UserService(
             DataContext context,
-            IMapper mapper
+            IMapper mapper,
+            IConnectionMultiplexer redis
             )
         {
             _context = context;
             _mapper = mapper;
+            _redis = redis;
 
         }
 
@@ -161,6 +168,12 @@ namespace WebApi.Services
             public int GetUserCount()
             {
                 return _context.Users.Count(); // Đếm số lượng người dùng trong cơ sở dữ liệu
+            }
+
+            public void UpdateRefreshToken(int userId, string refreshToken)
+            {
+                var db = _redis.GetDatabase();
+                db.StringSet($"refresh:{userId}", refreshToken, TimeSpan.FromDays(7)); // Lưu refresh token trong Redis với thời gian sống 7 ngày
             }
 
     }

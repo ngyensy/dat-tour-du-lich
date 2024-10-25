@@ -20,6 +20,7 @@ import AdminLoginForm from './admin/AdminLogin'; // Đường dẫn tới form �
 import ProtectedRoute from './context/ProtectedRoute';
 import BookingDetail from './admin/components/AdminBooking/BookingDetail';
 import ItineraryManagement from './admin/components/ItinenaryManagement';
+import Userinfor from './pages/account-info'
 
 
 // Component AdminRoutes kiểm tra admin từ context
@@ -63,7 +64,7 @@ const App = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/creatTour" element={<CreateTour />} />
-
+          <Route path="/account-info" element={<Userinfor />} />
           {/* Các route cho admin */}
           <Route path="/*" element={<AdminRoutes />} /> {/* Bao bọc AdminRoutes */}
         </Routes>
