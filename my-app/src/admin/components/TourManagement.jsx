@@ -6,6 +6,7 @@ import UpdateTourForm from '../components/AdminTour/UpdateTour'; // Import form 
 const TourManagement = () => {
   const [view, setView] = useState('list');
   const [editTour, setEditTour] = useState(null); // State để lưu tour cần chỉnh sửa
+  const [searchCode, setSearchCode] = useState(''); // State cho giá trị tìm kiếm mã tour
 
   const switchToListView = () => {
     setView('list');
@@ -21,18 +22,34 @@ const TourManagement = () => {
     setView('editTour');
   };
 
+  const handleSearchChange = (e) => {
+    setSearchCode(e.target.value); // Cập nhật giá trị tìm kiếm
+  };
+
   return (
     <div>
       <h1 className="text-3xl font-bold mb-4">Quản lý Tour</h1>
 
       <div className="mb-4">
         {view === 'list' ? (
-          <button
-            onClick={switchToAddTourView}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-          >
-            Thêm Tour mới
-          </button>
+          <>
+            <button
+              onClick={switchToAddTourView}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+            >
+              Thêm Tour mới
+            </button>
+            <div className="mt-4">
+              {/* Thanh tìm kiếm mã tour */}
+              <input
+                type="text"
+                value={searchCode}
+                onChange={handleSearchChange}
+                placeholder="Tìm kiếm theo mã tour"
+                className="border border-gray-300 rounded px-4 py-2 w-full"
+              />
+            </div>
+          </>
         ) : (
           <button
             onClick={switchToListView}
@@ -46,7 +63,8 @@ const TourManagement = () => {
       {view === 'list' ? (
         <div>
           <h2 className="text-xl font-semibold mb-4">Danh sách Tour</h2>
-          <TourList onEdit={switchToEditTourView} /> {/* Truyền hàm onEdit */}
+          {/* Truyền giá trị tìm kiếm cho TourList */}
+          <TourList searchCode={searchCode} onEdit={switchToEditTourView} /> 
         </div>
       ) : view === 'addTour' ? (
         <div>

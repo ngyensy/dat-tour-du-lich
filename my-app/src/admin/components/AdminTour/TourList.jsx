@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Thay useHistory bằng useNavigate
 import UpdateTourForm from '../AdminTour/UpdateTour'; // Import component cập nhật
 
-const TourList = ({ onEdit }) => {
+const TourList = ({ searchCode, onEdit }) => {
   const [tours, setTours] = useState([]);
   const [selectedTour, setSelectedTour] = useState(null);
   const navigate = useNavigate(); // Khởi tạo useNavigate
@@ -45,6 +45,11 @@ const TourList = ({ onEdit }) => {
     navigate(`/admin/itinerary?tourId=${tourId}`); // Điều hướng đến ItineraryManagement với tourId
   };
 
+  // Lọc các tour theo mã tour (hoặc có thể tùy chỉnh để lọc theo tên tour, nếu cần)
+  const filteredTours = tours.filter((tour) =>
+    tour.id.toLowerCase().includes(searchCode.toLowerCase())
+  );
+
   return (
     <div className="bg-white p-6 shadow-md rounded">
       {selectedTour ? (
@@ -54,9 +59,9 @@ const TourList = ({ onEdit }) => {
         />
       ) : (
         <>
-          {tours.length > 0 ? (
+          {filteredTours.length > 0 ? (
             <ul className="space-y-4">
-              {tours.map((tour) => (
+              {filteredTours.map((tour) => (
                 <li key={tour.id} className="border-b pb-2">
                   <span className='font-semibold'>{tour.id}</span>
                   <div className="flex justify-between items-center">
@@ -91,7 +96,7 @@ const TourList = ({ onEdit }) => {
               ))}
             </ul>
           ) : (
-            <p>Không có tour nào.</p>
+            <p>Không tìm thấy tour nào.</p>
           )}
         </>
       )}

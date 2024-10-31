@@ -27,20 +27,20 @@ const TourCard = ({ tour }) => {
            <h2 className="text-lg font-semibold mb-2">{getShortTitle(tour.name)}</h2>
 
           {/* Mã tour */}
-          <div className="flex items-center font-medium mb-1">
+          <div className="flex items-center font-semiblod mb-1">
             <TicketIcon className="w-6 h-6 text-gray-500 mr-2" />
             <span className="text-sm font-semibold ">{tour.id}</span>
           </div>
 
           {/* Địa điểm khởi hành */}
-          <div className="flex items-center font-medium mb-1">
+          <div className="flex items-center font-semibold mb-1">
             <MapPinIcon className="w-6 h-6 text-gray-500 mr-2" />
             <span className="text-sm">Khởi hành:</span> 
-            <span className="text-blue-600 font-medium px-1">{tour.departureLocation}</span>
+            <span className="text-blue-600 font-semibold px-1">{tour.departureLocation}</span>
           </div>
 
           {/* Ngày khởi hành */}
-          <div className="flex items-center font-medium mb-1">
+          <div className="flex items-center font-semibold mb-1">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
             <path fill="#000" fillRule="evenodd" d="M3 20.535C3 21.345 3.656 22 4.465 22h15.07c.81 0 1.465-.656 1.465-1.465v-4.794a.293.293 0 0 0-.586 0v4.794a.88.88 0 0 1-.879.88H4.465a.88.88 0 0 1-.879-.88v-1.63a.293.293 0 0 0-.586 0z" clipRule="evenodd"></path>
             <path fill="#000" fillRule="evenodd" d="M3 19.361c0 .81.657 1.467 1.467 1.467h11.88c.389 0 .762-.154 1.037-.43l3.186-3.186c.275-.275.43-.648.43-1.037V4.805c0-.81-.657-1.466-1.467-1.466H4.467C3.657 3.339 3 3.996 3 4.806zm1.467.881a.88.88 0 0 1-.881-.88V4.805a.88.88 0 0 1 .881-.881h15.066a.88.88 0 0 1 .881.88v11.37a.88.88 0 0 1-.258.623l-3.186 3.186a.88.88 0 0 1-.623.258z" clipRule="evenodd"></path>
@@ -51,7 +51,7 @@ const TourCard = ({ tour }) => {
           </div>
 
           {/* Thời gian tour */}
-          <div className="flex items-center mb-1 font-medium">
+          <div className="flex items-center mb-1 font-semibold">
             <ClockIcon className="w-6 h-6 text-gray-500 mr-2" />
             <span className="text-sm">Thời gian:</span> 
             <span className="font-semibold px-1">
@@ -60,7 +60,7 @@ const TourCard = ({ tour }) => {
           </div>
 
           {/* Giá tour */}
-          <div className="flex items-center mb-2 font-medium">
+          <div className="flex items-center mb-2 font-semibold">
             <CurrencyDollarIcon className="w-6 h-6 text-gray-500 mr-2" />
             <span className="text-sm font-bold">Giá từ:</span> 
             <span className="text-red-600 text-2xl font-bold px-1">{tour.price.toLocaleString()} ₫</span>

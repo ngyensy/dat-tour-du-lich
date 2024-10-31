@@ -67,7 +67,9 @@ const AccountSidebar = () => {
 
                     {/* Main content */}
                     <div className='w-3/4'>
-                        {activeComponent === 'userDetail' && <UserDetail/>}
+                    {activeComponent === 'userDetail' && <UserDetail userId={user?.id}/>}
+                    {activeComponent === 'changePassword' && <ChangePassword userId={user?.id} />}
+                    {activeComponent === 'userBookings' && <UserBookings />}
                         
                     </div>    
                 </div>    

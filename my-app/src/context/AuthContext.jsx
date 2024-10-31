@@ -81,10 +81,16 @@ const AuthProvider = ({ children }) => {
       logoutUser(); // Đăng xuất người dùng nếu không thể refresh token
     }
   };
-  
+
+  // Hàm để cập nhật thông tin người dùng
+  const updateUser = (newUserData) => {
+    setUser((prevUser) => ({ ...prevUser, ...newUserData })); // Cập nhật trạng thái user với dữ liệu mới
+    localStorage.setItem('user', JSON.stringify({ ...user, ...newUserData })); // Cập nhật thông tin người dùng trong localStorage
+    console.log('User updated:', { ...user, ...newUserData });
+  };
 
   return (
-    <AuthContext.Provider value={{ user, admin, refreshToken, Userlogin, loginAdmin, logoutUser, logoutAdmin, refreshUserToken }}>
+    <AuthContext.Provider value={{ user, admin, refreshToken, Userlogin, loginAdmin, logoutUser, logoutAdmin, refreshUserToken, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

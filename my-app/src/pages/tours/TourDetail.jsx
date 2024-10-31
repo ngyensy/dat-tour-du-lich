@@ -61,7 +61,7 @@ const TourDetail = () => {
   return (
     <div>
       <Navbar />
-      <CategoryNav /> 
+      <CategoryNav categoryId={tour.category?.id} tourName={tour.name}/>
 
       <div className="container mx-auto my-8 px-32">
         <h1 className="text-3xl font-bold mb-8">

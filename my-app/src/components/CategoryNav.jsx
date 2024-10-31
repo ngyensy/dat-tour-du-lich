@@ -1,18 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const CategoryNav = () => {
+const CategoryNav = ({ categoryId, tourName }) => {
+  const [categoryName, setCategoryName] = useState(''); // State để lưu tên danh mục
+  const [loading, setLoading] = useState(true); // State để quản lý trạng thái loading
+  const [error, setError] = useState(null); // State để lưu lỗi nếu có
+
+  // Hàm để gọi API lấy thông tin danh mục dựa trên categoryId
+  const fetchCategory = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4000/v1/Categories/${categoryId}`);
+      setCategoryName(response.data.name); // Cập nhật tên danh mục
+      setLoading(false); // Tắt trạng thái loading
+    } catch (err) {
+      console.error('Error fetching category:', err);
+      setError('Không thể tải dữ liệu danh mục');
+      setLoading(false); // Tắt trạng thái loading nếu lỗi xảy ra
+    }
+  };
+
+  // Gọi fetchCategory khi component mount hoặc khi categoryId thay đổi
+  useEffect(() => {
+    if (categoryId) {
+      fetchCategory();
+    }
+  }, [categoryId]);
+
+  if (loading) {
+    return <div>Đang tải dữ liệu danh mục...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div className="py-4">
       <div className="container mx-auto px-32">
-        <div className="text-black font-semibold">
-          <Link to="/" className="hover:underline">Trang Chủ</Link>
+        <div className="text-black font-bold text-[1.6rem]
+        ">
+          <Link to="/" className="hover:underline ">Trang Chủ</Link>
           <span className="mx-2">/</span>
-          <Link to="/category2" className="hover:underline">Danh mục 2</Link>
+          <Link to={`/category/${categoryId}`} className="hover:underline">
+            {categoryName || 'Danh mục không tồn tại'}
+          </Link>
           <span className="mx-2">/</span>
-          <Link to="/category3" className="hover:underline">Danh mục 3</Link>
-          <span className="mx-2">/</span>
-          <Link to="/category4" className="hover:underline">Danh mục 4</Link>
+          <span className='text-blue-600'>{tourName}</span> {/* Hiển thị tên tour */}
         </div>
       </div>
     </div>

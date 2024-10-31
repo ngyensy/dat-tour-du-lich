@@ -1,4 +1,6 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.VisualBasic;
 using WebApi.Entities;
 
 namespace WebApi.Models.Users
@@ -10,6 +12,7 @@ namespace WebApi.Models.Users
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
+        public string Gender { get; set; }
 
         [EnumDataType(typeof(Role))]
         public string Role { get; set; }
@@ -35,8 +38,11 @@ namespace WebApi.Models.Users
             set => _confirmPassword = replaceEmptyWithNull(value);
         }
 
-        // helpers
+        // thêm thuộc tính ngày sinh
+        [DataType(DataType.Date)]
+        public DateTime? DateOfBirth { get; set; }
 
+        // helpers
         private string replaceEmptyWithNull(string value)
         {
             // replace empty string with null to make field optional

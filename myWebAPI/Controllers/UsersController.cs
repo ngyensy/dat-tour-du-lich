@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using WebApi.Models.Users;
 using WebApi.Services;
+using WebApi.Helpers;
 
 namespace WebApi.Controllers
 {
@@ -90,6 +91,21 @@ namespace WebApi.Controllers
                 return Ok(new { message = "User updated successfully" });
             }
             catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}/change-password")]
+        public IActionResult ChangePassword(int id, [FromBody] ChangePasswordRequest request)
+        {
+            try
+            {
+                // Gọi phương thức ChangePassword từ IUserService
+                _userService.ChangePassword(id, request.OldPassword, request.NewPassword); // Truyền mật khẩu cũ và mới
+                return Ok(new { message = "Mật khẩu đã được đổi thành công!" });
+            }
+            catch (AppException ex)
             {
                 return BadRequest(new { message = ex.Message });
             }

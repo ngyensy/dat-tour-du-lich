@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -12,7 +13,7 @@ namespace WebApi.Entities
         public int Id { get; set; }
 
         [Column("Avatar")]
-        public string Avatar {get; set;}
+        public string Avatar { get; set; }
 
         [Column("Name")]
         public string Name { get; set; }
@@ -27,10 +28,18 @@ namespace WebApi.Entities
         public string Address { get; set; }
 
         [Column("Role")]
-        public string Role { get; set; } // Cập nhật kiểu dữ liệu từ Role sang string
+        public string Role { get; set; }
 
         [Column("PasswordHash")]
         [JsonIgnore]
         public string PasswordHash { get; set; }
+
+        // Thêm trường Giới tính
+        [Column("Gender")]
+        public string Gender { get; set; }
+
+        // Thêm trường Ngày sinh
+        [Column("DateOfBirth")]
+        public DateTime? DateOfBirth { get; set; }
     }
 }

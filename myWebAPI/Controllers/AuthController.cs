@@ -42,9 +42,12 @@ public class AuthController : ControllerBase
             Email = user.Email,
             Name = user.Name,
             PhoneNumber = user.PhoneNumber,
+            Address = user.Address,
             Role = user.Role,
             Token = tokenString,
             Avatar = user.Avatar,
+            Gender = user.Gender,
+            DateOfBirth = user.DateOfBirth,
         });
     }
 

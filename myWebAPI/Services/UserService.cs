@@ -20,10 +20,9 @@ namespace WebApi.Services
         void Delete(int id);
         User Authenticate(string email, string password);
         void UpdateAvatar(int userId, string avatarUrl);
-
         int GetUserCount();
-
         void UpdateRefreshToken(int userId, string refreshToken);
+        public void ChangePassword(int id, string oldPassword, string newPassword);
     }
 
     public class UserService : IUserService
@@ -139,7 +138,28 @@ namespace WebApi.Services
                 _context.SaveChanges();
             }
 
-            public void Delete(int id)
+            public void ChangePassword(int id, string oldPassword, string newPassword)
+            {
+                var user = getUser(id);
+
+                // Kiểm tra mật khẩu cũ
+                if (!VerifyPasswordHash(oldPassword, user.PasswordHash))
+                    throw new AppException("Mật khẩu cũ không đúng");
+
+                // Validate mật khẩu mới (ví dụ: không rỗng, đủ độ dài)
+                if (string.IsNullOrWhiteSpace(newPassword) || newPassword.Length < 8)
+                    throw new AppException("Mật khẩu phải có ít nhất 8 ký tự");
+
+                // Hash mật khẩu mới
+                user.PasswordHash = BCryptNet.HashPassword(newPassword);
+
+                // Cập nhật người dùng trong cơ sở dữ liệu
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+
+
+        public void Delete(int id)
             {
                 var user = getUser(id);
                 _context.Users.Remove(user);

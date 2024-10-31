@@ -8,6 +8,7 @@ import LoginForm from './pages/Login';
 import RegisterForm from './pages/Register';
 import AuthProvider from './context/AuthContext';
 import CreateTour from './components/creatTour';
+import Contact from './pages/contact';
 
 // ------- Các thành phần admin ---------
 import AdminLayout from './admin/AdminLayout';
@@ -65,6 +66,7 @@ const App = () => {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/creatTour" element={<CreateTour />} />
           <Route path="/account-info" element={<Userinfor />} />
+          <Route path="/contact" element={<Contact />} />
           {/* Các route cho admin */}
           <Route path="/*" element={<AdminRoutes />} /> {/* Bao bọc AdminRoutes */}
         </Routes>

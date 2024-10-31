@@ -13,28 +13,36 @@ const TourItem = ({ tour }) => {
   return (
     <div className="tour-item flex flex-col border rounded shadow-lg overflow-hidden">
       <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="tour-image w-full h-48 object-cover" />
-      <div className="tour-info flex-grow">
-        <h2 className="tour-title font-bold text-xl mb-2">{tour.name}</h2>
-        <div className='flex font-semibold items-center mb-2'>
-          <TicketIcon className="h-5 w-5 mr-1" />
-          <p className="font-semibold">Mã chương trình: <span className="text-black font-bold">{tour.id.toString().slice(0, 9)}</span></p>
-        </div>
-        <div className='flex font-semibold mb-2'>
-          <p className="flex items-center ">
+
+      <div className="tour-info flex-grow p-4">
+        {/* Phần tên tour với chiều cao cố định */}
+        <h2 className="tour-title font-bold text-lg mb-2 overflow-hidden line-clamp-3">{tour.name}</h2>
+
+        {/* Phần thông tin tour */}
+        <div className="tour-details space-y-2">
+          {/* Mã chương trình */}
+          <div className='flex items-center'>
+            <TicketIcon className="h-5 w-5 mr-1" />
+            <p className="font-semibold">Mã chương trình: <span className="text-black font-bold">{tour.id.toString().slice(0, 9)}</span></p>
+          </div>
+
+          {/* Địa điểm khởi hành và thời gian */}
+          <div className='flex items-center'>
             <MapPinIcon className="h-5 w-5 mr-1" />
-            <span className="text-sm ">Khởi hành:</span> <span className="text-blue-600 font-bold px-1">{tour.departureLocation}</span>
-          </p>
-          <p className="flex items-center ml-8">
-            <ClockIcon className="h-5 w-5 mr-1" />
-            <span className="text-sm ">Thời gian:</span> <span className="text-blue-600 font-semibold px-1">{`${tour.duration}N${tour.duration - 1}D`}</span>
-          </p>
-        </div>
-        <div className='flex items-center mb-2'>
-          <CurrencyDollarIcon className="h-5 w-5 mr-1" />
-          <p className="text-sm font-bold">Giá từ: </p>
-          <span className='text-2xl font-bold text-red-600 ml-2'>{tour.price.toLocaleString()} ₫</span>
+            <p className="text-sm">Khởi hành: <span className="text-blue-600 font-bold">{tour.departureLocation}</span></p>
+            <ClockIcon className="h-5 w-5 mr-1 ml-8" />
+            <p className="text-sm">Thời gian: <span className="text-blue-600 font-bold">{`${tour.duration}N${tour.duration - 1}D`}</span></p>
+          </div>
+
+          {/* Giá tiền */}
+          <div className='flex items-center'>
+            <CurrencyDollarIcon className="h-5 w-5 mr-1" />
+            <p className="text-sm font-bold">Giá từ: </p>
+            <span className="text-2xl font-bold text-red-600 ml-2">{tour.price.toLocaleString()} ₫</span>
+          </div>
         </div>
       </div>
+
       <button onClick={handleViewDetails} className="bg-blue-500 text-white p-2 rounded">
         Xem chi tiết
       </button>
