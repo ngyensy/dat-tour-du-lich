@@ -37,10 +37,10 @@ const Navbar = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="bg-white-500 py-4 flex px-40">
+    <nav className="bg-white-500 py-4 flex px-36">
       <div className="container mx-auto flex items-center h-12">
         <Link to="/" className="flex items-center mr-auto">
-          <img src={logo} alt="Logo" className="h-20" />
+          <img src={logo} alt="Logo" className="h-24 " />
         </Link>
 
         <div className="flex items-center space-x-32">

@@ -1,13 +1,13 @@
   import React, { useEffect, useState  } from 'react';
-  import { useLocation, useNavigate } from 'react-router-dom';
+  import { useLocation, useNavigate, Link } from 'react-router-dom';
   import { useAuth } from '../context/AuthContext'; // Import useAuth để lấy thông tin người dùng
   import Navbar from '../components/Nav';
-  import CategoryNav from '../components/CategoryNav';
   import Footer from '../components/Footer';
   import { MapPinIcon, CurrencyDollarIcon, TicketIcon } from '@heroicons/react/24/outline';
   import axios from 'axios';
   import PaymentMethod from '../components/PaymentMethod';
   import TermsAndConditions from '../components/TermsAndConditions';
+  import SingleRoomCounter from '../components/SingleRoomCounter';
 
   const BookingPage = () => {
     const location = useLocation();
@@ -17,6 +17,8 @@
     const [totalPrice, setTotalPrice] = useState(0); 
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [isAgreed, setIsAgreed] = useState(false);
+    const [singleRoomCount, setSingleRoomCount] = useState(0);
+    const [totalSingleRoomSurcharge, setTotalSingleRoomSurcharge] = useState(0);
 
     const handleAgreementChange = (checked) => {
       setIsAgreed(checked); // Cập nhật trạng thái đồng ý
@@ -27,7 +29,7 @@
       const day = String(date.getDate()).padStart(2, '0');
       const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng tính từ 0 nên cần +1
       const year = date.getFullYear();
-      return `${day}-${month}-${year}`;
+      return `${day}/${month}/${year}`;
     };
 
     const [formData, setFormData] = useState({
@@ -40,8 +42,15 @@
       singleRoom: false,
       notes: '',
     });
-    
 
+    // Cập nhật số lượng phòng đơn từ component
+    const handleSingleRoomCountChange = (count) => {
+      if (count <= formData.numberOfAdults) { // Giới hạn số phòng đơn không vượt quá số người lớn
+        setSingleRoomCount(count);
+      }
+    };
+    
+    //tu dong dien thong tin user
     useEffect(() => {
       if (user) {
         setFormData({
@@ -55,14 +64,38 @@
     }, [user]);
 
     useEffect(() => {
-      // Tính toán tổng tiền dựa trên số lượng người lớn, trẻ em và phụ thu phòng đơn
+      // Nếu số người lớn là 1, tự động có 1 phòng đơn
+      if (formData.numberOfAdults + formData.numberOfChildren === 1) {
+        setSingleRoomCount(1);
+      } else {
+        setSingleRoomCount(0); // Nếu số người lớn từ 2 trở lên, không có phòng đơn mặc định
+      }
+    }, [formData.numberOfAdults, formData.numberOfChildren]);
+
+    useEffect(() => {
+      // Tính toán tổng tiền phụ thu phòng đơn
+      const calculatedRoomPrice =
+        singleRoomCount * tour.singleRoomSurcharge; // Sử dụng `singleRoomCount`
+        
+      setTotalSingleRoomSurcharge(calculatedRoomPrice);
+    }, [formData, singleRoomCount, tour.singleRoomSurcharge]);
+
+     // Tính giá sau khi áp dụng discount
+     const adultPriceWithDiscount = tour.price - (tour.price * tour.discount / 100);
+     const childPriceWithDiscount = tour.childPrice - (tour.childPrice * tour.discount / 100);
+
+    useEffect(() => {
+      // Tính toán tổng tiền bao gồm phụ thu phòng đơn
       const calculatedPrice =
-        formData.numberOfAdults * tour.price +
-        formData.numberOfChildren * tour.childPrice +
-        (formData.singleRoom ? tour.SingleRoomSurcharge : 0);
-  
+      (formData.numberOfAdults * adultPriceWithDiscount) + 
+      (formData.numberOfChildren * childPriceWithDiscount) + 
+      totalSingleRoomSurcharge;
+
       setTotalPrice(calculatedPrice);
-    }, [formData, tour.price, tour.childPrice, tour.SingleRoomSurcharge]);
+    }, [formData, singleRoomCount, tour.price, tour.childPrice, totalSingleRoomSurcharge]);
+
+   
+
   
     const handleChange = (e) => {
       const { name, value, type, checked } = e.target;
@@ -84,6 +117,7 @@
     // Tính toán thời gian địa phương
     const localDate = new Date(bookingDate.getTime() - localOffset * 60000); // Chuyển đổi sang UTC
 
+    //Xử lí logic để gửi về API
     const handleSubmit = async (e) => {
       e.preventDefault();
 
@@ -110,6 +144,7 @@
           numberOfChildren: formData.numberOfChildren,
           singleRoom: formData.singleRoom,
           totalPrice: totalPrice,
+          totalSingleRoomSurcharge: totalSingleRoomSurcharge,
           notes: formData.notes,
           paymentMethod: selectedPaymentMethod,
           bookingDate: localDate.toISOString().split('.')[0] + 'Z', 
@@ -135,11 +170,10 @@
     return (
       <div>
         <Navbar />
-        <CategoryNav />
 
-        <div className="container mx-auto my-16 px-32">
+        <div className="container mx-auto my-4 px-32">
           <div className="flex justify-between mb-6">
-            <button className="text-blue-600" onClick={() => window.history.back()}>
+            <button className=" font-semibold text-lg" onClick={() => window.history.back()}>
               ← Quay lại
             </button>
           </div>
@@ -148,11 +182,24 @@
             <h2 className="text-3xl text-blue-700 font-bold">ĐẶT TOUR</h2>
           </div>
 
-          <div className="flex flex-col md:flex-row">
+          <div className="flex flex-col md:flex-row mb-24">
             {/* Phần thông tin khách hàng */}
             <div className="md:w-2/3 pr-4">
               <form onSubmit={handleSubmit}>
                 <h3 className="text-xl font-bold mb-2">THÔNG TIN LIÊN LẠC</h3>
+
+                {/* Thông báo đăng nhập */}
+                {!user && (
+                  <div className="bg-blue-100 text-blue-800 px-2 py-4 rounded-lg mb-4 items-center flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" fillRule="evenodd" d="M23 12c0 3.315-1.466 6.287-3.785 8.304A10.96 10.96 0 0 1 12 23c-2.76 0-5.283-1.017-7.215-2.696A10.97 10.97 0 0 1 1 12C1 5.925 5.925 1 12 1s11 4.925 11 11m-11 7.7a7.67 7.67 0 0 0 5.5-2.311C16.311 15.465 14.292 14.2 12 14.2s-4.311 1.265-5.5 3.189q.216.22.45.424A7.67 7.67 0 0 0 12 19.7m0-7.7a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6" clipRule="evenodd"></path></svg>  
+                    <span className='ml-2'>
+                    <a href="/login" className="text-blue-800 underline font-bold">
+                        Đăng nhập
+                      </a> để nhận ưu đãi, tích điểm và quản lý đơn hàng dễ dàng hơn!!!
+                      </span>
+                  </div>
+                )}
+
                 <div className="flex flex-wrap mb-4">
                   <div className="w-full md:w-1/2 px-2">
                     <label className="block font-semibold" htmlFor="guestName">Họ tên <span className='text-red-600'>*</span></label>
@@ -160,7 +207,7 @@
                         type="text"
                         id="guestName"
                         name="guestName"
-                        className="border w-full p-2 rounded-lg"
+                        className="border border-gray-700 w-full p-2 rounded-lg"
                         placeholder="Nhập họ tên"
                         value={formData.guestName}
                         onChange={handleChange}
@@ -173,33 +220,33 @@
                         type="email"
                         id="guestEmail"
                         name="guestEmail"
-                        className="border w-full p-2 rounded-lg"
+                        className="border border-gray-700 w-full p-2 rounded-lg"
                         placeholder="Nhập email"
                         value={formData.guestEmail}
                         onChange={handleChange}
                         required
                     />
                   </div>
-                  <div className="w-full md:w-1/2 px-2">
+                  <div className="w-full md:w-1/2 px-2 mt-2">
                     <label className="block font-semibold" htmlFor="guestPhoneNumber">Điện thoại <span className='text-red-600'>*</span></label>
                       <input
                         type="text"
                         id="guestPhoneNumber"
                         name="guestPhoneNumber"
-                        className="border w-full p-2 rounded-lg"
+                        className="border border-gray-700 w-full p-2 rounded-lg"
                         placeholder="Nhập số điện thoại"
                         value={formData.guestPhoneNumber}
                         onChange={handleChange}
                         required
                     />
                   </div>
-                  <div className="w-full md:w-1/2 px-2">
+                  <div className="w-full md:w-1/2 px-2 mt-2">
                     <label className="block font-semibold" htmlFor="guestAddress">Địa chỉ</label>
                     <input
                       type="text"
                       id="guestAddress"
                       name="guestAddress"
-                      className="border w-full p-2 rounded-lg"
+                      className="border border-gray-700 w-full p-2 rounded-lg"
                       placeholder="Nhập địa chỉ"
                       value={formData.guestAddress}
                       onChange={handleChange}
@@ -268,11 +315,14 @@
                     </button>
                   </div>
                 </div>
+
+                 {/* Thanh số lượng phòng đơn */}
+                  <SingleRoomCounter count={singleRoomCount} onChange={handleSingleRoomCountChange} />
                 
                 <h3 className="text-xl font-bold mb-2">GHI CHÚ</h3>
 
                 <div className="mb-4">
-                <label className="block font-semibold" htmlFor="notes">Quý khách có ghi chú lưu ý gì, hãy nói với chúng tôi</label>
+                <label className="block font-semibold text-[1.1rem]" htmlFor="notes">Quý khách có ghi chú lưu ý gì, hãy nói với chúng tôi!!</label>
                 <textarea
                   id="notes"
                   name="notes"
@@ -283,8 +333,10 @@
                 />
               </div>
 
+              {/*Phương thức thanh toán*/}          
               <PaymentMethod onSelectPayment={setSelectedPaymentMethod} />
 
+               {/*Điều khoản sử dụng dịch vụ */}       
               <TermsAndConditions onAgree={handleAgreementChange} />
               
               </form>
@@ -315,7 +367,7 @@
                           <MapPinIcon className="w-6 h-6 text-gray-500 mr-1 ml-11" />
                           <strong>Khởi hành:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.departureLocation}</span>
                         </li>
-                        <li className='flex justify-between text-lg'>
+                        <li className='flex justify-between text-[1rem]'>
                           <div>
                             <strong>Ngày đi:</strong> 
                             <span className="text-blue-600 font-semibold pl-1">{formatDate(tour.startDate)}</span>
@@ -336,19 +388,19 @@
                               <div className="flex font-bold justify-between mb-2">
                                 <span>Người lớn</span>
                                 <span>
-                                  {formData.numberOfAdults} x {tour.price.toLocaleString()} đ
+                                  {formData.numberOfAdults} x {adultPriceWithDiscount.toLocaleString()} đ
                                 </span>
                               </div>
                               <div className="flex font-bold justify-between mb-2">
                                 <span>Trẻ em</span>
                                 <span>
-                                  {formData.numberOfChildren} x {tour.childPrice.toLocaleString()} đ
+                                  {formData.numberOfChildren} x {childPriceWithDiscount.toLocaleString()} đ
                                 </span>
                               </div>
 
                               <div className="flex font-bold justify-between mb-2">
                                 <span>Phụ thu phòng đơn</span>
-                                <span>{formData.singleRoom ? `${tour.SingleRoomSurcharge.toLocaleString()} đ` : '0 đ'}</span>
+                                <span>{totalSingleRoomSurcharge.toLocaleString()} đ</span>
                               </div>
 
                               <div className="flex justify-between mt-4 border-t-2 pt-4 border-gray-400">

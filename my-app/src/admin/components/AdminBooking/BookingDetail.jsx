@@ -10,10 +10,23 @@ const BookingDetail = ({ booking, onBack }) => {
     setBookingData(booking);
   }, [booking]);
 
+  // Tính giá sau khi áp dụng discount
+  const adultPriceWithDiscount = bookingData.tour?.price - (bookingData.tour?.price * bookingData.tour?.discount / 100);
+  const childPriceWithDiscount = bookingData.tour?.childPrice - (bookingData.tour?.childPrice * bookingData.tour?.discount / 100);
+
+
   const calculateTotalPrice = (adults, children) => {
-    const adultTotal = adults * (bookingData.tour?.price || 0);
-    const childTotal = children * (bookingData.tour?.childPrice || 0);
-    return adultTotal + childTotal;
+    const adultTotal = adults * (adultPriceWithDiscount || 0);
+    const childTotal = children * (childPriceWithDiscount || 0);
+    const totalSingleRoomSurcharge = bookingData.totalSingleRoomSurcharge || 0;
+    return adultTotal + childTotal + totalSingleRoomSurcharge;
+  };
+
+  // Tính số lượng phòng đơn
+  const calculateTotalSingleRooms = () => {
+    const singleRoomSurcharge = bookingData.tour?.singleRoomSurcharge || 0;
+    const totalSingleRoomSurcharge = bookingData.totalSingleRoomSurcharge || 0;
+    return singleRoomSurcharge > 0 ? Math.floor(totalSingleRoomSurcharge / singleRoomSurcharge) : 0;
   };
 
   const handleEditClick = () => {
@@ -50,6 +63,10 @@ const BookingDetail = ({ booking, onBack }) => {
   if (isEditing) {
     return <UpdateBookingForm booking={bookingData} onUpdate={handleUpdateBooking} onCancel={handleCancel} />;
   }
+
+  // Tính toán số phòng đơn
+  const totalSingleRooms = calculateTotalSingleRooms();
+  const singleRoomSurcharge = bookingData.tour?.singleRoomSurcharge || 0;
 
   return (
     <div>
@@ -110,10 +127,14 @@ const BookingDetail = ({ booking, onBack }) => {
               <strong>Ngày Kết Thúc:</strong> {bookingData.tour?.endDate ? new Date(bookingData.tour.endDate).toLocaleDateString() : 'N/A'}
             </div>
             <div className="mb-2">
-              <strong>Số Người Lớn:</strong> {bookingData.numberOfAdults} x {bookingData.tour?.price.toLocaleString()} VND
+              <strong>Số Người Lớn:</strong> {bookingData.numberOfAdults} x {adultPriceWithDiscount.toLocaleString()} VND
             </div>
             <div className="mb-2">
-              <strong>Số Trẻ Em:</strong> {bookingData.numberOfChildren} x {bookingData.tour?.childPrice.toLocaleString()} VND
+              <strong>Số Trẻ Em:</strong> {bookingData.numberOfChildren} x {childPriceWithDiscount.toLocaleString()} VND
+            </div>
+            <div className="mb-2">
+              <strong>Số phòng đơn:</strong> 
+              {` ${totalSingleRooms} x ${singleRoomSurcharge.toLocaleString()} VND`}
             </div>
             <div className="mb-2">
               <strong>Tổng số người:</strong> {bookingData.numberOfPeople}

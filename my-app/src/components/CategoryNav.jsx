@@ -38,7 +38,7 @@ const CategoryNav = ({ categoryId, tourName }) => {
   return (
     <div className="py-4">
       <div className="container mx-auto px-32">
-        <div className="text-black font-bold text-[1.6rem]
+        <div className="text-black font-[600] text-[1.1rem]
         ">
           <Link to="/" className="hover:underline ">Trang Chủ</Link>
           <span className="mx-2">/</span>

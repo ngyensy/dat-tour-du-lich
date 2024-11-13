@@ -17,7 +17,6 @@ namespace WebApi.Entities
         [Column("Description")]
         public string Description { get; set; }
 
-        //Navigation property for related Tours
-        public ICollection<Tour> Tours { get; set; }
+        public ICollection<Tour> Tour { get; set; }  // Liên kết với bảng Tour
     }
 }

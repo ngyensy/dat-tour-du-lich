@@ -10,6 +10,7 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
     description: tour.description || '',
     Price: tour.price || 0,
     childPrice: tour.childPrice || 0,
+    discount: tour.discount || 0,
     departureLocation: tour.departureLocation || '',
     destination: tour.destination || '',
     startDate: tour.startDate ? new Date(tour.startDate) : null,
@@ -19,6 +20,7 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
     isActive: tour.isActive || true,
     categoryId: tour.categoryId || '',
     image: tour.image,
+    singleRoomSurcharge: tour.singleRoomSurcharge || 0,
   });
 
   const [categories, setCategories] = useState([]);
@@ -123,6 +125,8 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
     setFilteredCategories([]);
   };
 
+  const currentCategory = categories.find(category => category.id === tourData.categoryId);
+
   return (
     <div className="bg-white p-6 shadow-md rounded">
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -170,6 +174,29 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700">Giá phụ phòng đơn</label>
+          <input
+            type="text"
+            name="singleRoomSurcharge"
+            value={formatNumber(tourData.singleRoomSurcharge)}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 ">Giảm giá (%)</label>
+          <input
+            type="number"
+            value={tourData.discount}
+            onChange={(e) => setTourData({ ...tourData, discount: e.target.value })}
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded"
+            placeholder="Nhập mức giảm giá"
           />
         </div>
 
@@ -260,26 +287,34 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
 
         <div className="mb-4">
           <label className="block text-gray-700">Danh mục</label>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Tìm kiếm danh mục"
-            className="w-full px-4 py-2 border-2 border-gray-300 rounded"
-          />
-          {filteredCategories.length > 0 && (
-            <ul className="border border-gray-300 mt-2">
-              {filteredCategories.map((category) => (
-                <li
-                  key={category.id}
-                  onClick={() => handleCategorySelect(category)}
-                  className="cursor-pointer hover:bg-gray-200 p-2"
-                >
-                  {category.name}
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className="relative">
+            {/* Hiển thị tên danh mục hiện tại nếu có */}
+            <div className="w-full px-4 py-2 border-2 border-gray-300 rounded bg-gray-100 cursor-pointer">
+              {currentCategory ? currentCategory.name : 'Chưa chọn danh mục'}
+            </div>
+            {/* Thanh tìm kiếm danh mục */}
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Tìm kiếm danh mục"
+              className="w-full px-4 py-2 border-2 border-gray-300 rounded mt-2"
+            />
+            {/* Hiển thị danh sách các danh mục tìm thấy */}
+            {searchTerm && filteredCategories.length > 0 && (
+              <ul className="absolute w-full mt-2 border border-gray-300 bg-white shadow-lg z-10">
+                {filteredCategories.map((category) => (
+                  <li
+                    key={category.id}
+                    onClick={() => handleCategorySelect(category)}
+                    className="cursor-pointer hover:bg-gray-200 p-2"
+                  >
+                    {category.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
 
         <div className="mb-4">

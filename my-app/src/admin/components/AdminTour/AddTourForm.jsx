@@ -9,6 +9,8 @@ const AddTourForm = () => {
     description: '',
     price: '',
     childPrice: '',
+    singleRoomSurcharge:'',
+    discount:'',
     departureLocation: '',
     destination: '',
     startDate: null,
@@ -102,6 +104,8 @@ const AddTourForm = () => {
     formData.append('availableSlots', tourData.availableSlots);
     formData.append('isActive', tourData.isActive);
     formData.append('categoryId', tourData.categoryId);
+    formData.append('singleRoomSurcharge', tourData.singleRoomSurcharge);
+    formData.append('discount', tourData.discount);
     if (tourData.image) {
       formData.append('image', tourData.image);
     }
@@ -155,7 +159,7 @@ const AddTourForm = () => {
         <div className="mb-4">
           <label className="block text-gray-700">Giá người lớn</label>
           <input
-            type="text"
+            type="number"
             name="price"
             value={tourData.price}
             onChange={handleChange}
@@ -168,9 +172,35 @@ const AddTourForm = () => {
         <div className="mb-4">
           <label className="block text-gray-700">Giá trẻ em</label>
           <input
-            type="text"
+            type="number"
             name="childPrice"
             value={tourData.childPrice}
+            onChange={handleChange}
+            onBlur={handleBlur} // Gọi hàm format khi rời khỏi input
+            required
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700">Giá phụ phòng đơn</label>
+          <input
+            type="number"
+            name="singleRoomSurcharge"
+            value={tourData.singleRoomSurcharge}
+            onChange={handleChange}
+            onBlur={handleBlur} // Gọi hàm format khi rời khỏi input
+            required
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700">Giảm giá(%)</label>
+          <input
+            type="number"
+            name="discount"
+            value={tourData.discount}
             onChange={handleChange}
             onBlur={handleBlur} // Gọi hàm format khi rời khỏi input
             required

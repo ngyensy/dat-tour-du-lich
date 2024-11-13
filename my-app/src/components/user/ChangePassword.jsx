@@ -54,8 +54,8 @@ const ChangePassword = ({ userId }) => { // Thêm userId nếu cần
 
     return (
         <div>
-            <div className='flex-grow p-4 border'>
-                <div className='pb-5 border-b mb-4'>
+            <div className='flex-grow p-4 border border-gray-500'>
+                <div className='pb-5 border-b border-gray-400 mb-4'>
                     <h2 className='text-lg font-bold'>Đổi mật khẩu</h2>
                     <p className='text-sm font-medium'>Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</p>
                 </div>
@@ -68,7 +68,7 @@ const ChangePassword = ({ userId }) => { // Thêm userId nếu cần
                             type="password"
                             value={oldPassword}
                             onChange={(e) => setOldPassword(e.target.value)}
-                            className="border p-2 rounded w-full"
+                            className="border border-gray-400 p-2 rounded w-full"
                             required
                         />
                     </div>
@@ -78,7 +78,7 @@ const ChangePassword = ({ userId }) => { // Thêm userId nếu cần
                             type="password"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
-                            className="border p-2 rounded w-full"
+                            className="border border-gray-500 p-2 rounded w-full"
                             required
                         />
                     </div>
@@ -88,7 +88,7 @@ const ChangePassword = ({ userId }) => { // Thêm userId nếu cần
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="border p-2 rounded w-full"
+                            className="border border-gray-500 p-2 rounded w-full"
                             required
                         />
                     </div>

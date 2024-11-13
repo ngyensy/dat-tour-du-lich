@@ -35,7 +35,7 @@ const UpdateBookingForm = ({ booking, onUpdate, onCancel }) => {
   const calculateTotalPrice = (numberOfAdults, numberOfChildren) => {
     const adultPrice = booking.tour?.price || 0;
     const childPrice = booking.tour?.childPrice || 0;
-    return (numberOfAdults * adultPrice) + (numberOfChildren * childPrice);
+    return (numberOfAdults * adultPrice) + (numberOfChildren * childPrice) ;
   };
 
   // Cập nhật state khi người dùng nhập

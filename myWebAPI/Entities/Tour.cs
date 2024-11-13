@@ -27,6 +27,12 @@ namespace WebApi.Entities
 
         [Column("ChildPrice")]
         public decimal ChildPrice { get; set; } // Giá cho trẻ em
+        
+        [Column("SingleRoomSurcharge")]
+        public decimal SingleRoomSurcharge { get; set; }
+
+        [Column("Discount")]
+        public decimal Discount { get; set; }
 
         [Column("DepartureLocation")]
         public string DepartureLocation { get; set; } // Nơi khởi hành
@@ -55,6 +61,7 @@ namespace WebApi.Entities
 
         [ForeignKey("CategoryId")]
         public Category Category { get; set; } // Navigation property
+        
         public ICollection<Itinerary> Itineraries { get; set; } // 1-nhiều với Itinerary
     }
 }

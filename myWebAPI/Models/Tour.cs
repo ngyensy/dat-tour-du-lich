@@ -12,6 +12,10 @@ public class TourModel
     // Giá dành cho người lớn và trẻ em
     public decimal Price { get; set; } // Giá người lớn
     public decimal ChildPrice { get; set; } // Giá trẻ em
+    public decimal SingleRoomSurcharge { get; set; }
+
+     // Thêm thuộc tính giảm giá
+    public decimal Discount { get; set; } // Mức giảm giá (số tiền hoặc phần trăm)
 
     public string DepartureLocation { get; set; } // Nơi khởi hành
     public string Destination { get; set; } // Điểm đến

@@ -35,6 +35,13 @@ namespace WebApi.Helpers
                 .WithOne(i => i.Tour)
                 .HasForeignKey(i => i.TourId);
 
+            // Cấu hình quan hệ N-1 giữa Tour và Category
+            modelBuilder.Entity<Tour>()
+                .HasOne(t => t.Category)      // Một Tour có một Category
+                .WithMany(c => c.Tour)      // Một Category có nhiều Tour
+                .HasForeignKey(t => t.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict); // Không tự động xóa các Tour khi xóa Category
+
             base.OnModelCreating(modelBuilder);
         }
     }
