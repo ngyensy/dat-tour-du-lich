@@ -56,8 +56,8 @@ const ChangePassword = ({ userId }) => { // Thêm userId nếu cần
         <div>
             <div className='flex-grow p-4 border border-gray-500'>
                 <div className='pb-5 border-b border-gray-400 mb-4'>
-                    <h2 className='text-lg font-bold'>Đổi mật khẩu</h2>
-                    <p className='text-sm font-medium'>Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</p>
+                    <h2 className='text-xl font-bold'>Đổi mật khẩu</h2>
+                    <p className='text-[1rem] font-medium'>Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</p>
                 </div>
                 {error && <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mb-4">{error}</div>} {/* Hiển thị lỗi */}
                 {successMessage && <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-2 mb-4">{successMessage}</div>} {/* Hiển thị thông báo thành công */}

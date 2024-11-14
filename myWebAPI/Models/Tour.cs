@@ -15,7 +15,7 @@ public class TourModel
     public decimal SingleRoomSurcharge { get; set; }
 
      // Thêm thuộc tính giảm giá
-    public decimal Discount { get; set; } // Mức giảm giá (số tiền hoặc phần trăm)
+    public decimal? Discount { get; set; } // Mức giảm giá (số tiền hoặc phần trăm)
 
     public string DepartureLocation { get; set; } // Nơi khởi hành
     public string Destination { get; set; } // Điểm đến

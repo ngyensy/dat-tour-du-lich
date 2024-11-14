@@ -67,7 +67,7 @@ namespace WebApi.Controllers
 
         [HttpPut("{id}")]
         public IActionResult Update(string id, [FromBody] BookingModel bookingModel)
-        {
+            {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

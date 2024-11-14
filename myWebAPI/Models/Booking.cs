@@ -30,7 +30,7 @@ namespace WebApi.Models
 
         public decimal TotalPrice { get; set; } // Tổng tiền (số người * giá tour)
         public decimal TotalSingleRoomSurcharge { get; set; } 
-        public string Status { get; set; } = "Pending"; // Trạng thái của booking (Pending, Confirmed, Cancelled)
+        public string Status { get; set; } = "Chờ xác nhận"; // Trạng thái của booking (Pending, Confirmed, Cancelled)
 
         public string Notes { get; set; }
 

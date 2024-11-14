@@ -59,8 +59,8 @@ const UserDetail = () => {
         <section className='flex flex-row justify-start items-center gap-2'>
             <div className='flex-grow p-4 border border-gray-500'>
                 <div className='pb-5 border-b border-gray-500 mb-4'>
-                    <h2 className='text-lg font-bold'>Thông tin cá nhân</h2>
-                    <p className='text-sm font-medium'>Cập nhật thông tin của Quý khách và tìm hiểu các thông tin này được sử dụng ra sao</p>
+                    <h2 className='text-xl font-bold'>Thông tin cá nhân</h2>
+                    <p className='text-[1rem] font-medium'>Cập nhật thông tin của Quý khách và tìm hiểu các thông tin này được sử dụng ra sao</p>
                 </div>
 
                 {successMessage && (

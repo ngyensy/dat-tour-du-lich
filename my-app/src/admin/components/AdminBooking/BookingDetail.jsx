@@ -18,8 +18,8 @@ const BookingDetail = ({ booking, onBack }) => {
   const calculateTotalPrice = (adults, children) => {
     const adultTotal = adults * (adultPriceWithDiscount || 0);
     const childTotal = children * (childPriceWithDiscount || 0);
-    const totalSingleRoomSurcharge = bookingData.totalSingleRoomSurcharge || 0;
-    return adultTotal + childTotal + totalSingleRoomSurcharge;
+    const totalSingleRoomPrice = bookingData.totalSingleRoomSurcharge || 0;
+    return adultTotal + childTotal + totalSingleRoomPrice;
   };
 
   // Tính số lượng phòng đơn

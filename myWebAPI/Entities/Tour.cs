@@ -32,7 +32,7 @@ namespace WebApi.Entities
         public decimal SingleRoomSurcharge { get; set; }
 
         [Column("Discount")]
-        public decimal Discount { get; set; }
+        public decimal? Discount { get; set; }
 
         [Column("DepartureLocation")]
         public string DepartureLocation { get; set; } // Nơi khởi hành

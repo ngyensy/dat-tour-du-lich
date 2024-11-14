@@ -12,7 +12,8 @@ const UpdateBookingForm = ({ booking, onUpdate, onCancel }) => {
     totalPrice: booking.totalPrice,
     notes: booking.notes,
     paymentMethod: booking.paymentMethod, // Thêm PaymentMethod
-    status: booking.status // Thêm Status
+    status: booking.status,
+    totalSingleRoomSurcharge: booking.totalSingleRoomSurcharge 
   });
 
   // Cập nhật state khi booking thay đổi
@@ -27,31 +28,50 @@ const UpdateBookingForm = ({ booking, onUpdate, onCancel }) => {
       totalPrice: booking.totalPrice,
       notes: booking.notes,
       paymentMethod: booking.paymentMethod, // Thêm PaymentMethod
-      status: booking.status // Thêm Status
+      status: booking.status,
+      totalSingleRoomSurcharge: booking.totalSingleRoomSurcharge // Thêm Status
     });
   }, [booking]);
 
   // Tính lại tổng tiền khi số người lớn hoặc trẻ em thay đổi
-  const calculateTotalPrice = (numberOfAdults, numberOfChildren) => {
+  const calculateTotalPrice = (numberOfAdults, numberOfChildren, totalSingleRoomSurcharge, discount) => {
     const adultPrice = booking.tour?.price || 0;
     const childPrice = booking.tour?.childPrice || 0;
-    return (numberOfAdults * adultPrice) + (numberOfChildren * childPrice) ;
+    const singleRoomPrice = totalSingleRoomSurcharge || 0;
+  
+    // Áp dụng giảm giá nếu có
+    const adultPriceAfterDiscount = adultPrice * (1 - (discount / 100)); // Giảm giá theo tỷ lệ phần trăm
+    const childPriceAfterDiscount = childPrice * (1 - (discount / 100));
+  
+    // Tính tổng tiền
+    return (numberOfAdults * adultPriceAfterDiscount) + (numberOfChildren * childPriceAfterDiscount) + singleRoomPrice;
   };
-
+  
+  
   // Cập nhật state khi người dùng nhập
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedBooking((prev) => ({
-      ...prev,
-      [name]: value,
-      totalPrice: name === 'numberOfAdults' || name === 'numberOfChildren'
-        ? calculateTotalPrice(
-            name === 'numberOfAdults' ? value : prev.numberOfAdults,
-            name === 'numberOfChildren' ? value : prev.numberOfChildren
-          )
-        : prev.totalPrice,
-    }));
+  
+    // Chuyển giá trị sang kiểu số nếu là số
+    const newValue = name === 'totalSingleRoomSurcharge' || name === 'numberOfAdults' || name === 'numberOfChildren'
+      ? Number(value)
+      : value;
+  
+    setUpdatedBooking((prev) => {
+      const updated = {
+        ...prev,
+        [name]: newValue,
+      };
+  
+      // Cập nhật lại tổng tiền khi số người lớn, số trẻ em hoặc phụ thu phòng đơn thay đổi
+      if (name === 'numberOfAdults' || name === 'numberOfChildren' || name === 'totalSingleRoomSurcharge') {
+        updated.totalPrice = calculateTotalPrice(updated.numberOfAdults, updated.numberOfChildren, updated.totalSingleRoomSurcharge, booking.tour?.discount || 0);
+      }
+  
+      return updated;
+    });
   };
+  
 
   // Gửi dữ liệu cập nhật khi form được submit
   const handleSubmit = (e) => {
@@ -134,11 +154,22 @@ const UpdateBookingForm = ({ booking, onUpdate, onCancel }) => {
       </div>
 
       <div className="mb-2">
+        <label className="block font-bold">Phụ thu phòng đơn</label>
+        <input
+          type="text"
+          name="totalSingleRoomSurcharge"
+          value={updatedBooking.totalSingleRoomSurcharge}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+        />
+      </div>
+
+      <div className="mb-2">
         <label className="block font-bold">Tổng Tiền</label>
         <input
           type="text"
           name="totalPrice"
-          value={updatedBooking.totalPrice}
+          value={updatedBooking.totalPrice.toLocaleString()}
           readOnly
           className="w-full p-2 border rounded bg-gray-200"
         />
@@ -175,9 +206,10 @@ const UpdateBookingForm = ({ booking, onUpdate, onCancel }) => {
           onChange={handleChange}
           className="w-full p-2 border rounded"
         >
-          <option value="Confirmed">Đã Xác Nhận</option>
-          <option value="Pending">Đang Chờ</option>
-          <option value="Cancelled">Đã Hủy</option>
+          <option value="Đã xác nhận">Đã xác nhận</option>
+          <option value="Chờ xác nhận">Chờ xác nhận</option>
+          <option value="Đã Hủy Booking">Đã Hủy Booking</option>
+          <option value="Đã thanh toán">Đã thanh toán</option>
         </select>
       </div>
 

@@ -43,7 +43,6 @@ namespace WebApi.Entities
         [Column("TotalSingleRoomSurcharge")]
         public decimal TotalSingleRoomSurcharge { get; set; }  // Tổng giá phụ thu phòng đơn
 
-
         [Column("Status")]
         public string Status { get; set; } // e.g., "Confirmed", "Pending", "Cancelled"
 

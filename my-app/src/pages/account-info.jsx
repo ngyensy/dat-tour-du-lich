@@ -27,7 +27,7 @@ const AccountSidebar = () => {
 
                 <div className="flex gap-8">
                     {/* Sidebar */}
-                    <div className='w-1/4 border border-gray-500 rounded-lg p-4'>
+                    <div className='w-1/4 border border-gray-500 rounded-lg p-4 max-h-[290px]'>
                         <div className='flex gap-4 border-b border-gray-400 pb-4 items-center'>
                         <img
                                 src={`http://localhost:4000${user?.avatar}`} 

@@ -88,26 +88,52 @@ namespace WebApi.Services
 
             public void Update(string id, BookingModel bookingModel)
             {
-               
-
                 var existingBooking = _context.Bookings.Include(b => b.Tour).FirstOrDefault(b => b.Id == id);
                 if (existingBooking == null) return;
 
-                // Chỉ cập nhật các trường cần thiết trong booking
+                // Lấy thông tin tour
+                var tour = existingBooking.Tour;
+                if (tour == null)
+                {
+                    throw new ArgumentException("Tour does not exist.");
+                }
+
+                // Cập nhật các thông tin booking
                 existingBooking.GuestName = bookingModel.GuestName ?? existingBooking.GuestName;
                 existingBooking.GuestEmail = bookingModel.GuestEmail ?? existingBooking.GuestEmail;
                 existingBooking.GuestPhoneNumber = bookingModel.GuestPhoneNumber ?? existingBooking.GuestPhoneNumber;
                 existingBooking.GuestAddress = bookingModel.GuestAddress ?? existingBooking.GuestAddress;
                 existingBooking.NumberOfAdults = bookingModel.NumberOfAdults;
                 existingBooking.NumberOfChildren = bookingModel.NumberOfChildren;
-                existingBooking.TotalPrice = bookingModel.TotalPrice;
+                existingBooking.TotalSingleRoomSurcharge = bookingModel.TotalSingleRoomSurcharge;
                 existingBooking.Notes = bookingModel.Notes;
                 existingBooking.PaymentMethod = bookingModel.PaymentMethod;
                 existingBooking.Status = bookingModel.Status;
 
+                // Lấy discount từ giá tour, nếu không có thì discount = 0
+                decimal discount = tour.Discount ?? 0;
+
+                // Tính giá cho người lớn và áp dụng giảm giá
+                decimal adultPriceWithDiscount = tour.Price * (1 - discount / 100);
+                decimal adultTotal = bookingModel.NumberOfAdults * adultPriceWithDiscount;
+
+                // Tính giá cho trẻ em và áp dụng giảm giá
+                decimal childPriceWithDiscount = tour.ChildPrice * (1 - discount / 100);
+                decimal childTotal = bookingModel.NumberOfChildren * childPriceWithDiscount;
+
+                // Tính phụ thu phòng đơn
+                decimal surchargeTotal = bookingModel.TotalSingleRoomSurcharge;
+
+                // Tính tổng giá tiền
+                decimal totalPrice = adultTotal + childTotal + surchargeTotal;
+
+                // Cập nhật tổng giá tiền
+                existingBooking.TotalPrice = totalPrice;
+
                 // Lưu thay đổi vào cơ sở dữ liệu
                 _context.SaveChanges();
             }
+
 
             public void Delete(string id)
             {
