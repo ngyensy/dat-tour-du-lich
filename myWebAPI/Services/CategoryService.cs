@@ -45,20 +45,47 @@ namespace WebApi.Services
 
             public void Create(CategoryModel categoryModel)
             {
+                // Kiểm tra xem tên danh mục đã tồn tại hay chưa, so sánh không phân biệt chữ hoa chữ thường
+                var existingCategory = _context.Categories
+                    .FirstOrDefault(c => c.Name.ToLower() == categoryModel.Name.ToLower());
+
+                if (existingCategory != null)
+                {
+                    // Nếu tên danh mục đã tồn tại
+                    throw new InvalidOperationException("Tên danh mục đã tồn tại!");
+                }
+
+                // Nếu tên danh mục chưa tồn tại, tiến hành thêm mới danh mục
                 var categoryEntity = _mapper.Map<Category>(categoryModel);
                 _context.Categories.Add(categoryEntity);
                 _context.SaveChanges();
             }
 
+
             public void Update(int id, CategoryModel categoryModel)
             {
                 try
                 {
+                    // Kiểm tra xem tên danh mục đã tồn tại hay chưa, so sánh không phân biệt chữ hoa chữ thường
+                    var existingCategoryByName = _context.Categories
+                        .FirstOrDefault(c => c.Name.ToLower() == categoryModel.Name.ToLower() && c.Id != id);
+
+                    if (existingCategoryByName != null)
+                    {
+                        // Nếu tên danh mục đã tồn tại và không phải là danh mục đang được chỉnh sửa
+                        throw new InvalidOperationException("Tên danh mục đã tồn tại.");
+                    }
+
+                    // Tiến hành cập nhật danh mục nếu không có lỗi
                     var existingCategory = _context.Categories.Find(id);
-                    if (existingCategory == null) return;
+                    if (existingCategory == null)
+                    {
+                        throw new KeyNotFoundException("Danh mục không tồn tại.");
+                    }
 
                     existingCategory.Name = categoryModel.Name;
                     existingCategory.Description = categoryModel.Description;
+
                     // Cập nhật các thuộc tính khác nếu cần
 
                     _context.SaveChanges();
@@ -70,6 +97,7 @@ namespace WebApi.Services
                     throw; // Ném lại lỗi sau khi log
                 }
             }
+
             public void Delete(int id)
             {
                 var category = _context.Categories.Find(id);

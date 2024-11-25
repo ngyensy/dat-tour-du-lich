@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
@@ -21,6 +22,8 @@ namespace WebApi.Controllers
 
         }
 
+        
+
         // GET: api/booking
         [HttpGet]
         public IActionResult GetAll()
@@ -32,6 +35,7 @@ namespace WebApi.Controllers
             return Ok(bookings);
         }
 
+        [Authorize]
         // GET: api/booking/5
         [HttpGet("{id}")]
         public IActionResult GetById(string id)

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Thay useHistory bằng useNavigate
-import UpdateTourForm from '../AdminTour/UpdateTour'; // Import component cập nhật
+import { useNavigate } from 'react-router-dom';
+import UpdateTourForm from '../AdminTour/UpdateTour';
 
-const TourList = ({ searchCode, onEdit }) => {
+const TourList = ({ searchQuery, onEdit }) => {
   const [tours, setTours] = useState([]);
   const [selectedTour, setSelectedTour] = useState(null);
-  const navigate = useNavigate(); // Khởi tạo useNavigate
+  const navigate = useNavigate();
 
-  // Hàm fetch dữ liệu tour từ API
   const fetchTours = async () => {
     try {
       const response = await axios.get('http://localhost:4000/v1/tours');
@@ -25,7 +24,7 @@ const TourList = ({ searchCode, onEdit }) => {
   const handleDelete = async (tourId) => {
     try {
       await axios.delete(`http://localhost:4000/v1/tours/${tourId}`);
-      setTours(prevTours => prevTours.filter((tour) => tour.id !== tourId));
+      setTours((prevTours) => prevTours.filter((tour) => tour.id !== tourId));
     } catch (error) {
       console.error('Error deleting tour:', error);
     }
@@ -42,28 +41,26 @@ const TourList = ({ searchCode, onEdit }) => {
   };
 
   const handleItinerary = (tourId) => {
-    navigate(`/admin/itinerary?tourId=${tourId}`); // Điều hướng đến ItineraryManagement với tourId
+    navigate(`/admin/itinerary?tourId=${tourId}`);
   };
 
-  // Lọc các tour theo mã tour (hoặc có thể tùy chỉnh để lọc theo tên tour, nếu cần)
+  // Lọc các tour theo mã tour hoặc tên tour
   const filteredTours = tours.filter((tour) =>
-    tour.id.toLowerCase().includes(searchCode.toLowerCase())
+    tour.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    tour.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="bg-white p-6 shadow-md rounded">
       {selectedTour ? (
-        <UpdateTourForm 
-          tour={selectedTour} 
-          onUpdateSuccess={handleUpdateSuccess} 
-        />
+        <UpdateTourForm tour={selectedTour} onUpdateSuccess={handleUpdateSuccess} />
       ) : (
         <>
           {filteredTours.length > 0 ? (
             <ul className="space-y-4">
               {filteredTours.map((tour) => (
                 <li key={tour.id} className="border-b pb-2">
-                  <span className='font-semibold'>{tour.id}</span>
+                  <span className="font-semibold">{tour.id}</span>
                   <div className="flex justify-between items-center">
                     <span className="font-semibold">{tour.name}</span>
                     <div className="space-x-2">
@@ -79,7 +76,6 @@ const TourList = ({ searchCode, onEdit }) => {
                       >
                         Xóa
                       </button>
-                      {/* Nút xem lịch trình */}
                       <button
                         onClick={() => handleItinerary(tour.id)}
                         className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"

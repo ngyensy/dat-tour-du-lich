@@ -4,10 +4,21 @@
   }
   
   .category-title {
-    font-size: 2.5rem;
-    color: #007BFF; /* Màu xanh nước biển */
+    font-size: 2.6rem;
+    color: #2a5e95; /* Màu xanh nước biển */
     margin-bottom: 20px;
   }
+
+  .category-description {
+    text-align: justify; /* Căn đều nội dung ra đầu và cuối dòng */
+    line-height: 1.6; /* Khoảng cách dòng đều đặn */
+    max-width: 1024px; /* Giới hạn chiều rộng cho dễ đọc */
+    margin: 0 auto; /* Căn giữa */
+    font-size: 1.2rem; /* Kích thước chữ vừa phải */
+    font-weight: 500;
+    word-wrap: break-word; /* Tự động xuống dòng nếu từ quá dài */
+  }
+  
   
   .content {
     display: flex;

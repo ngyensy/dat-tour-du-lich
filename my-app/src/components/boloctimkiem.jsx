@@ -1,28 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const FilterComponent = () => {
+const FilterComponent = ({ onFilterApply }) => {
   const [selectedBudget, setSelectedBudget] = useState("");
   const [departurePoint, setDeparturePoint] = useState("Tất cả");
   const [destinationPoint, setDestinationPoint] = useState("Tất cả");
   const [selectedDate, setSelectedDate] = useState("");
+  const [categories, setCategories] = useState([]);
   const [tourType, setTourType] = useState("");
   const [transport, setTransport] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Tất cả");
+
+  useEffect(() => {
+    // Gọi API để lấy danh mục
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/v1/categories");
+        setCategories(response.data.$values); // Giả định API trả về danh sách trong response.data
+      } catch (error) {
+        console.error("Lỗi khi lấy danh mục:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleApply = () => {
-    // Logic xử lý khi người dùng bấm nút "Áp dụng"
-    console.log({
-      selectedBudget,
+    const budgetRanges = {
+      "Dưới 5 triệu": { min: 0, max: 5000000 },
+      "Từ 5 - 10 triệu": { min: 5000000, max: 10000000 },
+      "Từ 10 - 20 triệu": { min: 10000000, max: 20000000 },
+      "Trên 20 triệu": { min: 20000000, max: Infinity },
+    };
+
+    const selectedRange = budgetRanges[selectedBudget] || { min: 0, max: Infinity };
+
+    // Truyền tất cả các giá trị lọc vào onFilterApply
+    onFilterApply({
+      budget: selectedBudget,
       departurePoint,
-      destinationPoint,
+      destinationPoint: selectedCategory,
       selectedDate,
       tourType,
-      transport
+      transport,
     });
   };
 
+  const handleReset = () => {
+    // Reset tất cả các giá trị về mặc định
+    setSelectedBudget("");
+    setDeparturePoint("Tất cả");
+    setDestinationPoint("Tất cả");
+    setSelectedDate("");
+    setTourType("");
+    setTransport("");
+    setSelectedCategory("Tất cả");
+
+    // Gọi lại filter với các giá trị mặc định
+    onFilterApply({
+      budget: "",
+      departurePoint: "Tất cả",
+      destinationPoint: "Tất cả",
+      selectedDate: "",
+      tourType: "",
+      transport: "",
+    });
+  };
+
+  // Kiểm tra xem có thay đổi bộ lọc nào không
+  const isFilterChanged =
+    selectedBudget ||
+    departurePoint !== "Tất cả" ||
+    selectedCategory !== "Tất cả" ||
+    selectedDate ||
+    tourType ||
+    transport;
+
   return (
     <div className="p-4 bg-gray-200 rounded-lg shadow-md w-84">
-
       {/* Ngân sách */}
       <div className="mb-4">
         <p className="font-bold mb-2">Ngân sách:</p>
@@ -49,9 +103,9 @@ const FilterComponent = () => {
           value={departurePoint}
           onChange={(e) => setDeparturePoint(e.target.value)}
         >
-          <option>Tất cả</option>
-          <option>Hà Nội</option>
-          <option>TP. HCM</option>
+          <option value="Tất cả">Tất cả</option>
+          <option value="Hà Nội">Hà Nội</option>
+          <option value="TP. HCM">TP. HCM</option>
           {/* Các điểm khởi hành khác */}
         </select>
       </div>
@@ -60,14 +114,16 @@ const FilterComponent = () => {
       <div className="mb-4">
         <p className="font-bold mb-2">Điểm đến:</p>
         <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
           className="p-2 border rounded-md w-full"
-          value={destinationPoint}
-          onChange={(e) => setDestinationPoint(e.target.value)}
         >
-          <option>Tất cả</option>
-          <option>Đà Nẵng</option>
-          <option>Phú Quốc</option>
-          {/* Các điểm đến khác */}
+          <option value="Tất cả">Tất cả</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -81,6 +137,17 @@ const FilterComponent = () => {
           onChange={(e) => setSelectedDate(e.target.value)}
         />
       </div>
+
+      {/* Nút Hủy */}
+      {isFilterChanged && (
+        <button
+          className="w-full mb-2 bg-gray-500 text-white p-2 rounded-md"
+          onClick={handleReset}
+        >
+          Hủy lựa chọn
+        </button>
+      )}
+
       {/* Nút Áp dụng */}
       <button
         className="w-full bg-blue-500 text-white p-2 rounded-md"
@@ -88,6 +155,8 @@ const FilterComponent = () => {
       >
         Tìm kiếm
       </button>
+
+      
     </div>
   );
 };

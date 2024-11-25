@@ -6,6 +6,7 @@ const BookingList = ({ onViewDetail }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState(''); // State cho từ khóa tìm kiếm
+  const [statusFilter, setStatusFilter] = useState(''); 
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -39,12 +40,29 @@ const BookingList = ({ onViewDetail }) => {
     }
   };
 
-  // Lọc danh sách dựa trên từ khóa tìm kiếm
-  const filteredBookings = bookings.filter(
-    (booking) =>
-      booking.id.toString().includes(searchTerm.toLowerCase()) ||
-      booking.guestPhoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Sắp xếp theo thứ tự ưu tiên
+  const sortPriority = {  
+  "Chờ xác nhận": 1,
+  "Đã xác nhận": 2,
+  "Đã thanh toán": 3,
+  "Đã Hủy Booking": 4,
+};
+
+// Lọc danh sách dựa trên từ khóa tìm kiếm và trạng thái
+const filteredBookings = bookings
+  .filter((booking) => {
+    const idString = String(booking.id); // Chuyển id về chuỗi rõ ràng
+    const phoneNumber = String(booking.guestPhoneNumber || ''); // Xử lý null phoneNumber
+    return (
+      (statusFilter === '' || booking.status === statusFilter) &&
+      (idString.includes(searchTerm) || phoneNumber.includes(searchTerm))
+    );
+  })
+  // Sắp xếp theo thứ tự ưu tiên dựa trên `sortPriority`
+  .sort((a, b) => (sortPriority[a.status] || 5) - (sortPriority[b.status] || 5));
+
+  
+  
 
   if (loading) {
     return <p>Loading bookings...</p>;
@@ -58,17 +76,31 @@ const BookingList = ({ onViewDetail }) => {
     <div>
       <h2 className="text-xl font-semibold mb-4">Danh sách Booking</h2>
 
+      <div className='flex space-x-10'>
       {/* Thanh tìm kiếm */}
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)} // Cập nhật từ khóa tìm kiếm
-        placeholder="Tìm kiếm theo mã booking hoặc số điện thoại"
-        className="w-full px-4 py-2 mb-4 border rounded"
-      />
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Tìm kiếm theo mã booking hoặc số điện thoại"
+          className="w-full px-4 py-2 mb-4 border rounded"
+        />
 
+      {/* Dropdown lọc trạng thái */}
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="w-full px-4 py-2 mb-4 border rounded"
+        >
+          <option value="">Tất cả Tour</option>
+          <option value="Chờ xác nhận">Chờ xác nhận</option>
+          <option value="Đã xác nhận">Đã xác nhận</option>
+          <option value="Đã thanh toán">Đã thanh toán</option>
+          <option value="Đã Hủy Booking">Đã Hủy Booking</option>
+        </select>
+      </div>
       {filteredBookings.length === 0 ? (
-        <p>No bookings available.</p>
+        <p className='text-center'>Không có Booking nào!!!</p>
       ) : (
         <table className="min-w-full bg-white border">
           <thead>
@@ -83,6 +115,7 @@ const BookingList = ({ onViewDetail }) => {
               <th className="py-2 px-4 border text-center">Thao Tác</th>
             </tr>
           </thead>
+
           <tbody>
             {filteredBookings.map((booking) => (
               <tr key={booking.id}>
@@ -96,19 +129,44 @@ const BookingList = ({ onViewDetail }) => {
                 <td className="py-2 px-4 border text-center">{booking.status}</td>
                 <td className="py-2 px-4 border text-center">{booking.totalPrice}</td>
                 <td className="py-2 px-4 border text-center">
-                  <button
-                    className="bg-red-500 text-white px-3 py-1 ml-3 rounded hover:bg-red-600"
-                    onClick={() => handleDelete(booking.id)}  // Gọi hàm handleDelete để xóa booking
-                  >
-                    Xóa
-                  </button>
-                  <button
-                    className="bg-blue-500 text-white px-3 py-1 ml-3 rounded hover:bg-blue-600"
-                    onClick={() => onViewDetail(booking)}  // Gọi hàm xử lý để hiển thị chi tiết
-                  >
-                    Chi Tiết
-                  </button>
+                  <div className="flex justify-center space-x-3">
+                    
+                    {/* Icon View Detail */}
+                    <button onClick={() => onViewDetail(booking)} className="text-blue-500 hover:text-blue-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                        <path
+                          fillRule="evenodd"
+                          d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+
+                    {/* Icon Delete */}
+                    <button onClick={() => handleDelete(booking.id)} className="text-red-500 hover:text-red-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+
+                  </div>
                 </td>
+
               </tr>
             ))}
           </tbody>

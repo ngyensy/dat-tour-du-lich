@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import TourList from '../components/AdminTour/TourList'; 
-import AddTourForm from '../components/AdminTour/AddTourForm'; 
-import UpdateTourForm from '../components/AdminTour/UpdateTour'; // Import form cập nhật
+import TourList from '../components/AdminTour/TourList';
+import AddTourForm from '../components/AdminTour/AddTourForm';
+import UpdateTourForm from '../components/AdminTour/UpdateTour';
 
 const TourManagement = () => {
   const [view, setView] = useState('list');
-  const [editTour, setEditTour] = useState(null); // State để lưu tour cần chỉnh sửa
-  const [searchCode, setSearchCode] = useState(''); // State cho giá trị tìm kiếm mã tour
+  const [editTour, setEditTour] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(''); // State tìm kiếm chung
 
   const switchToListView = () => {
     setView('list');
-    setEditTour(null); // Reset tour cần chỉnh sửa khi trở về danh sách
+    setEditTour(null);
   };
 
   const switchToAddTourView = () => {
@@ -18,12 +18,8 @@ const TourManagement = () => {
   };
 
   const switchToEditTourView = (tour) => {
-    setEditTour(tour); // Lưu tour cần chỉnh sửa
+    setEditTour(tour);
     setView('editTour');
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchCode(e.target.value); // Cập nhật giá trị tìm kiếm
   };
 
   return (
@@ -40,12 +36,12 @@ const TourManagement = () => {
               Thêm Tour mới
             </button>
             <div className="mt-4">
-              {/* Thanh tìm kiếm mã tour */}
+              {/* Thanh tìm kiếm chung */}
               <input
                 type="text"
-                value={searchCode}
-                onChange={handleSearchChange}
-                placeholder="Tìm kiếm theo mã tour"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm kiếm theo mã hoặc tên tour"
                 className="border border-gray-300 rounded px-4 py-2 w-full"
               />
             </div>
@@ -64,7 +60,7 @@ const TourManagement = () => {
         <div>
           <h2 className="text-xl font-semibold mb-4">Danh sách Tour</h2>
           {/* Truyền giá trị tìm kiếm cho TourList */}
-          <TourList searchCode={searchCode} onEdit={switchToEditTourView} /> 
+          <TourList searchQuery={searchQuery} onEdit={switchToEditTourView} />
         </div>
       ) : view === 'addTour' ? (
         <div>
@@ -74,10 +70,7 @@ const TourManagement = () => {
       ) : (
         <div>
           <h2 className="text-xl font-semibold mb-4">Chỉnh sửa Tour</h2>
-          <UpdateTourForm 
-            tour={editTour} 
-            onUpdateSuccess={switchToListView} // Gọi switchToListView khi cập nhật thành công
-          /> 
+          <UpdateTourForm tour={editTour} onUpdateSuccess={switchToListView} />
         </div>
       )}
     </div>

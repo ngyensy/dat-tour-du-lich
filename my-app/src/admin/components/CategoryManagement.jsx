@@ -3,33 +3,33 @@ import axios from 'axios';
 
 const CategoryManagement = () => {
   const [categories, setCategories] = useState([]);
-  const [filteredCategories, setFilteredCategories] = useState([]); // Lưu trữ danh mục đã lọc
+  const [filteredCategories, setFilteredCategories] = useState([]);
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
   const [editingCategoryId, setEditingCategoryId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(''); // Lưu giá trị tìm kiếm
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Hàm fetch danh mục từ API
   const fetchCategories = async () => {
     try {
       const response = await axios.get('http://localhost:4000/v1/categories');
       setCategories(response.data.$values || []);
-      setFilteredCategories(response.data.$values || []); // Khởi tạo danh sách lọc ban đầu bằng toàn bộ danh mục
+      setFilteredCategories(response.data.$values || []);
     } catch (err) {
-      setError('Có lỗi xảy ra khi lấy danh mục!');
+      setError(err.response?.data?.message || 'Có lỗi xảy ra khi lấy danh mục!');
     }
   };
 
-  // Gọi hàm fetch danh mục khi component mount
   useEffect(() => {
     fetchCategories();
   }, []);
 
   // Hàm xử lý tìm kiếm
   const handleSearch = (e) => {
-    const term = e.target.value.toLowerCase(); // Biến đổi thành chữ thường để tìm kiếm không phân biệt hoa thường
+    const term = e.target.value.toLowerCase();
     setSearchTerm(term);
 
     // Lọc danh mục theo tên
@@ -56,9 +56,11 @@ const CategoryManagement = () => {
           `http://localhost:4000/v1/categories/${editingCategoryId}`,
           categoryData
         );
+        setSuccessMessage('Cập nhật danh mục thành công!');
       } else {
         // Nếu không có ID, gửi yêu cầu POST để tạo mới danh mục
         await axios.post('http://localhost:4000/v1/categories', categoryData);
+        setSuccessMessage('Tạo danh mục thành công!');
       }
 
       // Fetch lại danh sách danh mục sau khi thêm mới hoặc cập nhật thành công
@@ -69,10 +71,16 @@ const CategoryManagement = () => {
       setCategoryDescription('');
       setEditingCategoryId(null);
     } catch (err) {
-      setError('Có lỗi xảy ra!');
+      setError(err.response?.data?.message || 'Có lỗi xảy ra khi xử lý yêu cầu!');
     } finally {
       setLoading(false);
     }
+
+    // Tự động ẩn thông báo sau 3 giây
+    setTimeout(() => {
+      setSuccessMessage('');
+      setError(null); // Ẩn thông báo lỗi sau khi thông báo thành công ẩn
+    }, 3000);
   };
 
   // Hàm xử lý khi nhấn nút "Sửa"
@@ -92,21 +100,34 @@ const CategoryManagement = () => {
   // Hàm xóa danh mục
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa danh mục này?');
-    if (!confirmDelete) return; // Hủy nếu không đồng ý xóa
+    if (!confirmDelete) return;
 
     try {
       await axios.delete(`http://localhost:4000/v1/categories/${id}`);
-      // Cập nhật danh sách sau khi xóa thành công
       setCategories(categories.filter((category) => category.id !== id));
       setFilteredCategories(filteredCategories.filter((category) => category.id !== id));
     } catch (err) {
-      setError('Có lỗi xảy ra khi xóa danh mục!');
+      setError(err.response?.data?.message || 'Có lỗi xảy ra khi xóa danh mục!');
     }
   };
 
   return (
     <div className="bg-white p-6 shadow-md rounded">
       <h1 className="text-3xl font-bold mb-4">Quản lý Danh mục</h1>
+
+      {/* Thông báo thành công */}
+      {successMessage && (
+        <div className="bg-green-400 text-white p-4 rounded mb-4">
+          {successMessage}
+        </div>
+      )}
+
+      {/* Thông báo lỗi */}
+      {error && (
+        <div className="bg-red-400 text-white p-4 rounded mb-4">
+          {error}
+        </div>
+      )}
 
       {/* Form tạo/cập nhật danh mục */}
       <form onSubmit={handleSubmit} className="mb-6">
@@ -157,7 +178,7 @@ const CategoryManagement = () => {
 
       {/* Thanh tìm kiếm */}
       <div className="mb-6">
-        <label htmlFor="search" className="block text-sm font-medium text-gray-700">Tìm kiếm danh mục</label>
+        <label htmlFor="search" className="block text-lg font-medium">Tìm kiếm danh mục</label>
         <input
           type="text"
           id="search"
@@ -169,33 +190,32 @@ const CategoryManagement = () => {
       </div>
 
       {/* Hiển thị danh sách danh mục */}
-      {error && <p className="text-red-500 mb-4">{error}</p>}
       <h2 className="text-2xl font-bold mb-4">Danh sách danh mục</h2>
       {filteredCategories.length > 0 ? (
         <ul className="space-y-4">
-        {filteredCategories.map((category) => (
-            <li key={category.id} className="border-b pb-2"> {/* Đảm bảo sử dụng unique key ở đây */}
-                <div className="flex justify-between items-center">
-                    <span className="font-semibold">{category.name}</span>
-                    <div className="space-x-2">
-                        <button
-                            className="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500"
-                            onClick={() => handleEdit(category)}
-                        >
-                            Sửa
-                        </button>
-                        <button
-                            className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                            onClick={() => handleDelete(category.id)}
-                        >
-                            Xóa
-                        </button>
-                    </div>
+          {filteredCategories.map((category) => (
+            <li key={category.id} className="border-b pb-2">
+              <div className="flex justify-between items-center">
+                <span className="font-semibold">{category.name}</span>
+                <div className="space-x-2">
+                  <button
+                    className="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500"
+                    onClick={() => handleEdit(category)}
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                    onClick={() => handleDelete(category.id)}
+                  >
+                    Xóa
+                  </button>
                 </div>
-                <p className="text-sm text-gray-600">{category.description}</p>
+              </div>
+              <p className="text-sm text-gray-600">{category.description}</p>
             </li>
-        ))}
-    </ul>
+          ))}
+        </ul>
       ) : (
         <p>Không có danh mục nào khớp với tìm kiếm.</p>
       )}

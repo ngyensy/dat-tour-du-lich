@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../../context/AuthContext';
 
 const UserDetail = ({ user, onCancel, onUpdate }) => {
+  const { admin } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -76,6 +78,7 @@ const UserDetail = ({ user, onCancel, onUpdate }) => {
       const response = await axios.put(`http://localhost:4000/v1/users/${user.id}`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
+           Authorization: `Bearer ${admin.token}`,
         },
       });
 

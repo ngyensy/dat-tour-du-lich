@@ -32,6 +32,7 @@ namespace WebApi.Controllers
             return Ok(users);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -46,6 +47,7 @@ namespace WebApi.Controllers
             return Ok(new { message = "User created" });
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromForm] UpdateRequest model, [FromForm] IFormFile avatar = null)
         {
@@ -96,6 +98,7 @@ namespace WebApi.Controllers
             }
         }
 
+        
         [HttpPut("{id}/change-password")]
         public IActionResult ChangePassword(int id, [FromBody] ChangePasswordRequest request)
         {

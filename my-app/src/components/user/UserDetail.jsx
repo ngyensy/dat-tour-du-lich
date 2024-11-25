@@ -31,6 +31,7 @@ const UserDetail = () => {
             await axios.put(`http://localhost:4000/v1/Users/${user.id}`, userData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                     Authorization: `Bearer ${user.token}`,
                 },
             });
             console.log('Updated User Data:', userData);

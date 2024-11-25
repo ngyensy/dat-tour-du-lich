@@ -17,6 +17,9 @@ namespace WebApi.Entities
         [Column("Description")]
         public string Description { get; set; }
 
+        [Column("Image")]
+        public string Image { get; set; }
+
         public ICollection<Tour> Tour { get; set; }  // Liên kết với bảng Tour
     }
 }
