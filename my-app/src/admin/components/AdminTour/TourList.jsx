@@ -60,7 +60,7 @@ const TourList = ({ searchQuery, onEdit }) => {
             <ul className="space-y-4">
               {filteredTours.map((tour) => (
                 <li key={tour.id} className="border-b pb-2">
-                  <span className="font-semibold">{tour.id}</span>
+                  <span className="font-bold text-red-600">{tour.id}</span>
                   <div className="flex justify-between items-center">
                     <span className="font-semibold">{tour.name}</span>
                     <div className="space-x-2">

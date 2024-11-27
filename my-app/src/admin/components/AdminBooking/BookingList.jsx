@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const BookingList = ({ onViewDetail }) => {
   const [bookings, setBookings] = useState([]);
@@ -25,9 +26,18 @@ const BookingList = ({ onViewDetail }) => {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa booking này?');
-    if (!confirmDelete) return; // Hủy nếu không đồng ý xóa
-
+    // Hiển thị thông báo xác nhận xóa
+    const confirmDelete = await Swal.fire({
+      title: 'Bạn có chắc chắn muốn xóa booking này?',
+      text: "Bạn sẽ không thể hoàn tác hành động này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có, xóa!',
+      cancelButtonText: 'Hủy'
+    });
+  
+    if (!confirmDelete.isConfirmed) return; // Hủy nếu không đồng ý xóa
+  
     try {
       const response = await axios.delete(`http://localhost:4000/v1/booking/${id}`);
       if (response.status !== 200) {
@@ -35,8 +45,21 @@ const BookingList = ({ onViewDetail }) => {
       }
       // Xóa booking thành công, cập nhật danh sách booking
       setBookings((prevBookings) => prevBookings.filter((booking) => booking.id !== id));
+      
+      // Hiển thị thông báo thành công
+      Swal.fire(
+        'Đã xóa!',
+        'Booking đã được xóa thành công.',
+        'success'
+      );
     } catch (err) {
+      // Hiển thị thông báo lỗi nếu có lỗi
       setError(err.message);
+      Swal.fire(
+        'Lỗi!',
+        'Không thể xóa booking. Vui lòng thử lại.',
+        'error'
+      );
     }
   };
 
@@ -127,7 +150,7 @@ const filteredBookings = bookings
                   {new Date(booking.bookingDate).toLocaleDateString()}
                 </td>
                 <td className="py-2 px-4 border text-center">{booking.status}</td>
-                <td className="py-2 px-4 border text-center">{booking.totalPrice}</td>
+                <td className="py-2 px-4 border text-center">{booking.totalPrice.toLocaleString()}</td>
                 <td className="py-2 px-4 border text-center">
                   <div className="flex justify-center space-x-3">
                     

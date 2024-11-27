@@ -29,6 +29,13 @@ namespace WebApi.Helpers
         // Phương thức OnModelCreating để cấu hình quan hệ
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Cấu hình mối quan hệ 1-n giữa User và Booking
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.User) // Một Booking thuộc về một User
+                .WithMany(u => u.Bookings) // Một User có nhiều Booking
+                .HasForeignKey(b => b.UserId) // Khóa ngoại trong bảng Booking
+                .OnDelete(DeleteBehavior.SetNull); // Khi User bị xóa, UserId trong Booking sẽ là null
+
             // Cấu hình quan hệ giữa Tour và Itinerary
             modelBuilder.Entity<Tour>()
                 .HasMany(t => t.Itineraries)

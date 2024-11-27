@@ -79,7 +79,7 @@ namespace WebApi.Controllers
             }
 
             _tourService.Update(id, tourModel);
-            return Ok(new { message = "Tour updated successfully." });
+            return Ok(new { message = "Đã cập nhật Tour thành công!!!" });
         }
 
         // DELETE: v1/tours/5
@@ -87,7 +87,7 @@ namespace WebApi.Controllers
         public IActionResult Delete(string id)
         {
             _tourService.Delete(id);
-            return Ok(new { message = "Tour deleted successfully." });
+            return Ok(new { message = "Đã xóa Tour thành công!!!" });
         }
 
         // Phương thức hỗ trợ lưu ảnh vào thư mục wwwroot/uploads

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from 'sweetalert2';
 
 const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
   const [tourData, setTourData] = useState({
@@ -106,15 +107,26 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
     });
 
     axios.put(`http://localhost:4000/v1/tours/${tourData.id}`, formData)
-      .then(response => {
-        console.log('Update Success:', response.data);
-        alert('Tour updated successfully!');
+    .then(response => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Thành công',
+        text: 'Cập nhật Tour thành công!',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        // Chỉ chạy onUpdateSuccess() sau khi người dùng nhấn OK
         onUpdateSuccess();
-      })
-      .catch(error => {
-        console.error('Error updating tour:', error);
       });
-  };
+    })
+    .catch(error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Thất bại',
+        text: error.response?.data?.message || 'Cập nhật Tour thất bại!',
+        confirmButtonText: 'OK'
+      });
+    });
+};
 
   const handleCategorySelect = (category) => {
     setTourData({

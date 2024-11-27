@@ -65,7 +65,7 @@ namespace WebApi.Controllers
             // Tạo booking
             _bookingService.Create(bookingModel);
 
-            return Ok(new { message = "Booking created successfully." });
+            return Ok(new { message = "Đã tạo booking thành công!!!" });
         }
 
 
@@ -82,7 +82,7 @@ namespace WebApi.Controllers
             }
 
             _bookingService.Update(id, bookingModel);
-            return Ok(new { message = "Booking updated successfully." });
+            return Ok(new { message = "Đã cập nhật booking thành công!!!" });
         }
 
         [HttpDelete("{id}")]
@@ -91,11 +91,11 @@ namespace WebApi.Controllers
             var existingBooking = _bookingService.GetById(id);
             if (existingBooking == null)
             {
-                return NotFound(new { message = "Booking not found." });
+                return NotFound(new { message = "không tìm thấy booking nào" });
             }
 
             _bookingService.Delete(id);
-            return Ok(new { message = "Booking deleted successfully." });
+            return Ok(new { message = "đã xóa Booking thành công!!!" });
         }
 
         [HttpGet("count")]

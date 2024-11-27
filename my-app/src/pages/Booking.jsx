@@ -8,6 +8,10 @@
   import PaymentMethod from '../components/PaymentMethod';
   import TermsAndConditions from '../components/TermsAndConditions';
   import SingleRoomCounter from '../components/SingleRoomCounter';
+  import Swal from 'sweetalert2';
+
+  import { ToastContainer, toast } from "react-toastify"; // Import toast
+  import "react-toastify/dist/ReactToastify.css";
 
   const BookingPage = () => {
     const location = useLocation();
@@ -19,6 +23,7 @@
     const [isAgreed, setIsAgreed] = useState(false);
     const [singleRoomCount, setSingleRoomCount] = useState(0);
     const [totalSingleRoomSurcharge, setTotalSingleRoomSurcharge] = useState(0);
+    const availableSlots = tour.availableSlots; 
 
     const handleAgreementChange = (checked) => {
       setIsAgreed(checked); // Cập nhật trạng thái đồng ý
@@ -152,20 +157,112 @@
   
         const response = await axios.post('http://localhost:4000/v1/booking', bookingData);
   
-        if (response.status === 200) {
-          alert('Đặt tour thành công!');
-          navigate('/confirmation', { state: { bookingId: response.data.id } });
+         if (response.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Đặt tour thành công!',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            // Chuyển hướng sau khi người dùng nhấn OK
+            navigate('/confirmation', { state: { bookingId: response.data.id } });
+          });
         }
-        
-        } catch (error) {
-          console.error('Error:', error);
-          alert('Đã xảy ra lỗi khi đặt tour. Vui lòng thử lại.');
-        }
-    };
+          } catch (error) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi!',
+              text: 'Đã xảy ra lỗi khi đặt tour. Vui lòng thử lại.',
+              confirmButtonText: 'OK',
+            });
+          }
+      };
 
     if (!tour) {
       return <div>Thông tin tour không có</div>;
     }
+
+    const QuantityInput = ({ label, value, onIncrease, onDecrease, availableSlots, note }) => (
+      <div className="mb-4 border p-4 rounded-lg flex items-center justify-between border-gray-700">
+        <div className="flex flex-col items-start">
+          <label className="block font-bold mb-1">{label}</label>
+
+          <div className='flex'>
+            <span className="text-sm text-gray-600 font-medium">{note}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" className="scale-50 relative ">
+              <path fill="#5D5D5D" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10"></path><path fill="#fff" d="M12 8.63a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5M12 17.88a1 1 0 0 1-1-1v-5a1 1 0 0 1 0-2h1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1">
+              </path>
+              <path fill="#fff" d="M13 17.88h-2a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2"></path></svg>
+          </div>
+        </div>
+        <div className="ml-4 flex items-center">
+          <button
+            type="button"
+            className="px-3 py-1 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
+            onClick={onDecrease}
+            disabled={value <= 0} // Disable giảm khi giá trị <= 0
+          >
+            -
+          </button>
+          <span className="mx-4 text-lg font-medium">{value}</span>
+          <button
+            type="button"
+            className="px-3 py-1 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
+            onClick={onIncrease}
+            disabled={value >= availableSlots} // Disable tăng khi đạt giới hạn
+          >
+            +
+          </button>
+        </div>
+      </div>
+    );
+    
+
+    const totalPeople = formData.numberOfAdults + formData.numberOfChildren;
+
+    // Hàm thông báo
+      const showAlert = () => {
+        toast.error("Số người đã đạt giới hạn chỗ còn lại!");
+      };
+
+      // Logic xử lý tăng/giảm số lượng người lớn
+      const handleIncreaseAdults = () => {
+        if (totalPeople < availableSlots) {
+          setFormData({
+            ...formData,
+            numberOfAdults: formData.numberOfAdults + 1,
+          });
+        } else {
+          showAlert(); // Hiển thị thông báo khi số người đạt giới hạn
+        }
+      };
+
+      const handleDecreaseAdults = () => {
+        setFormData({
+          ...formData,
+          numberOfAdults: Math.max(formData.numberOfAdults - 1, 1),
+        });
+      };
+
+      // Logic xử lý tăng/giảm số lượng trẻ em
+      const handleIncreaseChildren = () => {
+        if (totalPeople < availableSlots) {
+          setFormData({
+            ...formData,
+            numberOfChildren: formData.numberOfChildren + 1,
+          });
+        } else {
+          showAlert(); // Hiển thị thông báo khi số người đạt giới hạn
+        }
+      };
+
+      const handleDecreaseChildren = () => {
+        setFormData({
+          ...formData,
+          numberOfChildren: Math.max(formData.numberOfChildren - 1, 0),
+        });
+      };
+
 
     return (
       <div>
@@ -200,9 +297,10 @@
                   </div>
                 )}
 
+                {/*Thông tin khách hàng*/}
                 <div className="flex flex-wrap mb-4">
                   <div className="w-full md:w-1/2 px-2">
-                    <label className="block font-semibold" htmlFor="guestName">Họ tên <span className='text-red-600'>*</span></label>
+                    <label className="block font-semibold" htmlFor="guestName">Họ tên <span className='text-red-600'>(*)</span></label>
                       <input
                         type="text"
                         id="guestName"
@@ -215,7 +313,7 @@
                     />
                   </div>
                   <div className="w-full md:w-1/2 px-2">
-                    <label className="block font-semibold" htmlFor="guestEmail">Email <span className='text-red-600'>*</span></label>
+                    <label className="block font-semibold" htmlFor="guestEmail">Email <span className='text-red-600'>(*)</span></label>
                       <input
                         type="email"
                         id="guestEmail"
@@ -228,7 +326,7 @@
                     />
                   </div>
                   <div className="w-full md:w-1/2 px-2 mt-2">
-                    <label className="block font-semibold" htmlFor="guestPhoneNumber">Điện thoại <span className='text-red-600'>*</span></label>
+                    <label className="block font-semibold" htmlFor="guestPhoneNumber">Điện thoại <span className='text-red-600'>(*)</span></label>
                       <input
                         type="text"
                         id="guestPhoneNumber"
@@ -253,71 +351,35 @@
                     />
                   </div>
                 </div>
+
+
                 <h3 className="text-xl font-bold mb-2">HÀNH KHÁCH</h3>
-                <div className="mb-4">
-                  <label className="block font-semibold">Người lớn (Từ 12 tuổi)</label>
-                  <div className="flex items-center">
-                    <button
-                      type="button"
-                      className="px-3 py-1 bg-gray-200 rounded-lg"
-                      onClick={() =>
-                        setFormData({
-                          ...formData,
-                          numberOfAdults: Math.max(formData.numberOfAdults - 1, 1),
-                        })
-                      }
-                    >
-                      -
-                    </button>
-                    <span className="mx-4">{formData.numberOfAdults}</span>
-                    <button
-                      type="button"
-                      className="px-3 py-1 bg-gray-200 rounded-lg"
-                      onClick={() =>
-                        setFormData({
-                          ...formData,
-                          numberOfAdults: formData.numberOfAdults + 1,
-                        })
-                      }
-                    >
-                      +
-                    </button>
-                  </div>
+                <div className='flex space-x-10'>
+                  {/*Só lượng người lớn */}
+                  <QuantityInput
+                    label="Người lớn"
+                    note="Từ 12 tuổi"
+                    value={formData.numberOfAdults}
+                    onIncrease={handleIncreaseAdults}
+                    onDecrease={handleDecreaseAdults}
+                    availableSlots={availableSlots}
+                  />
+                  {/*Só lượng trẻ em */}
+                  <QuantityInput
+                    label="Trẻ em"
+                    note="Dưới 11 tuổi"
+                    value={formData.numberOfChildren}
+                    onIncrease={handleIncreaseChildren}
+                    onDecrease={handleDecreaseChildren}
+                    availableSlots={availableSlots}
+                  />
                 </div>
+                
+                {/* Thanh số lượng phòng đơn */}
+                <SingleRoomCounter count={singleRoomCount} onChange={handleSingleRoomCountChange} />
 
-                <div className="mb-4">
-                  <label className="block font-semibold">Trẻ em (Dưới 11 tuổi)</label>
-                  <div className="flex items-center">
-                    <button
-                      type="button"
-                      className="px-3 py-1 bg-gray-200 rounded-lg"
-                      onClick={() =>
-                        setFormData({
-                          ...formData,
-                          numberOfChildren: Math.max(formData.numberOfChildren - 1, 0),
-                        })
-                      }
-                    >
-                      -
-                    </button>
-                    <span className="mx-4">{formData.numberOfChildren}</span>
-                    <button
-                      type="button"
-                      className="px-3 py-1 bg-gray-200 rounded-lg"
-                      onClick={() =>
-                        setFormData({
-                          ...formData,
-                          numberOfChildren: formData.numberOfChildren + 1,
-                        })
-                      }
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                 {/* Thanh số lượng phòng đơn */}
-                  <SingleRoomCounter count={singleRoomCount} onChange={handleSingleRoomCountChange} />
+                {/* Thêm ToastContainer để hiển thị thông báo */}
+                <ToastContainer position="top-center" autoClose={5000} hideProgressBar={true} />
                 
                 <h3 className="text-xl font-bold mb-2">GHI CHÚ</h3>
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -41,5 +42,7 @@ namespace WebApi.Entities
         // Thêm trường Ngày sinh
         [Column("DateOfBirth")]
         public DateTime? DateOfBirth { get; set; }
+
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
-const AddTourForm = () => {
+const AddTourForm = ({ onAddSuccess }) => {
   const [tourData, setTourData] = useState({
     name: '',
     description: '',
@@ -27,6 +29,7 @@ const AddTourForm = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const today = new Date();
+  
 
   useEffect(() => {
     axios.get('http://localhost:4000/v1/categories')
@@ -45,23 +48,30 @@ const AddTourForm = () => {
     setFilteredCategories(results);
   }, [searchTerm, categories]);
 
-  const handleChange = (e) => {
+  // Hàm để định dạng giá tiền
+  const formatCurrency = (value) => {
+    // Loại bỏ các ký tự không phải là số
+    const numericValue = value.replace(/[^0-9]/g, '');
+    // Định dạng với dấu phân cách ngàn
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  };
+
+
+   // Xử lý thay đổi giá tiền
+   const handleChange = (e) => {
+    const { name, value } = e.target;
+    setTourData({
+      ...tourData,
+      [name]: formatCurrency(value),
+    });
+  };
+  
+  const handleChangeAdd = (e) => {
     const { name, value } = e.target;
     setTourData({
       ...tourData,
       [name]: value,
     });
-  };
-
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    if (name === 'price' || name === 'childPrice') {
-      const formattedValue = value.replace(/\./g, '').replace(/\,/g, ''); // Chuyển thành số nguyên
-      setTourData({
-        ...tourData,
-        [name]: formattedValue,
-      });
-    }
   };
 
   // Hàm handleImageChange để xử lý khi người dùng chọn ảnh
@@ -76,11 +86,12 @@ const AddTourForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const startDate = new Date(tourData.startDate);
     const endDate = new Date(tourData.endDate);
+    
     
     if (startDate >= endDate) {
       alert("Ngày khởi hành phải trước ngày kết thúc.");
@@ -104,20 +115,33 @@ const AddTourForm = () => {
     formData.append('availableSlots', tourData.availableSlots);
     formData.append('isActive', tourData.isActive);
     formData.append('categoryId', tourData.categoryId);
-    formData.append('singleRoomSurcharge', tourData.singleRoomSurcharge);
+    formData.append('singleRoomSurcharge', tourData.singleRoomSurcharge.replace(/\./g, ''));
     formData.append('discount', tourData.discount);
     if (tourData.image) {
       formData.append('image', tourData.image);
     }
 
-    axios.post('http://localhost:4000/v1/tours', formData)
-      .then(response => {
-        console.log('Success:', response.data);
-        alert('Tour created successfully!');
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+    const response = await axios.post('http://localhost:4000/v1/tours', formData)
+    {
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Tạo Tour thành công!',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          onAddSuccess();
+        });
+      }
+        if(error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi!',
+            text: 'Đã xảy ra lỗi khi tạo Tour. Vui lòng thử lại.',
+            confirmButtonText: 'OK',
+          });
+      }
+    }
   };
 
   const handleCategorySelect = (category) => {
@@ -139,7 +163,7 @@ const AddTourForm = () => {
             type="text"
             name="name"
             value={tourData.name}
-            onChange={handleChange}
+            onChange={handleChangeAdd}
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
@@ -150,8 +174,7 @@ const AddTourForm = () => {
           <textarea
             name="description"
             value={tourData.description}
-            onChange={handleChange}
-            required
+            onChange={handleChangeAdd}
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
         </div>
@@ -159,11 +182,10 @@ const AddTourForm = () => {
         <div className="mb-4">
           <label className="block text-gray-700">Giá người lớn</label>
           <input
-            type="number"
+            type="text"
             name="price"
             value={tourData.price}
             onChange={handleChange}
-            onBlur={handleBlur} // Gọi hàm format khi rời khỏi input
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
@@ -172,11 +194,10 @@ const AddTourForm = () => {
         <div className="mb-4">
           <label className="block text-gray-700">Giá trẻ em</label>
           <input
-            type="number"
+            type="text"
             name="childPrice"
             value={tourData.childPrice}
             onChange={handleChange}
-            onBlur={handleBlur} // Gọi hàm format khi rời khỏi input
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
@@ -185,11 +206,10 @@ const AddTourForm = () => {
         <div className="mb-4">
           <label className="block text-gray-700">Giá phụ phòng đơn</label>
           <input
-            type="number"
+            type="text"
             name="singleRoomSurcharge"
             value={tourData.singleRoomSurcharge}
             onChange={handleChange}
-            onBlur={handleBlur} // Gọi hàm format khi rời khỏi input
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
@@ -202,7 +222,6 @@ const AddTourForm = () => {
             name="discount"
             value={tourData.discount}
             onChange={handleChange}
-            onBlur={handleBlur} // Gọi hàm format khi rời khỏi input
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
@@ -214,7 +233,7 @@ const AddTourForm = () => {
             type="text"
             name="departureLocation"
             value={tourData.departureLocation}
-            onChange={handleChange}
+            onChange={handleChangeAdd}
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
@@ -226,7 +245,7 @@ const AddTourForm = () => {
             type="text"
             name="destination"
             value={tourData.destination}
-            onChange={handleChange}
+            onChange={handleChangeAdd}
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
@@ -289,7 +308,7 @@ const AddTourForm = () => {
           <select
             name="isActive"
             value={tourData.isActive}
-            onChange={handleChange}
+            onChange={handleChangeAdd}
             required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           >

@@ -31,7 +31,7 @@ const TourItem = ({ tour }) => {
             <MapPinIcon className="h-5 w-5 mr-1" />
             <p className="text-sm font-[500]">Khởi hành: <span className="text-blue-600 font-bold">{tour.departureLocation}</span></p>
             <ClockIcon className="h-5 w-5 mr-1 ml-8" />
-            <p className="text-sm font-[500]">Thời gian: <span className="text-blue-600 font-bold">{`${tour.duration}N${tour.duration - 1}D`}</span></p>
+            <p className="text-sm font-[500]">Thời gian: <span className="text-blue-600 font-bold">{`${tour.duration}N${tour.duration - 1}Đ`}</span></p>
           </div>
 
           {/* Ngày khởi hành */}

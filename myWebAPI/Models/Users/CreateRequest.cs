@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using WebApi.Entities;
 
 namespace WebApi.Models.Users
@@ -13,6 +12,8 @@ namespace WebApi.Models.Users
         public string Name { get; set; }
         
         public string Role { get; set; } = "User"; 
+
+        public ICollection<Booking> Bookings { get; set; }
 
         [Required]
         [EmailAddress]

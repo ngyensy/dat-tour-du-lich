@@ -65,7 +65,7 @@ const TourManagement = () => {
       ) : view === 'addTour' ? (
         <div>
           <h2 className="text-xl font-semibold mb-4">Thêm Tour mới</h2>
-          <AddTourForm />
+          <AddTourForm onAddSuccess={switchToListView}/>
         </div>
       ) : (
         <div>
