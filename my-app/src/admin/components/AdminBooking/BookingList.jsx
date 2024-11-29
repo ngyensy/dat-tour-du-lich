@@ -7,13 +7,12 @@ const BookingList = ({ onViewDetail }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState(''); // State cho từ khóa tìm kiếm
-  const [statusFilter, setStatusFilter] = useState(''); 
+  const [statusFilter, setStatusFilter] = useState('');
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const response = await axios.get('http://localhost:4000/v1/booking');
-        console.log(response.data.$values);
         setBookings(response.data.$values);
       } catch (err) {
         setError(err.message);
@@ -26,7 +25,6 @@ const BookingList = ({ onViewDetail }) => {
   }, []);
 
   const handleDelete = async (id) => {
-    // Hiển thị thông báo xác nhận xóa
     const confirmDelete = await Swal.fire({
       title: 'Bạn có chắc chắn muốn xóa booking này?',
       text: "Bạn sẽ không thể hoàn tác hành động này!",
@@ -35,25 +33,22 @@ const BookingList = ({ onViewDetail }) => {
       confirmButtonText: 'Có, xóa!',
       cancelButtonText: 'Hủy'
     });
-  
-    if (!confirmDelete.isConfirmed) return; // Hủy nếu không đồng ý xóa
-  
+
+    if (!confirmDelete.isConfirmed) return;
+
     try {
       const response = await axios.delete(`http://localhost:4000/v1/booking/${id}`);
       if (response.status !== 200) {
         throw new Error('Không thể xóa booking.');
       }
-      // Xóa booking thành công, cập nhật danh sách booking
       setBookings((prevBookings) => prevBookings.filter((booking) => booking.id !== id));
       
-      // Hiển thị thông báo thành công
       Swal.fire(
         'Đã xóa!',
         'Booking đã được xóa thành công.',
         'success'
       );
     } catch (err) {
-      // Hiển thị thông báo lỗi nếu có lỗi
       setError(err.message);
       Swal.fire(
         'Lỗi!',
@@ -63,29 +58,23 @@ const BookingList = ({ onViewDetail }) => {
     }
   };
 
-  // Sắp xếp theo thứ tự ưu tiên
   const sortPriority = {  
-  "Chờ xác nhận": 1,
-  "Đã xác nhận": 2,
-  "Đã thanh toán": 3,
-  "Đã Hủy Booking": 4,
-};
+    "Chờ xác nhận": 1,
+    "Đã xác nhận": 2,
+    "Đã thanh toán": 3,
+    "Đã Hủy Booking": 4,
+  };
 
-// Lọc danh sách dựa trên từ khóa tìm kiếm và trạng thái
-const filteredBookings = bookings
-  .filter((booking) => {
-    const idString = String(booking.id); // Chuyển id về chuỗi rõ ràng
-    const phoneNumber = String(booking.guestPhoneNumber || ''); // Xử lý null phoneNumber
-    return (
-      (statusFilter === '' || booking.status === statusFilter) &&
-      (idString.includes(searchTerm) || phoneNumber.includes(searchTerm))
-    );
-  })
-  // Sắp xếp theo thứ tự ưu tiên dựa trên `sortPriority`
-  .sort((a, b) => (sortPriority[a.status] || 5) - (sortPriority[b.status] || 5));
-
-  
-  
+  const filteredBookings = bookings
+    .filter((booking) => {
+      const idString = String(booking.id);
+      const phoneNumber = String(booking.guestPhoneNumber || '');
+      return (
+        (statusFilter === '' || booking.status === statusFilter) &&
+        (idString.includes(searchTerm) || phoneNumber.includes(searchTerm))
+      );
+    })
+    .sort((a, b) => (sortPriority[a.status] || 5) - (sortPriority[b.status] || 5));
 
   if (loading) {
     return <p>Loading bookings...</p>;
@@ -100,7 +89,6 @@ const filteredBookings = bookings
       <h2 className="text-xl font-semibold mb-4">Danh sách Booking</h2>
 
       <div className='flex space-x-10'>
-      {/* Thanh tìm kiếm */}
         <input
           type="text"
           value={searchTerm}
@@ -108,8 +96,6 @@ const filteredBookings = bookings
           placeholder="Tìm kiếm theo mã booking hoặc số điện thoại"
           className="w-full px-4 py-2 mb-4 border rounded"
         />
-
-      {/* Dropdown lọc trạng thái */}
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
@@ -122,40 +108,39 @@ const filteredBookings = bookings
           <option value="Đã Hủy Booking">Đã Hủy Booking</option>
         </select>
       </div>
+
       {filteredBookings.length === 0 ? (
         <p className='text-center'>Không có Booking nào!!!</p>
       ) : (
-        <table className="min-w-full bg-white border">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border text-center">Mã Booking</th>
-              <th className="py-2 px-4 border text-center">Tên Tour</th>
-              <th className="py-2 px-4 border text-center">Tên Người Đặt</th>
-              <th className="py-2 px-4 border text-center">Số điện thoại</th>
-              <th className="py-2 px-4 border text-center">Ngày Đặt</th>
-              <th className="py-2 px-4 border text-center">Trạng Thái</th>
-              <th className="py-2 px-4 border text-center">Tổng Tiền</th>
-              <th className="py-2 px-4 border text-center">Thao Tác</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredBookings.map((booking) => (
-              <tr key={booking.id}>
-                <td className="py-2 px-4 border text-center">{booking.id}</td>
-                <td className="py-2 px-4 border text-center">{booking.tour?.name || 'N/A'}</td>
-                <td className="py-2 px-4 border text-center">{booking.guestName}</td>
-                <td className="py-2 px-4 border text-center">{booking.guestPhoneNumber}</td>
-                <td className="py-2 px-4 border text-center">
-                  {new Date(booking.bookingDate).toLocaleDateString()}
-                </td>
-                <td className="py-2 px-4 border text-center">{booking.status}</td>
-                <td className="py-2 px-4 border text-center">{booking.totalPrice.toLocaleString()}</td>
-                <td className="py-2 px-4 border text-center">
-                  <div className="flex justify-center space-x-3">
-                    
-                    {/* Icon View Detail */}
-                    <button onClick={() => onViewDetail(booking)} className="text-blue-500 hover:text-blue-700">
+        <div className="table-container">
+          <table className="min-w-full bg-white border">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border text-center">Mã Booking</th>
+                <th className="py-2 px-4 border text-center">Tên Tour</th>
+                <th className="py-2 px-4 border text-center">Tên Người Đặt</th>
+                <th className="py-2 px-4 border text-center">Số điện thoại</th>
+                <th className="py-2 px-4 border text-center">Ngày Đặt</th>
+                <th className="py-2 px-4 border text-center">Trạng Thái</th>
+                <th className="py-2 px-4 border text-center">Tổng Tiền</th>
+                <th className="py-2 px-4 border text-center">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredBookings.map((booking) => (
+                <tr key={booking.id}>
+                  <td className="py-2 px-4 border text-center">{booking.id}</td>
+                  <td className="py-2 px-4 border text-center">{booking.tour?.name || 'N/A'}</td>
+                  <td className="py-2 px-4 border text-center">{booking.guestName}</td>
+                  <td className="py-2 px-4 border text-center">{booking.guestPhoneNumber}</td>
+                  <td className="py-2 px-4 border text-center">
+                    {new Date(booking.bookingDate).toLocaleDateString()}
+                  </td>
+                  <td className="py-2 px-4 border text-center">{booking.status}</td>
+                  <td className="py-2 px-4 border text-center">{booking.totalPrice.toLocaleString()}</td>
+                  <td className="py-2 px-4 border text-center">
+                    <div className="flex justify-center space-x-3">
+                      <button onClick={() => onViewDetail(booking)} className="text-blue-500 hover:text-blue-700">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
@@ -169,31 +154,19 @@ const filteredBookings = bookings
                           clipRule="evenodd"
                         />
                       </svg>
-                    </button>
-
-                    {/* Icon Delete */}
-                    <button onClick={() => handleDelete(booking.id)} className="text-red-500 hover:text-red-700">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
-
-                  </div>
-                </td>
-
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                      </button>
+                      <button onClick={() => handleDelete(booking.id)} className="text-red-500 hover:text-red-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6">
+                          <path fillRule="evenodd" d="M4.293 4.293a1 1 0 0 1 1.414 0L10 7.586l4.293-4.293a1 1 0 0 1 1.414 1.414L11.414 9l4.293 4.293a1 1 0 0 1-1.414 1.414L10 10.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L8.586 9 4.293 4.707a1 1 0 0 1 0-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

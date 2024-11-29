@@ -25,6 +25,7 @@ namespace WebApi.Helpers
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Itinerary> Itineraries { get; set; }
+        public DbSet<TourSchedule> TourSchedules { get; set; }
 
         // Phương thức OnModelCreating để cấu hình quan hệ
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,6 +49,13 @@ namespace WebApi.Helpers
                 .WithMany(c => c.Tour)      // Một Category có nhiều Tour
                 .HasForeignKey(t => t.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict); // Không tự động xóa các Tour khi xóa Category
+
+            // Thiết lập quan hệ 1-nhiều giữa Tour và TourSchedule
+            modelBuilder.Entity<Tour>()
+                .HasMany(t => t.TourSchedules)
+                .WithOne(ts => ts.Tour)
+                .HasForeignKey(ts => ts.TourId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

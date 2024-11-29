@@ -33,4 +33,7 @@ public class TourModel
 
     // Thuộc tính cho lịch trình
     public List<Itinerary> Itineraries { get; set; }
+
+    // Mới thêm: Các ngày khởi hành của tour
+    public List<TourSchedule> TourSchedules { get; set; }
 }

@@ -34,8 +34,7 @@ namespace WebApi.Controllers
 
             return Ok(bookings);
         }
-
-        [Authorize]
+        
         // GET: api/booking/5
         [HttpGet("{id}")]
         public IActionResult GetById(string id)

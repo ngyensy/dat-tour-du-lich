@@ -1,67 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System;
+using WebApi.Entities;
 
-namespace WebApi.Entities
+[Table("Tours")]
+public class Tour
 {
-    [Table("Tours")]
-    public class Tour
-    {
-        [Key]
-        [Column("Id")]
-        public string Id { get; set; }
+    [Key]
+    [Column("Id")]
+    public string Id { get; set; }
 
-        [Column("Name")]
-        public string Name { get; set; }
+    [Column("Name")]
+    public string Name { get; set; }
 
-        [Column("Description")]
-        public string Description { get; set; }
+    [Column("Description")]
+    public string Description { get; set; }
 
-        [Column("Duration")]
-        public int Duration { get; set; }
+    [Column("Duration")]
+    public int Duration { get; set; }
 
-        // Thêm giá cho người lớn và trẻ em
-        [Column("Price")]
-        public decimal Price { get; set; } // Giá cho người lớn
+    [Column("Price")]
+    public decimal Price { get; set; } // Giá cho người lớn
 
-        [Column("ChildPrice")]
-        public decimal ChildPrice { get; set; } // Giá cho trẻ em
-        
-        [Column("SingleRoomSurcharge")]
-        public decimal SingleRoomSurcharge { get; set; }
+    [Column("ChildPrice")]
+    public decimal ChildPrice { get; set; } // Giá cho trẻ em
 
-        [Column("Discount")]
-        public decimal? Discount { get; set; }
+    [Column("SingleRoomSurcharge")]
+    public decimal SingleRoomSurcharge { get; set; }
 
-        [Column("DepartureLocation")]
-        public string DepartureLocation { get; set; } // Nơi khởi hành
+    [Column("Discount")]
+    public decimal? Discount { get; set; }
 
-        [Column("Destination")]
-        public string Destination { get; set; } // Điểm đến
+    [Column("DepartureLocation")]
+    public string DepartureLocation { get; set; } // Nơi khởi hành
 
-        [Column("StartDate")]
-        public DateTime StartDate { get; set; }
+    [Column("Destination")]
+    public string Destination { get; set; } // Điểm đến
 
-        [Column("EndDate")]
-        public DateTime EndDate { get; set; }
+    [Column("StartDate")]
+    public DateTime StartDate { get; set; }
 
-        [Column("AvailableSlots")]
-        public int AvailableSlots { get; set; }
+    [Column("EndDate")]
+    public DateTime EndDate { get; set; }
 
-        [Column("IsActive")]
-        public bool IsActive { get; set; } = true;
+    [Column("AvailableSlots")]
+    public int AvailableSlots { get; set; }
 
-        [Column("Image")]
-        public string Image { get; set; }
+    [Column("IsActive")]
+    public bool IsActive { get; set; } = true;
 
-        // Foreign key to Category
-        [Column("CategoryId")]
-        public int CategoryId { get; set; }
+    [Column("Image")]
+    public string Image { get; set; }
 
-        [ForeignKey("CategoryId")]
-        public Category Category { get; set; } // Navigation property
-        
-        public ICollection<Itinerary> Itineraries { get; set; } // 1-nhiều với Itinerary
-    }
+    [Column("CategoryId")]
+    public int CategoryId { get; set; }
+
+    [ForeignKey("CategoryId")]
+    public Category Category { get; set; } // Navigation property
+
+    public ICollection<Itinerary> Itineraries { get; set; } // 1-nhiều với Itinerary
+
+    // Thêm quan hệ 1-nhiều với TourSchedule
+    public ICollection<TourSchedule> TourSchedules { get; set; }
 }

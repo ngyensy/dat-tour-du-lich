@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UpdateBookingForm from './BookingUpdate';
+import Swal from 'sweetalert2';
+
 
 const BookingDetail = ({ booking, onBack }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -39,24 +41,38 @@ const BookingDetail = ({ booking, onBack }) => {
 
   const handleUpdateBooking = async (updatedBooking) => {
     const totalPrice = calculateTotalPrice(updatedBooking.numberOfAdults, updatedBooking.numberOfChildren);
-
+  
     const finalBooking = {
       ...updatedBooking,
       totalPrice: totalPrice
     };
-
+  
     try {
       await axios.put(`http://localhost:4000/v1/booking/${bookingData.id}`, finalBooking);
-      alert('Cập nhật thành công!');
-
-      // Lấy lại dữ liệu booking mới sau khi cập nhật
-      const response = await axios.get(`http://localhost:4000/v1/booking/${bookingData.id}`);
-      setBookingData(response.data);
-
-      setIsEditing(false);
+      
+      // Hiển thị thông báo thành công bằng SweetAlert2
+      Swal.fire({
+        icon: 'success',
+        title: 'Cập nhật thành công!',
+        confirmButtonText: 'OK',
+        timer: 3000
+      }).then(async () =>{
+        // Lấy lại dữ liệu booking mới sau khi cập nhật
+        const response = await axios.get(`http://localhost:4000/v1/booking/${bookingData.id}`);
+        setBookingData(response.data);
+    
+        setIsEditing(false);
+      });
+  
     } catch (error) {
       console.error('Lỗi khi cập nhật booking:', error);
-      alert('Cập nhật thất bại.');
+  
+      // Hiển thị thông báo thất bại bằng SweetAlert2
+      Swal.fire({
+        icon: 'error',
+        title: 'Cập nhật thất bại.',
+        text: 'Đã xảy ra lỗi khi cập nhật thông tin booking.',
+      });
     }
   };
 
