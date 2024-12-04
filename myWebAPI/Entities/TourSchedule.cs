@@ -9,9 +9,11 @@ public class TourSchedule
     [Key]
     public int Id { get; set; } // ID của lịch khởi hành
 
-    [ForeignKey("Tour")]
-    public string TourId { get; set; } // Liên kết đến Tour
-    public Tour Tour { get; set; } // Đối tượng Tour liên kết
+    [Column("TourId")]
+    public string TourId { get; set; } // Khóa ngoại liên kết với Tour
+
+    [ForeignKey("TourId")]
+    public Tour Tour { get; set; } // Navigation property
 
     [Column("StartDate")]
     public DateTime StartDate { get; set; } // Ngày khởi hành
@@ -19,6 +21,4 @@ public class TourSchedule
     [Column("EndDate")]
     public DateTime EndDate { get; set; }    // Ngày về
 
-    [Column("AvailableSlots")]
-    public int AvailableSlots { get; set; } // Số chỗ còn trống cho ngày khởi hành
 }

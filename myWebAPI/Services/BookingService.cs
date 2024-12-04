@@ -50,11 +50,7 @@ namespace WebApi.Services
 
         public void Create(BookingModel bookingModel)
         {
-            var tour = _context.Tours.FirstOrDefault(t => t.Id == bookingModel.TourId);
-            if (tour == null)
-            {
-                throw new ArgumentException("Tour không tồn tại!");
-            }
+            var tour = _context.Tours.FirstOrDefault(t => t.Id == bookingModel.TourId) ?? throw new ArgumentException("Tour không tồn tại!");
 
             // Tính tổng số người đặt
             int totalPeople = bookingModel.NumberOfAdults + bookingModel.NumberOfChildren;

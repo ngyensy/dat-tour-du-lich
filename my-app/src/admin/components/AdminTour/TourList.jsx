@@ -41,8 +41,12 @@ const TourList = ({ searchQuery, onEdit }) => {
   };
 
   const handleItinerary = (tourId) => {
-    navigate(`/admin/itinerary?tourId=${tourId}`);
+    navigate(`/admin/tours/itinerary?tourId=${tourId}`);
   };
+
+  const handleTourschedule = (tourId) => {
+    navigate(`/admin/tours/tourSchedule?tourId=${tourId}`)
+  }
 
   // Lọc các tour theo mã tour hoặc tên tour
   const filteredTours = tours.filter((tour) =>
@@ -81,6 +85,12 @@ const TourList = ({ searchQuery, onEdit }) => {
                         className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
                       >
                         Lịch trình
+                      </button>
+                      <button
+                        onClick={() => handleTourschedule(tour.id)}
+                        className="bg-green-400 text-white px-2 py-1 rounded hover:bg-green-500"
+                      >
+                        Thời gian
                       </button>
                     </div>
                   </div>

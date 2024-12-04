@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import NavAdmin from './components/NavAdmin';
 
-const AdminLayout =  React.memo(() => {
+const AdminLayout = React.memo(() => {
+  const [isTourSubmenuOpen, setIsTourSubmenuOpen] = useState(false);
+
+  const toggleTourSubmenu = () => {
+    setIsTourSubmenuOpen(!isTourSubmenuOpen);
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -15,29 +20,53 @@ const AdminLayout =  React.memo(() => {
             <li>
               <NavLink
                 to="/admin/dashboard"
-                className="block py-2.5 px-4 hover:bg-gray-700"
+                className="block py-2.5 px-4 hover:bg-gray-700 font-bold"
               >
                 Dashboard
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/admin/tours"
-                className="block py-2.5 px-4 hover:bg-gray-700"
+              {/* Toggle button for Quản lý Tour */}
+              <div
+                className="block py-2.5 px-4 font-bold cursor-pointer hover:bg-gray-700"
+                onClick={toggleTourSubmenu}
               >
                 Quản lý Tour
-              </NavLink>
+              </div>
+              {/* Submenu */}
+              {isTourSubmenuOpen && (
+                <ul className="pl-4">
+                  <li>
+                    <NavLink
+                      to="/admin/tours"
+                      className="block py-2.5 px-4 hover:bg-gray-700"
+                    >
+                      Danh sách Tour
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/admin/tours/itinerary"
+                      className="block py-2.5 px-4 hover:bg-gray-700"
+                    >
+                      Quản lý Lịch trình
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/admin/tours/tourSchedule"
+                      className="block py-2.5 px-4 hover:bg-gray-700"
+                    >
+                      Quản lý Ngày khởi hành
+                    </NavLink>
+                  </li>
+                </ul>
+              )}
             </li>
-            <NavLink
-                to="/admin/itinerary"
-                className="block py-2.5 px-4 hover:bg-gray-700"
-              >
-                Quản lý lịch trình Tour
-              </NavLink>
             <li>
               <NavLink
                 to="/admin/categories"
-                className="block py-2.5 px-4 hover:bg-gray-700"
+                className="block py-2.5 px-4 hover:bg-gray-700 font-bold"
               >
                 Quản lý Danh mục
               </NavLink>
@@ -45,7 +74,7 @@ const AdminLayout =  React.memo(() => {
             <li>
               <NavLink
                 to="/admin/users"
-                className="block py-2.5 px-4 hover:bg-gray-700"
+                className="block py-2.5 px-4 hover:bg-gray-700 font-bold"
               >
                 Quản lý Người dùng
               </NavLink>
@@ -53,7 +82,7 @@ const AdminLayout =  React.memo(() => {
             <li>
               <NavLink
                 to="/admin/bookings"
-                className="block py-2.5 px-4 hover:bg-gray-700"
+                className="block py-2.5 px-4 hover:bg-gray-700 font-bold"
               >
                 Quản lý Booking
               </NavLink>
@@ -63,13 +92,11 @@ const AdminLayout =  React.memo(() => {
       </aside>
 
       {/* Main content area */}
-      
-      <div className="flex-grow ml-64  bg-gray-100"> {/* Add margin-left to account for the fixed sidebar */}
-        
+      <div className="flex-grow ml-64 bg-gray-100">
         <NavAdmin />
-        <div className='p-6'>
-          <Outlet /> {/* This will render the corresponding component based on the route */}
-          </div>    
+        <div className="p-6">
+          <Outlet /> {/* Render the corresponding component based on the route */}
+        </div>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import Footer from '../../components/Footer';
 import { MapPinIcon, CalendarIcon, CurrencyDollarIcon, TicketIcon } from '@heroicons/react/24/outline';
 import ImportantInfo from '../../components/thongtinluuy';
 import Itinerary from '../../components/itinerary';
+import TourDatePicker from '../../components/TourDatepicker';
 
 const TourDetail = () => {
   const navigate = useNavigate();  // Thay vì useHistory, sử dụng useNavigate
@@ -15,14 +16,9 @@ const TourDetail = () => {
   const [tour, setTour] = useState(null);  // State để lưu thông tin tour
   const [loading, setLoading] = useState(true);  // State để quản lý trạng thái loading
   const [error, setError] = useState(null);  // State để lưu lỗi nếu có
+  const [selectedDate, setSelectedDate] = useState('');
 
-  const formattedDate = tour && tour.startDate ? (() => {
-    const formattedStartDate = new Date(tour.startDate);
-    const day = formattedStartDate.getDate().toString().padStart(2, '0');
-    const month = (formattedStartDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = formattedStartDate.getFullYear();
-    return `${day}-${month}-${year}`;
-  })() : 'Ngày không hợp lệ';
+ 
 
   // Hàm để gọi API lấy dữ liệu tour dựa trên id
   const fetchTour = async () => {
@@ -44,6 +40,7 @@ const TourDetail = () => {
 
   const handleBookingClick = () => {
     navigate(`/booking/${id}`, { state: { tour } });  // Điều hướng tới trang đặt tour với state
+    console.log(tour)
   };
 
   if (loading) {
@@ -67,6 +64,50 @@ const TourDetail = () => {
 
    // Giá người lớn sau khi áp dụng giảm giá
    const adultDiscountPrice = calculateDiscountPrice(tour.price, tour.discount);
+   
+   const handleDateSelect = (date) => {
+    // Kiểm tra nếu date là null, nếu đúng thì reset lại thông tin về ban đầu
+    if (!date) {
+      setTour((prevTour) => ({
+        ...prevTour,
+        startDate: prevTour.startDate,  // Giữ nguyên ngày bắt đầu ban đầu
+        endDate: prevTour.endDate,      // Giữ nguyên ngày kết thúc ban đầu
+      }));
+      setSelectedDate(null);  // Reset selectedDate về null
+      return;  // Dừng thực hiện các phần còn lại
+    }
+  
+    setSelectedDate(date);  // Cập nhật ngày người dùng chọn
+  
+    // Tìm TourSchedule tương ứng với ngày người dùng chọn
+    const selectedSchedule = tour.tourSchedules.$values.find(
+      (schedule) => schedule.startDate === date
+    );
+  
+    // Nếu tìm thấy lịch trình, cập nhật lại thông tin tour từ TourSchedule
+    if (selectedSchedule) {
+      setTour((prevTour) => ({
+        ...prevTour,
+        startDate: selectedSchedule.startDate,
+        endDate: selectedSchedule.endDate,
+      }));
+    } else {
+      // Nếu không có lịch trình phù hợp, giữ nguyên thông tin ban đầu
+      setTour((prevTour) => ({
+        ...prevTour,
+        startDate: prevTour.startDate,  // Giữ nguyên ngày bắt đầu ban đầu
+        endDate: prevTour.endDate,      // Giữ nguyên ngày kết thúc ban đầu
+      }));
+    }
+  };
+
+   const formattedDate = tour && tour.startDate ? (() => {
+    const formattedStartDate = new Date(tour.startDate);
+    const day = formattedStartDate.getDate().toString().padStart(2, '0');
+    const month = (formattedStartDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = formattedStartDate.getFullYear();
+    return `${day}-${month}-${year}`;
+  })() : 'Ngày không hợp lệ';
 
 
   return (
@@ -145,9 +186,16 @@ const TourDetail = () => {
                 </li>
               </ul>
 
-              <div className="flex space-x-4 mb-4">
-                <button className="bg-red-600 text-white py-2 px-4 rounded-lg" onClick={handleBookingClick}>Đặt tour</button>
+              <div className="flex space-x-4 mb-4 items-center">
+                <div><button className="bg-red-600 text-white py-2 px-4 rounded-lg" onClick={handleBookingClick}>Đặt tour</button></div>
+                <div>
+                <TourDatePicker 
+                  tourData={tour} 
+                  onSelectDate={handleDateSelect} 
+                  selectedDate={selectedDate}  />
+                  </div>
               </div>
+
 
               <div className="flex space-x-4">
                 <button className="bg-blue-600 text-white py-2 px-4 rounded-lg">Gọi miễn phí qua internet</button>

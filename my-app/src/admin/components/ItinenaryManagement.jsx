@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Itinerary from './ItinenaryAdmin/ItinenaryItem'; // Import component Itinerary
+import Itinerary from './AdminItinenary/ItinenaryItem'; // Import component Itinerary
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'; // Sử dụng build Classic
 import { useLocation } from 'react-router-dom'; // Import useLocation

@@ -24,7 +24,16 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TourSchedule>>> GetAllTourSchedules()
         {
-            var tourSchedules = await _context.TourSchedules.Include(ts => ts.Tour).ToListAsync();
+            // Lấy danh sách các TourSchedule chỉ chứa TourID
+            var tourSchedules = await _context.TourSchedules
+                                            .Select(ts => new {
+                                                ts.Id,
+                                                ts.StartDate,
+                                                ts.EndDate,
+                                                ts.TourId // Chỉ lấy TourId từ bảng Tour
+                                            })
+                                            .ToListAsync();
+            
             return Ok(tourSchedules);
         }
 
@@ -32,7 +41,8 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TourSchedule>> GetTourScheduleById(int id)
         {
-            var tourSchedule = await _context.TourSchedules.Include(ts => ts.Tour)
+            // Lấy thông tin TourSchedule theo ID mà không cần phải include Tour
+            var tourSchedule = await _context.TourSchedules
                 .FirstOrDefaultAsync(ts => ts.Id == id);
 
             if (tourSchedule == null)
@@ -40,6 +50,7 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
+            // Trả về chỉ thông tin của TourSchedule mà không có thông tin Tour
             return Ok(tourSchedule);
         }
 
@@ -124,5 +135,6 @@ namespace WebApi.Controllers
 
             return NoContent();
         }
+        
     }
 }
