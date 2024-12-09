@@ -48,6 +48,7 @@ public class AuthController : ControllerBase
             Avatar = user.Avatar,
             Gender = user.Gender,
             DateOfBirth = user.DateOfBirth,
+            RewardPoints = user.RewardPoints,
         });
     }
 

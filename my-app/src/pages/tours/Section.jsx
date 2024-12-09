@@ -10,7 +10,10 @@ const Section = ({ title, description }) => {
   };
   
   return (
-    <div className="bg-[#daefff] mx-auto p-4 ">
+    <div 
+      className="mx-auto p-4" 
+      style={{ background: "url(https://travel.com.vn/_next/static/media/comboGoodPrice.aa56bfb9.png) no-repeat center center/cover" }}
+    >
       <div className="flex flex-col items-center mb-8">
         <h1 className="text-[#1E3A8A] text-[3.2rem] font-bold mb-4">{title}</h1>
         <p className="text-gray-600 text-lg text-center mb-6">

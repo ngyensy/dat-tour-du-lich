@@ -43,6 +43,9 @@ namespace WebApi.Entities
         [Column("DateOfBirth")]
         public DateTime? DateOfBirth { get; set; }
 
+        [Column("RewardPoints")]
+        public int RewardPoints { get; set; }
+
         public ICollection<Booking> Bookings { get; set; }
     }
 }

@@ -10,6 +10,34 @@ const BookingDetail = ({ booking, onBack }) => {
 
   useEffect(() => {
     setBookingData(booking);
+
+    // Nếu có TourScheduleId, gọi API để lấy thông tin và ghi đè
+    const fetchTourSchedule = async () => {
+      if (booking.tourScheduleId) {
+        try {
+          const response = await axios.get(`http://localhost:4000/v1/Tourschedule/${booking.tourScheduleId}`);
+          
+          // Ghi đè thông tin startDate và endDate từ TourSchedule vào bookingData.tour
+          setBookingData((prev) => ({
+            ...prev,
+            tour: {
+              ...prev.tour, // Giữ lại các thông tin cũ của tour
+              startDate: response.data.startDate, // Ghi đè startDate từ TourSchedule
+              endDate: response.data.endDate, // Ghi đè endDate từ TourSchedule
+            },
+          }));
+        } catch (error) {
+          console.error('Lỗi khi lấy thông tin TourSchedule:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Không thể tải thông tin TourSchedule',
+            text: 'Vui lòng kiểm tra kết nối mạng hoặc thử lại sau.',
+          });
+        }
+      }
+    };
+
+    fetchTourSchedule();
   }, [booking]);
 
   // Tính giá sau khi áp dụng discount

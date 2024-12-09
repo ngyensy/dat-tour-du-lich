@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import Swal from 'sweetalert2';
+import BookingModal from './BookingModal';
 
 
 const UserBookings = () => {
@@ -16,29 +18,32 @@ const UserBookings = () => {
      const [selectedBooking, setSelectedBooking] = useState(null);
 
     useEffect(() => {
-        const fetchBookings = async () => {
-            if (!user?.id || !user.token) return;
+    const fetchBookings = async () => {
+        if (!user?.id || !user.token) return;
 
-            try {
-                const response = await axios.get('http://localhost:4000/v1/booking', {
-                    headers: {
-                        Authorization: `Bearer ${user.token}`,
-                    },
-                });
-                const userBookings = (response.data.$values || response.data).filter(
-                    booking => booking.userId === user.id
-                );
-                setBookings(userBookings);
-            } catch (err) {
-                setError('Lỗi khi lấy dữ liệu booking');
-                console.error('Error fetching bookings:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
+        try {
+            const response = await axios.get('http://localhost:4000/v1/booking', {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
 
-        fetchBookings();
-    }, [user]);
+            // Lọc các booking của người dùng
+            const userBookings = (response.data.$values || response.data).filter(
+                booking => booking.userId === user.id
+            );
+            
+            setBookings(userBookings);
+        } catch (err) {
+            setError('Lỗi khi lấy dữ liệu booking');
+            console.error('Error fetching bookings:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchBookings();
+}, [user]);
 
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
@@ -68,6 +73,54 @@ const UserBookings = () => {
         });
     }, [searchTerm, bookings]);
 
+    const cancelBooking = async (bookingId) => {
+        try {
+            const result = await Swal.fire({
+                title: 'Bạn có chắc chắn muốn hủy booking này?',
+                text: 'Hành động này không thể hoàn tác!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Không',
+            });
+    
+            if (result.isConfirmed) {
+                const response = await axios.put(
+                    `http://localhost:4000/v1/booking/${bookingId}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${user.token}`,
+                        },
+                    }
+                );
+    
+                // Cập nhật trạng thái booking trong state
+                setBookings((prevBookings) =>
+                    prevBookings.map((booking) =>
+                        booking.id === bookingId ? { ...booking, status: 'Đã Hủy Booking' } : booking
+                    )
+                );
+    
+                Swal.fire(
+                    'Đã hủy!',
+                    'Booking của bạn đã được hủy thành công.',
+                    'success'
+                );
+            }
+        } catch (err) {
+            console.error('Error canceling booking:', err);
+            Swal.fire(
+                'Lỗi!',
+                'Có lỗi xảy ra khi hủy booking. Vui lòng thử lại.',
+                'error'
+            );
+        }
+    };
+    
+
     // Lọc theo trạng thái đã chọn
     const filteredBookings = filterBookingsByStatus(activeTab);
     const finalBookings = searchBookings.length ? searchBookings : filteredBookings;
@@ -95,16 +148,6 @@ const UserBookings = () => {
     if (bookings.length === 0) {
         return <div>Bạn chưa có đơn đặt nào.</div>;
     }
-
-    const openModal = (booking) => {
-        setSelectedBooking(booking);
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedBooking(null);
-    };
 
     return (
         <div className='border p-4 border-gray-500'>
@@ -157,12 +200,24 @@ const UserBookings = () => {
                                 <div><strong>Số lượng:</strong> {booking.numberOfAdults} người lớn, {booking.numberOfChildren} trẻ em</div>
                                 <div><strong>Tổng tiền:</strong> {formatCurrency(booking.totalPrice)}</div>
                                 <div><strong>Trạng thái:</strong> {booking.status}</div>
-                                <button
-                                    onClick={() => openModal(booking)}
-                                    className="text-blue-500 hover:underline"
-                                >
-                                    Xem chi tiết
-                                </button>
+                                <button 
+                                    className="text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white font-semibold py-1 px-2 my-2 ml-2 rounded-lg transition-colors duration-300"
+                                    onClick={() => {
+                                        setSelectedBooking(booking);
+                                        setIsModalOpen(true);
+                                        
+                                    }}>
+                                        Xem chi tiết
+                                    </button>
+                                {/* Nút hủy chỉ hiển thị khi trạng thái là "Chờ xác nhận" */}
+                                {booking.status === 'Chờ xác nhận' && (
+                                    <button
+                                        onClick={() => cancelBooking(booking.id)}
+                                        className="text-red-600 border border-red-600 hover:bg-red-600 hover:text-white font-semibold py-1 px-2 my-2 ml-2 rounded-lg transition-colors duration-300"
+                                    >
+                                        Hủy Booking
+                                    </button>
+                                )}
                             </div>
                         </li>
                     ))
@@ -170,53 +225,11 @@ const UserBookings = () => {
             </ul>
 
             {/* Modal hiển thị chi tiết booking */}
-                {isModalOpen && selectedBooking && (
-                    <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
-                        <div className="bg-white p-6 rounded-lg w-full sm:w-2/3">
-                            <h3 className="text-2xl font-bold mb-4">Chi tiết booking</h3>
-
-                            <div className="flex">
-                                {/* Thông tin Booking bên trái */}
-                                <div className="w-1/2 pr-4">
-                                    <h4 className="text-xl font-semibold mb-2">Thông tin Booking</h4>
-                                    <div><strong>ID booking:</strong> {selectedBooking.id}</div>
-                                    <div><strong>Ngày đặt:</strong> {new Date(selectedBooking.bookingDate).toLocaleDateString()}</div>  
-                                    
-                                    {/* Số lượng người lớn và trẻ em với giá tiền */}
-                                    <div><strong>Số người lớn:</strong> {selectedBooking.numberOfAdults} x {formatCurrency(selectedBooking.tour?.price)}</div>
-                                    <div><strong>Số trẻ em:</strong> {selectedBooking.numberOfChildren} x {formatCurrency(selectedBooking.tour?.childPrice)}</div>
-                                    <div><strong>Phụ thu phòng đơn:</strong> {formatCurrency(selectedBooking.totalSingleRoomSurcharge)}</div>
-                                    <div><strong>Tổng tiền:</strong> {formatCurrency(selectedBooking.totalPrice)}</div>
-                                    <div><strong>Trạng thái:</strong> {selectedBooking.status}</div>
-                                </div>
-
-                                {/* Thông tin Tour bên phải */}
-                                <div className="w-1/2 pl-4">
-                                    <h4 className="text-xl font-semibold mb-2">Thông tin Tour</h4>
-                                    <div><strong>Tên tour:</strong> {selectedBooking.tour?.name}</div>
-                                    <div><strong>ID tour:</strong> {selectedBooking.tour?.id}</div>
-                                    <div><strong>Địa điểm khởi hành:</strong> {selectedBooking.tour?.departureLocation || 'N/A'}</div>
-                                    <div><strong>Ngày khởi hành:</strong> {selectedBooking.tour?.startDate ? new Date(selectedBooking.tour.startDate).toLocaleDateString() : 'N/A'}</div>
-                                    <div><strong>Ngày kết thúc:</strong> {selectedBooking.tour?.endDate ? new Date(selectedBooking.tour.endDate).toLocaleDateString() : 'N/A'}</div>
-                                </div>
-                            </div>
-
-                            {/* Thêm thông tin thanh toán */}
-                            <div><strong>Phương thức thanh toán:</strong> {selectedBooking.paymentMethod || 'N/A'}</div>
-
-                            {/* Nút đóng modal */}
-                            <button
-                                onClick={closeModal}
-                                className="mt-4 px-4 py-2 bg-red-500 text-white rounded"
-                            >
-                                Đóng
-                            </button>
-                        </div>
-                    </div>
-                )}
-
-
-
+             <BookingModal
+                isModalOpen={isModalOpen}
+                selectedBooking={selectedBooking}
+                closeModal={() => setIsModalOpen(false)}
+            />       
         </div>
     );
 };

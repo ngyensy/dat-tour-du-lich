@@ -26,6 +26,7 @@ namespace WebApi.Helpers
         public DbSet<Category> Categories { get; set; }
         public DbSet<Itinerary> Itineraries { get; set; }
         public DbSet<TourSchedule> TourSchedules { get; set; }
+        public DbSet<DiscountCode> DiscountCodes { get; set; }
 
         // Phương thức OnModelCreating để cấu hình quan hệ
         protected override void OnModelCreating(ModelBuilder modelBuilder)

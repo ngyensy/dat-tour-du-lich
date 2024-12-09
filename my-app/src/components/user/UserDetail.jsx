@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaEdit } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
+import "../../styles/account-info.css";
 
 const UserDetail = () => {
     const { user, updateUser } = useAuth(); // Lấy thông tin người dùng từ AuthContext
@@ -70,7 +71,7 @@ const UserDetail = () => {
                     </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                     {Object.entries({
                         'Họ tên': { key: 'name', type: 'text' },
                         'Email': { key: 'email', type: 'email' },
@@ -78,59 +79,63 @@ const UserDetail = () => {
                         'Địa chỉ': { key: 'address', type: 'text' },
                         'Giới tính': { key: 'gender', type: 'select', options: ['Nam', 'Nữ', 'Khác'] },
                         'Ngày sinh': { key: 'dateOfBirth', type: 'date' },
+                        'Điểm thưởng': { key: 'rewardPoints', type: 'text' }, // Không cho phép chỉnh sửa
                     }).map(([label, { key, type, options }], index) => (
                         <React.Fragment key={key}>
-                            <div className="mb-2 flex-col items-center justify-between mx-8">
-                                <div className="flex justify-between w-full">
-                                    <div>
-                                        <strong>{label}:</strong>
-                                        {key === 'dateOfBirth' ? (
-                                            <span> {formatDate(userData[key])}</span>
-                                        ) : (
-                                            <span> {userData[key] || 'Chưa cập nhật'}</span>
-                                        )}
-                                    </div>
-                                    <button onClick={() => handleEditClick(key)} className="text-blue-500">
-                                        <FaEdit size={16} />
-                                    </button>
-                                </div>
-                                {editFields[key] && (
-                                    <form onSubmit={(e) => handleSubmit(e, key)}>
-                                        {type === 'select' ? (
-                                            <select
-                                                name={key}
-                                                value={userData[key] || ''}
-                                                onChange={handleChange}
-                                                className="border rounded px-2 py-1 mt-2"
-                                            >
-                                                {options.map((option) => (
-                                                    <option key={option} value={option}>
-                                                        {option}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        ) : (
-                                            <input
-                                                type={type}
-                                                name={key}
-                                                value={userData[key] || ''}
-                                                onChange={handleChange}
-                                                className="border rounded px-2 py-1 mt-2"
-                                                placeholder={`Nhập ${label.toLowerCase()}`}
-                                            />
-                                        )}
-                                        <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded mt-2 ml-2">
-                                            Cập nhật
-                                        </button>
-                                    </form>
+                        <div className="mb-2 flex-col items-center justify-between mx-8">
+                            <div className="flex justify-between w-full">
+                            <div>
+                                <strong>{label}:</strong>
+                                {key === 'dateOfBirth' ? (
+                                <span> {formatDate(userData[key])}</span>
+                                ) : (
+                                <span> {key === 'rewardPoints' ? <span className="reward-points">{userData[key] || 'Chưa có điểm thưởng'}</span> : userData[key] || 'Chưa cập nhật'}</span>
                                 )}
                             </div>
-                            {index % 2 === 1 && (
-                                <div className="border-b border-gray-400 col-span-2 my-2" />
+                            {/* Chỉ hiển thị nút sửa cho các trường khác, không có nút sửa cho Điểm thưởng */}
+                            {key !== 'rewardPoints' && (
+                                <button onClick={() => handleEditClick(key)} className="text-blue-500">
+                                <FaEdit size={16} />
+                                </button>
                             )}
+                            </div>
+                            {editFields[key] && (
+                            <form onSubmit={(e) => handleSubmit(e, key)}>
+                                {type === 'select' ? (
+                                <select
+                                    name={key}
+                                    value={userData[key] || ''}
+                                    onChange={handleChange}
+                                    className="border rounded px-2 py-1 mt-2"
+                                >
+                                    {options.map((option) => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                    ))}
+                                </select>
+                                ) : (
+                                <input
+                                    type={type}
+                                    name={key}
+                                    value={userData[key] || ''}
+                                    onChange={handleChange}
+                                    className="border rounded px-2 py-1 mt-2"
+                                    placeholder={`Nhập ${label.toLowerCase()}`}
+                                />
+                                )}
+                                <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded mt-2 ml-2">
+                                Cập nhật
+                                </button>
+                            </form>
+                            )}
+                        </div>
+                        {index % 2 === 1 && (
+                            <div className="border-b border-gray-400 col-span-2 my-2" />
+                        )}
                         </React.Fragment>
                     ))}
-                </div>
+                    </div>
             </div>
         </section>
     );

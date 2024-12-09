@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css"; 
+import Banner1 from "../assets/img/1257-dulichtrongnc-danhmuc.jpg"
 
 // Mũi tên trái tuỳ chỉnh
 const PreviousArrow = ({ className, onClick }) => {
@@ -42,20 +43,38 @@ const TravelSlider = () => {
 
   return (
     <div className="container mx-auto px-1 max-w-7xl"> 
-      <Slider {...settings}>
+      <div className="container mx-auto px-1 max-w-7xl"> 
+        <Slider {...settings}>
         <div>
-          <img src="https://via.placeholder.com/800x400.png?text=Destination+1" alt="Destination 1" className="w-full h-auto rounded-lg" />
-        </div>
-        <div>
-          <img src="https://via.placeholder.com/800x400.png?text=Destination+2" alt="Destination 2" className="w-full h-auto rounded-lg" />
-        </div>
-        <div>
-          <img src="https://via.placeholder.com/800x400.png?text=Destination+3" alt="Destination 3" className="w-full h-auto rounded-lg" />
-        </div>
-        <div>
-          <img src="https://via.placeholder.com/800x400.png?text=Destination+4" alt="Destination 4" className="w-full h-auto rounded-lg" />
-        </div>
-      </Slider>
+            <img
+              src="https://media.travel.com.vn/SlideShow/sl_241101_TopBannerWeb.jpg"
+              alt="Destination 2"
+              className="w-full h-[640px] object-cover rounded-lg"
+            />
+          </div>
+          <div>
+            <img
+              src={Banner1}
+              alt="Destination 1"
+              className="w-full h-auto object-cover rounded-lg"
+            />
+          </div>
+          <div>
+            <img
+              src="https://upcontent.vn/wp-content/uploads/2024/07/banner-du-lich-viet-nam-03-1024x640.jpg"
+              alt="Destination 3"
+              className="w-full h-[auto] object-cover rounded-lg"
+            />
+          </div>
+          <div>
+            <img
+              src="https://dulichviet.com.vn/images/bandidau/banner/BANNER-TET/tour-tet-du-lich-viet%20(2)(1).jpg?v=1'"
+              alt="Destination 4"
+              className="w-[640] h-[640px] object-cover rounded-lg items-"
+            />
+          </div>
+        </Slider>
+      </div>
     </div>
   );
 };

@@ -67,7 +67,8 @@ namespace WebApi.Entities
         [Column("PaymentMethod")]
         public string PaymentMethod { get; set; } // "Credit Card", "Bank Transfer", etc.
 
-        
+        [Column("TourScheduleId")]
+        public int? TourScheduleId {get; set;}
 
     }
 }

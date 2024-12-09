@@ -33,9 +33,9 @@ namespace WebApi.Models
         public string Status { get; set; } = "Chờ xác nhận"; // Trạng thái của booking (Pending, Confirmed, Cancelled)
 
         public string Notes { get; set; }
-
-        [Required]
         public string PaymentMethod { get; set; }
+
+        public int? TourScheduleId {get; set;}
 
     }
 }

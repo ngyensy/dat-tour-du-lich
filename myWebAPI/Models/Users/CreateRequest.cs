@@ -29,6 +29,6 @@ namespace WebApi.Models.Users
         [MinLength(6)]
         public string Password { get; set; }
 
-
+        public int RewardPoints { get; set; } = 0;
     }
 }

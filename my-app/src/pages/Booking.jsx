@@ -9,9 +9,11 @@
   import TermsAndConditions from '../components/TermsAndConditions';
   import SingleRoomCounter from '../components/SingleRoomCounter';
   import Swal from 'sweetalert2';
+  import DiscountCodeComponent from '../components/DiscountCodeComponent';
 
   import { ToastContainer, toast } from "react-toastify"; // Import toast
   import "react-toastify/dist/ReactToastify.css";
+
 
   const BookingPage = () => {
     const location = useLocation();
@@ -24,6 +26,7 @@
     const [singleRoomCount, setSingleRoomCount] = useState(0);
     const [totalSingleRoomSurcharge, setTotalSingleRoomSurcharge] = useState(0);
     const availableSlots = tour.availableSlots; 
+    const [finalPrice, setFinalPrice] = useState(totalPrice);
 
     const handleAgreementChange = (checked) => {
       setIsAgreed(checked); // Cập nhật trạng thái đồng ý
@@ -127,13 +130,13 @@
       e.preventDefault();
 
       if(!selectedPaymentMethod) {
-        alert('Vui lòng chọn phương thức thanh toán!')
+        toast.error('Vui lòng chọn phương thức thanh toán!')
         return;
       }
 
       // Kiểm tra trạng thái đồng ý trước khi thực hiện submit
       if (!isAgreed) {
-        alert('Bạn cần đồng ý với các điều khoản trước khi đặt tour!');
+        toast.error('Bạn cần đồng ý với các điều khoản trước khi đặt tour!');
         return; // Ngừng thực hiện nếu chưa đồng ý
       }
 
@@ -148,11 +151,12 @@
           numberOfAdults: formData.numberOfAdults,
           numberOfChildren: formData.numberOfChildren,
           singleRoom: formData.singleRoom,
-          totalPrice: totalPrice,
+          totalPrice: finalPrice,
           totalSingleRoomSurcharge: totalSingleRoomSurcharge,
           notes: formData.notes,
           paymentMethod: selectedPaymentMethod,
-          bookingDate: localDate.toISOString().split('.')[0] + 'Z', 
+          bookingDate: localDate.toISOString().split('.')[0] + 'Z',
+          tourScheduleId: tour.tourScheduleId, 
         };
   
         const response = await axios.post('http://localhost:4000/v1/booking', bookingData);
@@ -165,7 +169,7 @@
             confirmButtonText: 'OK',
           }).then(() => {
             // Chuyển hướng sau khi người dùng nhấn OK
-            navigate('/confirmation', { state: { bookingId: response.data.id } });
+            navigate("/confirmation", { state: { booking: bookingData, tour } });
           });
         }
           } catch (error) {
@@ -412,7 +416,7 @@
                   <div className="border p-4 border-none">
                     <div className="mb-4 border-b-2 border-gray-400 flex pb-3">
                         <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="rounded-lg md:w-2/4 max-h-56" />
-                        <p className="font-semibold mt-2 md:w-2/4 ml-4 text-xl">{tour.name}</p>
+                        <p className="font-semibold md:w-2/4 ml-4 text-lg">{tour.name}</p>
                       </div>
                       <ul className="text-gray-700 space-y-2">
                         <li className='flex items-center '>
@@ -429,14 +433,16 @@
                           <MapPinIcon className="w-6 h-6 text-gray-500 mr-1 ml-11" />
                           <strong>Khởi hành:</strong> <span className="text-blue-600 font-semibold pl-1">{tour.departureLocation}</span>
                         </li>
+
+                        <h3 className='text-lg font-bold mb-2'>THỜI GIAN KHỞI HÀNH</h3>
                         <li className='flex justify-between text-[1rem]'>
                           <div>
                             <strong>Ngày đi:</strong> 
-                            <span className="text-blue-600 font-semibold pl-1">{formatDate(tour.startDate)}</span>
+                            <span className="text-blue-600 font-bold pl-1">{formatDate(tour.startDate)}</span>
                           </div>
                           <div>
                             <strong>Ngày về:</strong> 
-                            <span className="text-blue-600 font-semibold pl-1">{formatDate(tour.endDate)}</span>
+                            <span className="text-blue-600 font-bold pl-1">{formatDate(tour.endDate)}</span>
                           </div>
                         </li>
                         
@@ -465,10 +471,16 @@
                                 <span>{totalSingleRoomSurcharge.toLocaleString()} đ</span>
                               </div>
 
+                              {/* Thêm DiscountCodeComponent vào đây */}
+                              <DiscountCodeComponent 
+                                totalPrice={totalPrice} 
+                                setFinalPrice={setFinalPrice} 
+                              />
+
                               <div className="flex justify-between mt-4 border-t-2 pt-4 border-gray-400">
                                 <h4 className="text-2xl font-bold">Tổng tiền</h4>
                                 <h4 className="text-red-600 text-4xl font-bold">
-                                  {totalPrice.toLocaleString()} đ
+                                  {finalPrice.toLocaleString()} đ
                                 </h4>
                               </div>
 

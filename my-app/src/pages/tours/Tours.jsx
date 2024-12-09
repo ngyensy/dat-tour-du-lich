@@ -1,4 +1,3 @@
-// Tours.jsx
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';  // Import từ react-query
 import axios from 'axios';
@@ -24,14 +23,17 @@ const Tours = () => {
     if (isLoading) return <div>Đang tải dữ liệu...</div>;
     if (isError) return <div>Lỗi: {error.message}</div>;
 
+    // Lọc các tour có trạng thái là true
+    const activeTours = tours.filter((tour) => tour.isActive === true);
+
     return (
         <div>
             <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
-                {tours.slice(0, visibleProducts).map((tour, index) => (
+                {activeTours.slice(0, visibleProducts).map((tour, index) => (
                     <TourCard key={index} tour={tour} />
                 ))}
             </div>
-            {visibleProducts < tours.length && (
+            {visibleProducts < activeTours.length && (
                 <button onClick={handleShowMore}>Hiện thêm</button>
             )}
         </div>

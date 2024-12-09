@@ -43,6 +43,10 @@ const TourDetail = () => {
     console.log(tour)
   };
 
+  const handleContactClick = () => {
+    navigate(`/contact`);  // Điều hướng tới trang đặt tour với state
+  };
+
   if (loading) {
     return <div>Đang tải dữ liệu...</div>;
   }
@@ -72,6 +76,7 @@ const TourDetail = () => {
         ...prevTour,
         startDate: prevTour.startDate,  // Giữ nguyên ngày bắt đầu ban đầu
         endDate: prevTour.endDate,      // Giữ nguyên ngày kết thúc ban đầu
+        tourScheduleId: null,           // Reset tourScheduleId về null
       }));
       setSelectedDate(null);  // Reset selectedDate về null
       return;  // Dừng thực hiện các phần còn lại
@@ -90,6 +95,7 @@ const TourDetail = () => {
         ...prevTour,
         startDate: selectedSchedule.startDate,
         endDate: selectedSchedule.endDate,
+        tourScheduleId: selectedSchedule.id,  // Gán thêm ID của TourSchedule đã chọn
       }));
     } else {
       // Nếu không có lịch trình phù hợp, giữ nguyên thông tin ban đầu
@@ -97,9 +103,11 @@ const TourDetail = () => {
         ...prevTour,
         startDate: prevTour.startDate,  // Giữ nguyên ngày bắt đầu ban đầu
         endDate: prevTour.endDate,      // Giữ nguyên ngày kết thúc ban đầu
+        tourScheduleId: null,           // Reset tourScheduleId về null
       }));
     }
   };
+  
 
    const formattedDate = tour && tour.startDate ? (() => {
     const formattedStartDate = new Date(tour.startDate);
@@ -199,7 +207,7 @@ const TourDetail = () => {
 
               <div className="flex space-x-4">
                 <button className="bg-blue-600 text-white py-2 px-4 rounded-lg">Gọi miễn phí qua internet</button>
-                <button className="bg-gray-200 py-2 px-4 rounded-lg">Liên hệ tư vấn</button>
+                <button className="bg-gray-200 py-2 px-4 rounded-lg" onClick={ handleContactClick}>Liên hệ tư vấn</button>
               </div>
             </div>
           </div>

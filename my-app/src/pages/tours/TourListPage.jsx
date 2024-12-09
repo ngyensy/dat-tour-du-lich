@@ -63,6 +63,8 @@ const TourListPage = () => {
   const { data: tours = [], isLoading: isLoadingTours, isError: isErrorTours } = useQuery('tours', fetchTours);
   const { data: categories = [] } = useQuery('categories', fetchCategories);
 
+  
+
   // Xác định danh mục được chọn (hoặc là 'Tất cả')
   const selectedCategory = categories.find(
     (category) => category.id === parseInt(filters.destinationPoint)
@@ -82,21 +84,23 @@ const TourListPage = () => {
     return budgetRanges[budget] || { min: 0, max: Infinity };
   };
 
-  // Lọc và sắp xếp danh sách tour
+ // Lọc và sắp xếp danh sách tour
   const sortedTours = [...tours]
-    .filter((tour) => {
-      const { min, max } = getBudgetRange(filters.budget);
-      return (
-        (filters.departurePoint === 'Tất cả' || tour.departureLocation === filters.departurePoint) &&
-        (filters.destinationPoint === 'Tất cả' || tour.categoryId === parseInt(filters.destinationPoint)) &&
-        (!filters.budget || (tour.price >= min && tour.price <= max))
-      );
-    })
-    .sort((a, b) => {
-      const priceA = a.price || 0;
-      const priceB = b.price || 0;
-      return sortOption === 'asc' ? priceA - priceB : priceB - priceA;
-    });
+  .filter((tour) => {
+    const { min, max } = getBudgetRange(filters.budget);
+    return (
+      tour.isActive === true && // Chỉ lấy các tour có trạng thái true
+      (filters.departurePoint === 'Tất cả' || tour.departureLocation === filters.departurePoint) &&
+      (filters.destinationPoint === 'Tất cả' || tour.categoryId === parseInt(filters.destinationPoint)) &&
+      (!filters.budget || (tour.price >= min && tour.price <= max))
+    );
+  })
+  .sort((a, b) => {
+    const priceA = a.price || 0;
+    const priceB = b.price || 0;
+    return sortOption === 'asc' ? priceA - priceB : priceB - priceA;
+  });
+
 
   // Nhận dữ liệu lọc từ FilterComponent
   const handleFilterApply = (newFilters) => {

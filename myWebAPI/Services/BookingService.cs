@@ -50,7 +50,8 @@ namespace WebApi.Services
 
         public void Create(BookingModel bookingModel)
         {
-            var tour = _context.Tours.FirstOrDefault(t => t.Id == bookingModel.TourId) ?? throw new ArgumentException("Tour không tồn tại!");
+            var tour = _context.Tours.FirstOrDefault(t => t.Id == bookingModel.TourId) 
+                    ?? throw new ArgumentException("Tour không tồn tại!");
 
             // Tính tổng số người đặt
             int totalPeople = bookingModel.NumberOfAdults + bookingModel.NumberOfChildren;
@@ -63,6 +64,12 @@ namespace WebApi.Services
 
             // Trừ số người đặt khỏi số chỗ còn lại
             tour.AvailableSlots -= totalPeople;
+
+            // Nếu số chỗ còn lại là 0, cập nhật trạng thái isActive
+            if (tour.AvailableSlots == 0)
+            {
+                tour.IsActive = false;
+            }
 
             // Chuyển đổi BookingModel thành Booking entity
             var bookingEntity = _mapper.Map<Booking>(bookingModel);
@@ -79,6 +86,7 @@ namespace WebApi.Services
             // Lưu thay đổi vào cơ sở dữ liệu
             _context.SaveChanges(); // Lưu cả booking và số chỗ còn lại của tour
         }
+
 
         public void Update(string id, BookingModel bookingModel)
         {
@@ -113,8 +121,24 @@ namespace WebApi.Services
             existingBooking.GuestPhoneNumber = bookingModel.GuestPhoneNumber ?? existingBooking.GuestPhoneNumber;
             existingBooking.GuestAddress = bookingModel.GuestAddress ?? existingBooking.GuestAddress;
             existingBooking.Notes = bookingModel.Notes;
-            existingBooking.PaymentMethod = bookingModel.PaymentMethod;
+            existingBooking.PaymentMethod = bookingModel.PaymentMethod ?? existingBooking.PaymentMethod;
             existingBooking.Status = bookingModel.Status;
+
+            // Nếu trạng thái booking là "Đã thanh toán", cộng điểm thưởng cho người dùng
+            if (existingBooking.Status == "Đã thanh toán")
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Id == existingBooking.UserId);
+                if (user != null)
+                {
+                    // Tính điểm thưởng từ tổng tiền thanh toán
+                    int rewardPoints = (int)(existingBooking.TotalPrice / 1000);  // Giả sử 1.000 VND = 1 điểm
+                    user.RewardPoints += rewardPoints;
+
+                    // Cập nhật lại thông tin người dùng
+                    _context.Users.Update(user);
+                    _context.SaveChanges(); // Lưu thay đổi vào cơ sở dữ liệu
+                }
+            }
 
             // Lưu thay đổi vào cơ sở dữ liệu
             _context.SaveChanges(); // Lưu lại booking và số chỗ còn lại của tour
@@ -130,6 +154,12 @@ namespace WebApi.Services
             {
                 int totalPeople = booking.NumberOfAdults + booking.NumberOfChildren;
                 tour.AvailableSlots += totalPeople; // Hoàn lại số chỗ cho tour
+            }
+
+             // Nếu số chỗ trống > 0, cập nhật trạng thái isActive về true
+            if (!tour.IsActive && tour.AvailableSlots > 0)
+            {
+                tour.IsActive = true;
             }
 
             _context.Bookings.Remove(booking);

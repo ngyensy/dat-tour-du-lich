@@ -9,6 +9,8 @@ import RegisterForm from './pages/Register';
 import AuthProvider from './context/AuthContext';
 import CreateTour from './components/creatTour';
 import Contact from './pages/contact';
+import Confirmation from './pages/Confirmation';
+import DiscountsPage from './pages/Doimagiamgia';
 
 // ------- Các thành phần admin ---------
 import AdminLayout from './admin/AdminLayout';
@@ -69,6 +71,8 @@ const App = () => {
           <Route path="/creatTour" element={<CreateTour />} />
           <Route path="/account-info" element={<Userinfor />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/Doi-thuong" element={<DiscountsPage />} />
           {/* Các route cho admin */}
           <Route path="/*" element={<AdminRoutes />} /> {/* Bao bọc AdminRoutes */}
         </Routes>

@@ -54,6 +54,9 @@ const Navbar = () => {
             <li>
               <Link to="/contact" className="text-black hover:text-gray-600 text-lg">Liên hệ</Link>
             </li>
+            <li>
+              <Link to="/Doi-thuong" className="text-black hover:text-gray-600 text-lg">Đổi thưởng</Link>
+            </li>
           </ul>
 
           {user ? (
