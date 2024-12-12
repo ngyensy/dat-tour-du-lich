@@ -5,7 +5,7 @@ const FilterComponent = ({ onFilterApply }) => {
   const [selectedBudget, setSelectedBudget] = useState("");
   const [departurePoint, setDeparturePoint] = useState("Tất cả");
   const [destinationPoint, setDestinationPoint] = useState("Tất cả");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [startDate, setStartDate] = useState("");
   const [categories, setCategories] = useState([]);
   const [tourType, setTourType] = useState("");
   const [transport, setTransport] = useState("");
@@ -39,7 +39,7 @@ const FilterComponent = ({ onFilterApply }) => {
       budget: selectedBudget,
       departurePoint,
       destinationPoint: selectedCategory,
-      selectedDate,
+      startDate,
       tourType,
       transport,
     });
@@ -50,7 +50,7 @@ const FilterComponent = ({ onFilterApply }) => {
     setSelectedBudget("");
     setDeparturePoint("Tất cả");
     setDestinationPoint("Tất cả");
-    setSelectedDate("");
+    setStartDate("");
     setTourType("");
     setTransport("");
     setSelectedCategory("Tất cả");
@@ -60,7 +60,7 @@ const FilterComponent = ({ onFilterApply }) => {
       budget: "",
       departurePoint: "Tất cả",
       destinationPoint: "Tất cả",
-      selectedDate: "",
+      startDate: "",
       tourType: "",
       transport: "",
     });
@@ -71,7 +71,7 @@ const FilterComponent = ({ onFilterApply }) => {
     selectedBudget ||
     departurePoint !== "Tất cả" ||
     selectedCategory !== "Tất cả" ||
-    selectedDate ||
+    startDate ||
     tourType ||
     transport;
 
@@ -133,8 +133,9 @@ const FilterComponent = ({ onFilterApply }) => {
         <input
           type="date"
           className="p-2 border rounded-md w-full"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          min={new Date().toISOString().split('T')[0]} // Set today's date as the minimum
         />
       </div>
 

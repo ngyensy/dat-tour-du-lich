@@ -466,7 +466,7 @@
                                 </span>
                               </div>
 
-                              <div className="flex font-bold justify-between mb-2">
+                              <div className="flex font-bold justify-between mb-2 ">
                                 <span>Phụ thu phòng đơn</span>
                                 <span>{totalSingleRoomSurcharge.toLocaleString()} đ</span>
                               </div>
@@ -474,10 +474,10 @@
                               {/* Thêm DiscountCodeComponent vào đây */}
                               <DiscountCodeComponent 
                                 totalPrice={totalPrice} 
-                                setFinalPrice={setFinalPrice} 
+                                setFinalPrice={setFinalPrice}  
                               />
 
-                              <div className="flex justify-between mt-4 border-t-2 pt-4 border-gray-400">
+                              <div className="flex justify-between border-t-2 pt-4">
                                 <h4 className="text-2xl font-bold">Tổng tiền</h4>
                                 <h4 className="text-red-600 text-4xl font-bold">
                                   {finalPrice.toLocaleString()} đ

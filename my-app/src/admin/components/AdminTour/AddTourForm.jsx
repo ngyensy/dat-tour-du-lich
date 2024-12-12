@@ -56,22 +56,40 @@ const AddTourForm = ({ onAddSuccess }) => {
     setPreviewImage(file ? URL.createObjectURL(file) : null);
   };
 
+  const handleCategorySelect = (cat) => {
+    setTourData({
+      ...tourData,
+      categoryId: cat.id,
+    });
+    setSearchTerm(cat.name);
+    setFilteredCategories([]);
+  };
+
+
   // Gửi form
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     if (new Date(tourData.startDate) >= new Date(tourData.endDate)) {
       Swal.fire('Lỗi', 'Ngày khởi hành phải trước ngày kết thúc!', 'error');
       return;
     }
+  
     const formData = new FormData();
+  
     Object.entries(tourData).forEach(([key, value]) => {
       if (key === "price" || key === "childPrice" || key === "singleRoomSurcharge") {
+        // Xử lý giá trị tiền tệ (loại bỏ dấu chấm)
         formData.append(key, value.replace(/\./g, ''));
+      } else if (key === "startDate" || key === "endDate") {
+        // Chuyển đổi ngày thành ISO string
+        formData.append(key, value ? new Date(value).toISOString() : '');
       } else {
+        // Xử lý các trường còn lại
         formData.append(key, value);
       }
     });
-
+  
     try {
       const res = await axios.post('http://localhost:4000/v1/tours', formData);
       if (res.status === 200) {
@@ -81,7 +99,8 @@ const AddTourForm = ({ onAddSuccess }) => {
       Swal.fire('Lỗi', 'Đã xảy ra lỗi, vui lòng thử lại.', 'error');
     }
   };
-
+  
+ 
   return (
     <div className="bg-white p-6 shadow-md rounded">
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -141,7 +160,7 @@ const AddTourForm = ({ onAddSuccess }) => {
           {searchTerm && filteredCategories.length > 0 && (
             <ul className="border rounded max-h-40 overflow-auto">
               {filteredCategories.map((cat) => (
-                <li key={cat.id} onClick={() => setTourData({ ...tourData, categoryId: cat.id })} className="p-2 cursor-pointer hover:bg-gray-200">
+                <li key={cat.id} onClick={() => handleCategorySelect(cat)} className="p-2 cursor-pointer hover:bg-gray-200">
                   {cat.name}
                 </li>
               ))}

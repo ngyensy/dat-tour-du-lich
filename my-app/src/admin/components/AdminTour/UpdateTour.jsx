@@ -69,7 +69,7 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
     newValue = newValue.replace(/[^0-9]/g, '');
     setTourData({
       ...tourData,
-      [name]: name === 'departureLocation' || name === 'destination' ? value : newValue,
+      [name]: name === 'departureLocation' || name === 'destination' || name ==='name' || name === 'description' ? value : newValue,
     });
   };
 
@@ -160,7 +160,6 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
             name="description"
             value={tourData.description}
             onChange={handleChange}
-            required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
         </div>
@@ -196,7 +195,6 @@ const UpdateTourForm = ({ tour, onUpdateSuccess }) => {
             name="singleRoomSurcharge"
             value={formatNumber(tourData.singleRoomSurcharge)}
             onChange={handleChange}
-            required
             className="w-full px-4 py-2 border-2 border-gray-300 rounded"
           />
         </div>

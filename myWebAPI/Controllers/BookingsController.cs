@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using WebApi.Models;
@@ -102,6 +103,20 @@ namespace WebApi.Controllers
         {
             var count = _bookingService.GetBookingCount(); // Hàm này sẽ trả về số lượng booking
             return Ok(new { count });
+        }
+
+        [HttpGet("revenue")]
+        public IActionResult GetTotalRevenue()
+        {
+            try
+            {
+                var totalRevenue = _bookingService.GetTotalRevenue();
+                return Ok(new { totalRevenue });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Đã xảy ra lỗi khi tính tổng doanh thu.", error = ex.Message });
+            }
         }
     }
 }

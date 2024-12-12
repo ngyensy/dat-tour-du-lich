@@ -17,6 +17,7 @@ namespace WebApi.Services
         void Update(string id, BookingModel booking);
         void Delete(string id);
         int GetBookingCount();
+        decimal GetTotalRevenue();
     }
 
     public class BookingService : IBookingService
@@ -171,6 +172,14 @@ namespace WebApi.Services
         public int GetBookingCount()
         {
             return _context.Bookings.Count(); // Đếm số lượng booking trong cơ sở dữ liệu
+        }
+
+        public decimal GetTotalRevenue()
+        {
+            // Tính tổng doanh thu từ các booking có trạng thái "Đã thanh toán"
+            return _context.Bookings
+                .Where(b => b.Status == "Đã thanh toán")
+                .Sum(b => b.TotalPrice); // `Amount` là cột chứa giá trị doanh thu của mỗi booking
         }
     }
 }

@@ -51,6 +51,7 @@ namespace WebApi
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IDiscountCodeService, DiscountCodeService>();
+            services.AddScoped<IReviewService, ReviewService>(); ;
 
             // Configure Redis connection
             var redisConnection = "localhost:6379"; // Thay đổi địa chỉ Redis nếu cần

@@ -16,8 +16,9 @@ const TourItem = ({ tour }) => {
 
       <div className="tour-info flex-grow p-4">
         {/* Phần tên tour với chiều cao cố định */}
-        <h2 className="tour-title font-bold text-lg mb-2 overflow-hidden line-clamp-3">{tour.name}</h2>
-
+        <div>
+          <h2 className="tour-title font-bold text-lg mb-2 overflow-hidden line-clamp-3">{tour.name}</h2>
+        </div>
         {/* Phần thông tin tour */}
         <div className="tour-details space-y-2">
           {/* Mã chương trình */}
@@ -30,7 +31,7 @@ const TourItem = ({ tour }) => {
           <div className='flex items-center'>
             <MapPinIcon className="h-5 w-5 mr-1" />
             <p className="text-sm font-[500]">Khởi hành: <span className="text-blue-600 font-bold">{tour.departureLocation}</span></p>
-            <ClockIcon className="h-5 w-5 mr-1 ml-8" />
+            <ClockIcon className="h-5 w-5 mr-1 ml-6" />
             <p className="text-sm font-[500]">Thời gian: <span className="text-blue-600 font-bold">{`${tour.duration}N${tour.duration - 1}Đ`}</span></p>
           </div>
 

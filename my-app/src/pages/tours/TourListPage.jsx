@@ -12,8 +12,9 @@ import Erro from '../../assets/img/loikothaytour.png'
 // Hàm lấy dữ liệu từ API
 const fetchTours = async () => {
   const { data } = await axios.get('http://localhost:4000/v1/Tours');
-  return data.$values;
+  return data.$values.filter(tour => tour.discount === 0); // Lọc ngay tại đây các tour có discount = 0
 };
+
 
 const fetchCategories = async () => {
   const { data } = await axios.get('http://localhost:4000/v1/Categories');
@@ -30,7 +31,7 @@ const TourListPage = () => {
     budget: '',
     departurePoint: 'Tất cả',
     destinationPoint: 'Tất cả',
-    selectedDate: '',
+    startDate: '',  // Add startDate
     tourType: '',
     transport: '',
   });
@@ -43,7 +44,7 @@ const TourListPage = () => {
       budget: queryParams.get('budget') || '',
       departurePoint: queryParams.get('departurePoint') || 'Tất cả',
       destinationPoint: queryParams.get('destinationPoint') || 'Tất cả',
-      selectedDate: queryParams.get('selectedDate') || '',
+      startDate: queryParams.get('startDate') || '',
       tourType: queryParams.get('tourType') || '',
       transport: queryParams.get('transport') || '',
     };
@@ -92,7 +93,8 @@ const TourListPage = () => {
       tour.isActive === true && // Chỉ lấy các tour có trạng thái true
       (filters.departurePoint === 'Tất cả' || tour.departureLocation === filters.departurePoint) &&
       (filters.destinationPoint === 'Tất cả' || tour.categoryId === parseInt(filters.destinationPoint)) &&
-      (!filters.budget || (tour.price >= min && tour.price <= max))
+      (!filters.budget || (tour.price >= min && tour.price <= max)) &&
+      (!filters.startDate || new Date(tour.startDate) >= new Date(filters.startDate))
     );
   })
   .sort((a, b) => {

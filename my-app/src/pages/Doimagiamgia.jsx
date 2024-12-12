@@ -31,7 +31,7 @@ const DiscountsPage = () => {
                 });
                 setDiscountCodes(response.data.$values);
             } catch (err) {
-                setError("Không thể lấy danh sách mã giảm giá.");
+                setError("Hiện người dùng không có mã giảm giá nào!!!");
             }
         };
 

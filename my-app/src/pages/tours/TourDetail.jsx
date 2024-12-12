@@ -9,6 +9,8 @@ import { MapPinIcon, CalendarIcon, CurrencyDollarIcon, TicketIcon } from '@heroi
 import ImportantInfo from '../../components/thongtinluuy';
 import Itinerary from '../../components/itinerary';
 import TourDatePicker from '../../components/TourDatepicker';
+import TourReviews from './TourReviews';
+import StarRatings from "react-star-ratings";
 
 const TourDetail = () => {
   const navigate = useNavigate();  // Thay vì useHistory, sử dụng useNavigate
@@ -17,6 +19,7 @@ const TourDetail = () => {
   const [loading, setLoading] = useState(true);  // State để quản lý trạng thái loading
   const [error, setError] = useState(null);  // State để lưu lỗi nếu có
   const [selectedDate, setSelectedDate] = useState('');
+  const [averageRating, setAverageRating] = useState(0);
 
  
 
@@ -130,10 +133,24 @@ const TourDetail = () => {
         <div className="flex flex-col md:flex-row">
           {/* Phần hình ảnh bên trái */}
           <div className="md:w-2/3 pr-4">
+          {/* Hiển thị điểm trung bình */}
+          <div className="flex items-center text-lg">
+            <div>        
+                <strong>Đánh giá: <span>{averageRating.toFixed(1)}/5</span> </strong>
+                (<StarRatings
+                  rating={averageRating} // Sử dụng điểm trung bình để hiển thị sao
+                  starRatedColor="#FF8C00" // Màu của các sao đã được chọn
+                  numberOfStars={5} // Số sao tối đa là 5
+                  name="avgRating"
+                  starDimension="20px" // Kích thước sao
+                />)
+              </div>
+              </div>
+
             <div className="mb-4">
               <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="w-full h-[32rem] object-cover rounded-lg" />
             </div>
-
+            
             <div className='my-12'>
               <Itinerary itineraries={tour.itineraries.$values} />
             </div>
@@ -142,11 +159,18 @@ const TourDetail = () => {
             <ImportantInfo />
             </div>
 
+            <div className='my-12'>
+              {/* Tiêu đề lớn */}
+              <h2 className="text-3xl text-center font-bold mb-2">ĐÁNH GIÁ TOUR</h2>
+
+              <TourReviews tourId={id} setAverageRating={setAverageRating} />
+            </div>
+
           </div>
 
           {/* Phần thông tin chi tiết bên phải */}
           <div className="md:w-1/3">
-            <div className='border-2 ml-4 p-4 rounded-lg shadow-md shadow-gray-400 sticky top-4'>
+            <div className='border-2 mt-6 ml-4 p-4 rounded-lg shadow-md shadow-gray-400 sticky top-4'>
               <div className="text-[1.1rem] flex justify-between font-semibold">
                 <strong className="">Giá:</strong>
                 {tour.discount > 0 &&(

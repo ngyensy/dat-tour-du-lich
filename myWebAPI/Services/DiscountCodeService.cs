@@ -101,21 +101,41 @@ namespace WebApi.Services
 
         public List<DiscountCode> GetDiscountCodesByUser(int userId)
         {
-            return _context.DiscountCodes.Where(dc => dc.UserId == userId).ToList();
+            // Lọc và xóa các mã giảm giá đã hết hạn
+            var expiredCodes = _context.DiscountCodes
+                .Where(dc => dc.UserId == userId && dc.ExpiryDate < DateTime.UtcNow)
+                .ToList();
+
+            if (expiredCodes.Any())
+            {
+                _context.DiscountCodes.RemoveRange(expiredCodes);
+                _context.SaveChanges();
+            }
+
+            // Trả về danh sách mã giảm giá hợp lệ
+            return _context.DiscountCodes
+                .Where(dc => dc.UserId == userId && dc.ExpiryDate >= DateTime.UtcNow)
+                .ToList();
         }
 
         public bool ValidateDiscountCode(string code, out DiscountCode discountCode)
         {
-            discountCode = _context.DiscountCodes.FirstOrDefault(dc => dc.Code == code);
-            
-            if (discountCode != null && discountCode.ExpiryDate > DateTime.UtcNow && !discountCode.IsUsed)
+            // Lọc và xóa mã giảm giá hết hạn
+            var expiredCodes = _context.DiscountCodes
+                .Where(dc => dc.ExpiryDate < DateTime.UtcNow)
+                .ToList();
+
+            if (expiredCodes.Any())
             {
-                return true;  // Mã giảm giá hợp lệ và chưa được sử dụng
+                _context.DiscountCodes.RemoveRange(expiredCodes);
+                _context.SaveChanges();
             }
 
-            return false;  // Mã giảm giá không hợp lệ hoặc đã được sử dụng hoặc hết hạn
-        }
+            // Kiểm tra mã giảm giá hợp lệ
+            discountCode = _context.DiscountCodes.FirstOrDefault(dc => dc.Code == code);
 
+            return discountCode != null && discountCode.ExpiryDate >= DateTime.UtcNow && !discountCode.IsUsed;
+        }
 
     }
 }

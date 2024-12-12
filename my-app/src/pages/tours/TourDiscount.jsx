@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';  // Import từ react-query
+import { useQuery } from 'react-query'; // Import từ react-query
 import axios from 'axios';
 import TourCard from './TourCard';
 
@@ -9,7 +9,7 @@ const fetchTours = async () => {
     return data.$values || []; 
 };
 
-const Tours = () => {
+const TourDiscount = () => {
     const [visibleProducts, setVisibleProducts] = useState(6); // Số sản phẩm hiển thị ban đầu
 
     // Sử dụng useQuery để lấy dữ liệu
@@ -23,21 +23,21 @@ const Tours = () => {
     if (isLoading) return <div>Đang tải dữ liệu...</div>;
     if (isError) return <div>Lỗi: {error.message}</div>;
 
-    // Lọc các tour có trạng thái là true
-    const activeTours = tours.filter((tour) => tour.isActive === true && tour.discount === 0);
+    // Lọc các tour có trạng thái là true và có discount
+    const discountedTours = tours.filter((tour) => tour.isActive === true && tour.discount > 0);
 
     return (
         <div>
             <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
-                {activeTours.slice(0, visibleProducts).map((tour, index) => (
+                {discountedTours.slice(0, visibleProducts).map((tour, index) => (
                     <TourCard key={index} tour={tour} />
                 ))}
             </div>
-            {visibleProducts < activeTours.length && (
+            {visibleProducts < discountedTours.length && (
                 <button onClick={handleShowMore}>Hiện thêm</button>
             )}
         </div>
     );
 };
 
-export default Tours;
+export default TourDiscount;

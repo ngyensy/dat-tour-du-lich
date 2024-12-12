@@ -42,7 +42,7 @@ const CategoryNav = ({ categoryId, tourName }) => {
         ">
           <Link to="/" className="hover:underline ">Trang Chủ</Link>
           <span className="mx-2">/</span>
-          <Link to={`/category/${categoryId}`} className="hover:underline">
+          <Link to={`/Tourlist?destinationPoint=${categoryId}`} className="hover:underline">
             {categoryName || 'Danh mục không tồn tại'}
           </Link>
           <span className="mx-2">/</span>

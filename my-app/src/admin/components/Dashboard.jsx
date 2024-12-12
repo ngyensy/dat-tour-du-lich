@@ -41,8 +41,8 @@ const Dashboard = () => {
     // Hàm gọi API lấy tổng doanh thu
     const fetchTotalRevenue = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/v1/revenue');
-        setTotalRevenue(response.data.total);
+        const response = await axios.get('http://localhost:4000/v1/booking/revenue');
+        setTotalRevenue(response.data.totalRevenue);
       } catch (error) {
         console.error('Error fetching total revenue:', error);
       }
@@ -72,7 +72,7 @@ const Dashboard = () => {
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-2xl font-semibold">Doanh thu</h2>
-          <p className="text-2xl mt-2">{totalRevenue} VNĐ</p>
+          <p className="text-2xl mt-2">{totalRevenue.toLocaleString()} VNĐ</p>
         </div>
       </div>
     </div>

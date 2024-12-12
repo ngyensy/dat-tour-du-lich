@@ -27,6 +27,7 @@ namespace WebApi.Helpers
         public DbSet<Itinerary> Itineraries { get; set; }
         public DbSet<TourSchedule> TourSchedules { get; set; }
         public DbSet<DiscountCode> DiscountCodes { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         // Phương thức OnModelCreating để cấu hình quan hệ
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,6 +58,7 @@ namespace WebApi.Helpers
                 .WithOne(ts => ts.Tour)
                 .HasForeignKey(ts => ts.TourId)
                 .OnDelete(DeleteBehavior.Cascade);
+
 
             base.OnModelCreating(modelBuilder);
         }
