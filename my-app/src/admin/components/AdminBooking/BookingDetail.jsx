@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UpdateBookingForm from './BookingUpdate';
 import Swal from 'sweetalert2';
+import { useAuth } from '../../../context/AuthContext';
 
 
 const BookingDetail = ({ booking, onBack }) => {
+  const {admin} = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [bookingData, setBookingData] = useState(booking);
 
@@ -76,7 +78,13 @@ const BookingDetail = ({ booking, onBack }) => {
     };
   
     try {
-      await axios.put(`http://localhost:4000/v1/booking/${bookingData.id}`, finalBooking);
+      await axios.put(`http://localhost:4000/v1/booking/${bookingData.id}`, finalBooking,
+          {
+            headers: {
+                Authorization: `Bearer ${admin.token}`,
+            },
+        }
+      );
       
       // Hiển thị thông báo thành công bằng SweetAlert2
       Swal.fire({
@@ -86,7 +94,11 @@ const BookingDetail = ({ booking, onBack }) => {
         timer: 3000
       }).then(async () =>{
         // Lấy lại dữ liệu booking mới sau khi cập nhật
-        const response = await axios.get(`http://localhost:4000/v1/booking/${bookingData.id}`);
+        const response = await axios.get(`http://localhost:4000/v1/booking/${bookingData.id}`,  {
+          headers: {
+              Authorization: `Bearer ${admin.token}`,
+          },
+      });
         setBookingData(response.data);
     
         setIsEditing(false);

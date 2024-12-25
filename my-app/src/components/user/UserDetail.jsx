@@ -79,25 +79,33 @@ const UserDetail = () => {
                         'Địa chỉ': { key: 'address', type: 'text' },
                         'Giới tính': { key: 'gender', type: 'select', options: ['Nam', 'Nữ', 'Khác'] },
                         'Ngày sinh': { key: 'dateOfBirth', type: 'date' },
-                        'Điểm thưởng': { key: 'rewardPoints', type: 'text' }, // Không cho phép chỉnh sửa
+                        'Điểm thưởng': { key: 'rewardPoints', type: 'text' },
+                        'Tổng Số Tour đã đi': { key: 'numberOfToursTaken', type: 'text' }, // Không cho phép chỉnh sửa
                     }).map(([label, { key, type, options }], index) => (
                         <React.Fragment key={key}>
                         <div className="mb-2 flex-col items-center justify-between mx-8">
                             <div className="flex justify-between w-full">
                             <div>
-                                <strong>{label}:</strong>
+                                <strong>{label}: </strong>
                                 {key === 'dateOfBirth' ? (
-                                <span> {formatDate(userData[key])}</span>
-                                ) : (
-                                <span> {key === 'rewardPoints' ? <span className="reward-points">{userData[key] || 'Chưa có điểm thưởng'}</span> : userData[key] || 'Chưa cập nhật'}</span>
-                                )}
+                                        <span> {formatDate(userData[key])}</span>
+                                    ) : (
+                                        <span>
+                                            {(key === 'rewardPoints' || key === 'numberOfToursTaken') ? (
+                                                <span className="reward-points"> {userData[key] || 'Chưa có dữ liệu'}</span>
+                                            ) : (
+                                                userData[key] || 'Chưa cập nhật'
+                                            )}
+                                        </span>
+                                    )}
                             </div>
                             {/* Chỉ hiển thị nút sửa cho các trường khác, không có nút sửa cho Điểm thưởng */}
-                            {key !== 'rewardPoints' && (
+                            {key !== 'rewardPoints' && key !== 'numberOfToursTaken' && (
                                 <button onClick={() => handleEditClick(key)} className="text-blue-500">
-                                <FaEdit size={16} />
+                                    <FaEdit size={16} />
                                 </button>
                             )}
+        
                             </div>
                             {editFields[key] && (
                             <form onSubmit={(e) => handleSubmit(e, key)}>

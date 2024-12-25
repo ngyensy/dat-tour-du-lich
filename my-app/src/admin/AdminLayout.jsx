@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartPie, faPlane, faUsers, faTags, faCalendarAlt, faComments, faSuitcase } from '@fortawesome/free-solid-svg-icons';
 import { NavLink, Outlet } from 'react-router-dom';
 import NavAdmin from './components/NavAdmin';
+import React, { useState } from 'react';
 
 const AdminLayout = React.memo(() => {
   const [isTourSubmenuOpen, setIsTourSubmenuOpen] = useState(false);
@@ -13,33 +15,37 @@ const AdminLayout = React.memo(() => {
     <div className="min-h-screen flex">
       {/* Sidebar */}
       <aside className="w-64 bg-white fixed top-0 left-0 h-full shadow-lg z-10">
-        <div className="p-6 text-center font-bold text-2xl">Admin Panel</div>
+        <div className="p-6 text-center font-bold text-2xl">Administrator</div>
 
         <nav className="mt-10">
           <ul>
             <li>
               <NavLink
                 to="/admin/dashboard"
-                className="block py-2.5 px-4 hover:bg-gray-700 font-bold"
+                className={({ isActive }) =>
+                  `flex items-center py-2.5 px-4 font-bold ${
+                    isActive ? 'bg-gray-700 text-white' : 'hover:bg-gray-300'
+                  }`
+                }
               >
-                Dashboard
+                <FontAwesomeIcon icon={faChartPie} className="mr-3" />
+                Thống kê số liệu
               </NavLink>
             </li>
             <li>
-              {/* Toggle button for Quản lý Tour */}
               <div
-                className="block py-2.5 px-4 font-bold cursor-pointer hover:bg-gray-700"
+                className="flex items-center py-2.5 px-4 font-bold cursor-pointer hover:bg-gray-300"
                 onClick={toggleTourSubmenu}
               >
+                <FontAwesomeIcon icon={faPlane} className="mr-3" />
                 Quản lý Tour
               </div>
-              {/* Submenu */}
               {isTourSubmenuOpen && (
                 <ul className="pl-4">
                   <li>
                     <NavLink
                       to="/admin/tours"
-                      className="block py-2.5 px-4 hover:bg-gray-700"
+                      className="block py-2.5 px-4 hover:bg-gray-300"
                     >
                       Danh sách Tour
                     </NavLink>
@@ -47,7 +53,7 @@ const AdminLayout = React.memo(() => {
                   <li>
                     <NavLink
                       to="/admin/tours/itinerary"
-                      className="block py-2.5 px-4 hover:bg-gray-700"
+                      className="block py-2.5 px-4 hover:bg-gray-300"
                     >
                       Quản lý Lịch trình
                     </NavLink>
@@ -55,7 +61,7 @@ const AdminLayout = React.memo(() => {
                   <li>
                     <NavLink
                       to="/admin/tours/tourSchedule"
-                      className="block py-2.5 px-4 hover:bg-gray-700"
+                      className="block py-2.5 px-4 hover:bg-gray-300"
                     >
                       Quản lý Ngày khởi hành
                     </NavLink>
@@ -66,25 +72,53 @@ const AdminLayout = React.memo(() => {
             <li>
               <NavLink
                 to="/admin/categories"
-                className="block py-2.5 px-4 hover:bg-gray-700 font-bold"
+                className={({ isActive }) =>
+                  `flex items-center py-2.5 px-4 font-bold ${
+                    isActive ? 'bg-gray-700 text-white' : 'hover:bg-gray-300'
+                  }`
+                }
               >
+                <FontAwesomeIcon icon={faTags} className="mr-3" />
                 Quản lý Danh mục
               </NavLink>
             </li>
             <li>
               <NavLink
                 to="/admin/users"
-                className="block py-2.5 px-4 hover:bg-gray-700 font-bold"
+                className={({ isActive }) =>
+                  `flex items-center py-2.5 px-4 font-bold ${
+                    isActive ? 'bg-gray-700 text-white' : 'hover:bg-gray-300'
+                  }`
+                }
               >
+                <FontAwesomeIcon icon={faUsers} className="mr-3" />
                 Quản lý Người dùng
               </NavLink>
             </li>
             <li>
               <NavLink
                 to="/admin/bookings"
-                className="block py-2.5 px-4 hover:bg-gray-700 font-bold"
+                className={({ isActive }) =>
+                  `flex items-center py-2.5 px-4 font-bold ${
+                    isActive ? 'bg-gray-700 text-white' : 'hover:bg-gray-300'
+                  }`
+                }
               >
+                <FontAwesomeIcon icon={faCalendarAlt} className="mr-3" />
                 Quản lý Booking
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/tours/reviews"
+                className={({ isActive }) =>
+                  `flex items-center py-2.5 px-4 font-bold ${
+                    isActive ? 'bg-gray-700 text-white' : 'hover:bg-gray-300'
+                  }`
+                }
+              >
+                <FontAwesomeIcon icon={faComments} className="mr-3" />
+                Quản lý Đánh giá
               </NavLink>
             </li>
           </ul>
@@ -92,10 +126,10 @@ const AdminLayout = React.memo(() => {
       </aside>
 
       {/* Main content area */}
-      <div className="flex-grow ml-64 bg-gray-100">
+      <div className="flex-grow ml-64 bg-gray-200">
         <NavAdmin />
         <div className="p-6">
-          <Outlet /> {/* Render the corresponding component based on the route */}
+          <Outlet />
         </div>
       </div>
     </div>

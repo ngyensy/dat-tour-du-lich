@@ -10,14 +10,14 @@
   
   .apply-discount-btn {
     padding: 10px;
-    background-color: #28a745;
+    background-color: #2d80d8;
     color: white;
     border: none;
     cursor: pointer;
   }
   
   .apply-discount-btn:hover {
-    background-color: #218838;
+    background-color: #21ceed;
   }
   
   .discount-details {

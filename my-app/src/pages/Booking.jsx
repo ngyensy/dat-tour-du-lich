@@ -10,13 +10,12 @@
   import SingleRoomCounter from '../components/SingleRoomCounter';
   import Swal from 'sweetalert2';
   import DiscountCodeComponent from '../components/DiscountCodeComponent';
-
   import { ToastContainer, toast } from "react-toastify"; // Import toast
   import "react-toastify/dist/ReactToastify.css";
 
 
   const BookingPage = () => {
-    const location = useLocation();
+    const location = useLocation(); 
     const navigate = useNavigate();
     const { tour } = location.state || {}; // Lấy thông tin tour từ state
     const { user } = useAuth(); // Lấy thông tin người dùng từ AuthContext
@@ -27,6 +26,7 @@
     const [totalSingleRoomSurcharge, setTotalSingleRoomSurcharge] = useState(0);
     const availableSlots = tour.availableSlots; 
     const [finalPrice, setFinalPrice] = useState(totalPrice);
+    const [appliedCode, setAppliedCode] = useState(null);
 
     const handleAgreementChange = (checked) => {
       setIsAgreed(checked); // Cập nhật trạng thái đồng ý
@@ -156,7 +156,8 @@
           notes: formData.notes,
           paymentMethod: selectedPaymentMethod,
           bookingDate: localDate.toISOString().split('.')[0] + 'Z',
-          tourScheduleId: tour.tourScheduleId, 
+          tourScheduleId: tour.tourScheduleId,
+          appliedCode: appliedCode || null, 
         };
   
         const response = await axios.post('http://localhost:4000/v1/booking', bookingData);
@@ -213,7 +214,7 @@
             type="button"
             className="px-3 py-1 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
             onClick={onIncrease}
-            disabled={value >= availableSlots} // Disable tăng khi đạt giới hạn
+            disabled={value > availableSlots} // Disable tăng khi đạt giới hạn
           >
             +
           </button>
@@ -250,13 +251,20 @@
 
       // Logic xử lý tăng/giảm số lượng trẻ em
       const handleIncreaseChildren = () => {
-        if (totalPeople < availableSlots) {
-          setFormData({
-            ...formData,
-            numberOfChildren: formData.numberOfChildren + 1,
-          });
+        const maxChildren = formData.numberOfAdults * 2; // Số trẻ em tối đa dựa trên số người lớn
+        const totalPeople = formData.numberOfAdults + formData.numberOfChildren; // Tổng số người
+      
+        if (totalPeople < availableSlots) { 
+          if (formData.numberOfChildren < maxChildren) { 
+            setFormData({
+              ...formData,
+              numberOfChildren: formData.numberOfChildren + 1,
+            });
+          } else {
+            toast.error("Số lượng trẻ em không được vượt quá gấp đôi số người lớn."); // Thông báo nếu vượt giới hạn
+          }
         } else {
-          showAlert(); // Hiển thị thông báo khi số người đạt giới hạn
+          showAlert(); // Thông báo khi đạt giới hạn tổng số người
         }
       };
 
@@ -362,7 +370,7 @@
                   {/*Só lượng người lớn */}
                   <QuantityInput
                     label="Người lớn"
-                    note="Từ 12 tuổi"
+                    note="(Từ 12 tuổi trở lên)"
                     value={formData.numberOfAdults}
                     onIncrease={handleIncreaseAdults}
                     onDecrease={handleDecreaseAdults}
@@ -371,7 +379,7 @@
                   {/*Só lượng trẻ em */}
                   <QuantityInput
                     label="Trẻ em"
-                    note="Dưới 11 tuổi"
+                    note="(Từ 5 đến 11 tuổi)"
                     value={formData.numberOfChildren}
                     onIncrease={handleIncreaseChildren}
                     onDecrease={handleDecreaseChildren}
@@ -474,7 +482,8 @@
                               {/* Thêm DiscountCodeComponent vào đây */}
                               <DiscountCodeComponent 
                                 totalPrice={totalPrice} 
-                                setFinalPrice={setFinalPrice}  
+                                setFinalPrice={setFinalPrice}
+                                appliedCoded={setAppliedCode}  
                               />
 
                               <div className="flex justify-between border-t-2 pt-4">

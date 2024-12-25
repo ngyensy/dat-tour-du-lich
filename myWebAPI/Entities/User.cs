@@ -46,6 +46,9 @@ namespace WebApi.Entities
         [Column("RewardPoints")]
         public int RewardPoints { get; set; }
 
+        [Column("NumberOfToursTaken")]
+        public int NumberOfToursTaken { get; set; }
+
         public ICollection<Booking> Bookings { get; set; }
     }
 }

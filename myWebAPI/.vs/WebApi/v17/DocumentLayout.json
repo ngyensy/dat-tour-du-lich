@@ -189,7 +189,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
@@ -199,10 +199,63 @@
               "RelativeDocumentMoniker": "Entities\\User.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Entities\\User.cs",
               "RelativeToolTip": "Entities\\User.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAA/wCoAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAAAswCoAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-15T03:49:02.462Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CategoryService.cs",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\CategoryService.cs",
+              "RelativeDocumentMoniker": "Services\\CategoryService.cs",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\CategoryService.cs",
+              "RelativeToolTip": "Services\\CategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T05:48:41.029Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "JwtService.cs",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\JwtService.cs",
+              "RelativeDocumentMoniker": "Services\\JwtService.cs",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\JwtService.cs",
+              "RelativeToolTip": "Services\\JwtService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-15T04:10:29.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TourScheduleController.cs",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\TourScheduleController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TourScheduleController.cs",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\TourScheduleController.cs",
+              "RelativeToolTip": "Controllers\\TourScheduleController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwDMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T03:10:07.167Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Startup.cs",
+              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Startup.cs",
+              "RelativeDocumentMoniker": "Startup.cs",
+              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Startup.cs",
+              "RelativeToolTip": "Startup.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAYwDEAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T16:51:39.665Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -219,42 +272,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "CategoryService.cs",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\CategoryService.cs",
-              "RelativeDocumentMoniker": "Services\\CategoryService.cs",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\CategoryService.cs",
-              "RelativeToolTip": "Services\\CategoryService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-25T05:48:41.029Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "JwtService.cs",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\JwtService.cs",
-              "RelativeDocumentMoniker": "Services\\JwtService.cs",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\JwtService.cs",
-              "RelativeToolTip": "Services\\JwtService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T04:10:29.221Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "TourScheduleController.cs",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\TourScheduleController.cs",
-              "RelativeDocumentMoniker": "Controllers\\TourScheduleController.cs",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\TourScheduleController.cs",
-              "RelativeToolTip": "Controllers\\TourScheduleController.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwDMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T03:10:07.167Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
               "Title": "DataContext.cs",
               "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Helpers\\DataContext.cs",
@@ -263,7 +280,8 @@
               "RelativeToolTip": "Helpers\\DataContext.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAgwB0AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T16:49:36.027Z"
+              "WhenOpened": "2024-09-14T16:49:36.027Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -280,19 +298,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Startup.cs",
-              "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Startup.cs",
-              "RelativeDocumentMoniker": "Startup.cs",
-              "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Startup.cs",
-              "RelativeToolTip": "Startup.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwDEAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T16:51:39.665Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
               "Title": "ReviewService.cs",
               "DocumentMoniker": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\ReviewService.cs",
@@ -301,7 +306,8 @@
               "RelativeToolTip": "Services\\ReviewService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-11T04:14:52.866Z"
+              "WhenOpened": "2024-12-11T04:14:52.866Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -313,7 +319,8 @@
               "RelativeToolTip": "Entities\\Review.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-11T04:19:00.306Z"
+              "WhenOpened": "2024-12-11T04:19:00.306Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -325,7 +332,8 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T04:59:56.125Z"
+              "WhenOpened": "2024-09-15T04:59:56.125Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -335,9 +343,10 @@
               "RelativeDocumentMoniker": "Services\\BookingService.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\BookingService.cs",
               "RelativeToolTip": "Services\\BookingService.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAAABIAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAEMAAAAAAAAAAIBJwBIAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T03:49:09.468Z"
+              "WhenOpened": "2024-09-15T03:49:09.468Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -349,7 +358,8 @@
               "RelativeToolTip": "Entities\\DiscountCode.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-07T12:29:09.306Z"
+              "WhenOpened": "2024-12-07T12:29:09.306Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -361,7 +371,8 @@
               "RelativeToolTip": "Controllers\\DiscountCodeController.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAQwBkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-08T03:23:17.612Z"
+              "WhenOpened": "2024-12-08T03:23:17.612Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -373,7 +384,8 @@
               "RelativeToolTip": "Controllers\\ItineraryController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-06T13:25:35.709Z"
+              "WhenOpened": "2024-10-06T13:25:35.709Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -383,9 +395,10 @@
               "RelativeDocumentMoniker": "Services\\TourService.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Services\\TourService.cs",
               "RelativeToolTip": "Services\\TourService.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAIwBsAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAywBsAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T16:51:17.293Z"
+              "WhenOpened": "2024-09-14T16:51:17.293Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -397,7 +410,8 @@
               "RelativeToolTip": "Services\\UserService.cs",
               "ViewState": "AgIAAFMAAAAAAAAAAAAqwGkAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T16:46:43.835Z"
+              "WhenOpened": "2024-09-14T16:46:43.835Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -407,7 +421,6 @@
               "RelativeDocumentMoniker": "Models\\RedeemDiscountCodeRequest.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Models\\RedeemDiscountCodeRequest.cs",
               "RelativeToolTip": "Models\\RedeemDiscountCodeRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-07T12:56:14.782Z"
             },
@@ -421,7 +434,8 @@
               "RelativeToolTip": "Entities\\Tour.cs",
               "ViewState": "AgIAACsAAAAAAAAAAAAkwDUAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-26T06:47:31.827Z"
+              "WhenOpened": "2024-09-26T06:47:31.827Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -433,7 +447,8 @@
               "RelativeToolTip": "Entities\\Role.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-26T06:47:37.832Z"
+              "WhenOpened": "2024-09-26T06:47:37.832Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -445,7 +460,8 @@
               "RelativeToolTip": "Entities\\Category.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAAwAoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-26T06:47:38.766Z"
+              "WhenOpened": "2024-09-26T06:47:38.766Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -455,9 +471,10 @@
               "RelativeDocumentMoniker": "Entities\\TourSchedule.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Entities\\TourSchedule.cs",
               "RelativeToolTip": "Entities\\TourSchedule.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAIBJwBEAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T02:47:18.073Z"
+              "WhenOpened": "2024-11-29T02:47:18.073Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -467,9 +484,10 @@
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T03:06:49.3Z"
+              "WhenOpened": "2024-11-29T03:06:49.3Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -481,7 +499,8 @@
               "RelativeToolTip": "Models\\Itinerary.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-27T04:21:06.776Z"
+              "WhenOpened": "2024-09-27T04:21:06.776Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -493,7 +512,8 @@
               "RelativeToolTip": "Models\\Category.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-16T03:14:21.582Z"
+              "WhenOpened": "2024-09-16T03:14:21.582Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -505,7 +525,8 @@
               "RelativeToolTip": "Models\\Tour.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-26T06:59:23.424Z"
+              "WhenOpened": "2024-09-26T06:59:23.424Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -515,9 +536,10 @@
               "RelativeDocumentMoniker": "Models\\Booking.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Models\\Booking.cs",
               "RelativeToolTip": "Models\\Booking.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAkwCQAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAkwCQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-16T03:13:51.452Z"
+              "WhenOpened": "2024-09-16T03:13:51.452Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -527,7 +549,7 @@
               "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\UsersController.cs",
               "RelativeToolTip": "Controllers\\UsersController.cs",
-              "ViewState": "AgIAAD0AAAAAAAAAAAAAADIAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAADoAAAAAAAAAAIBJwDIAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-24T05:36:22.654Z",
               "EditorCaption": ""
@@ -540,7 +562,7 @@
               "RelativeDocumentMoniker": "Controllers\\ToursController.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\ToursController.cs",
               "RelativeToolTip": "Controllers\\ToursController.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAAAIQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGwAAAAAAAAAAIBJwIQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-18T05:22:51.58Z",
               "EditorCaption": ""
@@ -553,7 +575,7 @@
               "RelativeDocumentMoniker": "Controllers\\BookingsController.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Controllers\\BookingsController.cs",
               "RelativeToolTip": "Controllers\\BookingsController.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAAAEoAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAD4AAAAAAAAAAIBJwEoAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-14T17:13:33.119Z",
               "EditorCaption": ""
@@ -579,9 +601,10 @@
               "RelativeDocumentMoniker": "Models\\Users\\UpdateRequest.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Models\\Users\\UpdateRequest.cs",
               "RelativeToolTip": "Models\\Users\\UpdateRequest.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAADwvyUAAABCAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAwwCUAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T04:28:55.074Z"
+              "WhenOpened": "2024-10-27T04:28:55.074Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -593,7 +616,8 @@
               "RelativeToolTip": "Models\\Users\\ChangePasswordRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T04:32:59.386Z"
+              "WhenOpened": "2024-10-27T04:32:59.386Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -605,7 +629,8 @@
               "RelativeToolTip": "Models\\JwtSettings.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T04:18:40.837Z"
+              "WhenOpened": "2024-09-15T04:18:40.837Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -639,9 +664,10 @@
               "RelativeDocumentMoniker": "Entities\\Itinerary.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Entities\\Itinerary.cs",
               "RelativeToolTip": "Entities\\Itinerary.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABkAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAIBJwBkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-27T04:20:04.773Z"
+              "WhenOpened": "2024-09-27T04:20:04.773Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -653,7 +679,8 @@
               "RelativeToolTip": "Models\\Users\\LoginRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T03:42:00.942Z"
+              "WhenOpened": "2024-09-15T03:42:00.942Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -663,9 +690,10 @@
               "RelativeDocumentMoniker": "Models\\Users\\CreateRequest.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Models\\Users\\CreateRequest.cs",
               "RelativeToolTip": "Models\\Users\\CreateRequest.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAQwBUAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAzwBUAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T16:45:02.506Z"
+              "WhenOpened": "2024-09-14T16:45:02.506Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -677,7 +705,8 @@
               "RelativeToolTip": "Helpers\\IdGenerator.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAADwvxAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-26T13:13:54.385Z"
+              "WhenOpened": "2024-09-26T13:13:54.385Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -687,9 +716,10 @@
               "RelativeDocumentMoniker": "Entities\\Booking.cs",
               "ToolTip": "C:\\Users\\84978\\travel-tour-web\\myWebAPI\\Entities\\Booking.cs",
               "RelativeToolTip": "Entities\\Booking.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAA6wCwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAiwCwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-16T03:13:47.054Z"
+              "WhenOpened": "2024-09-16T03:13:47.054Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -701,7 +731,8 @@
               "RelativeToolTip": "Helpers\\JwtMiddleware.cs",
               "ViewState": "AgIAACcAAAAAAAAAAAAYwBcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T04:04:29.741Z"
+              "WhenOpened": "2024-09-15T04:04:29.741Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -713,7 +744,8 @@
               "RelativeToolTip": "omnisharp.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-26T06:54:20.329Z"
+              "WhenOpened": "2024-09-26T06:54:20.329Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -725,7 +757,8 @@
               "RelativeToolTip": "LICENSE",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-09-26T06:54:21.937Z"
+              "WhenOpened": "2024-09-26T06:54:21.937Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -737,7 +770,8 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-15T03:47:20.229Z"
+              "WhenOpened": "2024-09-15T03:47:20.229Z",
+              "EditorCaption": ""
             }
           ]
         }

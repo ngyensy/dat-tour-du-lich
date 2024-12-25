@@ -70,7 +70,7 @@ const TravelSlider = () => {
             <img
               src="https://dulichviet.com.vn/images/bandidau/banner/BANNER-TET/tour-tet-du-lich-viet%20(2)(1).jpg?v=1'"
               alt="Destination 4"
-              className="w-[640] h-[640px] object-cover rounded-lg items-"
+              className="w-[640] h-[640px] object-cover rounded-lg"
             />
           </div>
         </Slider>

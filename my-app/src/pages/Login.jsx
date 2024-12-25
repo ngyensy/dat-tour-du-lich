@@ -42,6 +42,7 @@ const LoginForm = () => {
           gender: data.gender,
           dateOfBirth: data.dateOfBirth,
           rewardPoints: data.rewardPoints,
+          numberOfToursTaken: data.numberOfToursTaken,
         });  
       navigate('/');  
     },

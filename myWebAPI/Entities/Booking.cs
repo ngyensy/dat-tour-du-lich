@@ -70,5 +70,8 @@ namespace WebApi.Entities
         [Column("TourScheduleId")]
         public int? TourScheduleId {get; set;}
 
+        [Column("AppliedCode")]
+        public string AppliedCode { get; set; }
+
     }
 }

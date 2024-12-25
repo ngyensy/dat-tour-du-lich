@@ -42,7 +42,7 @@ const ItineraryManagement = () => {
       setItineraries(fetchedItineraries); // Cập nhật danh sách lịch trình
     } catch (error) {
       console.error('Error fetching itineraries:', error);
-      setNoDataMessage('Không tìm thấy lịch trình nào!!!'); // Thông báo lỗi
+      setNoDataMessage('Hiện tại Tour không có lịch trình nào!!!'); // Thông báo lỗi
     }
   };
 

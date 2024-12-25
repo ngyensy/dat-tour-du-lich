@@ -118,5 +118,20 @@ namespace WebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Đã xảy ra lỗi khi tính tổng doanh thu.", error = ex.Message });
             }
         }
+
+        [HttpGet("monthly-revenue")]
+        public IActionResult GetMonthlyRevenue()
+        {
+            try
+            {
+                var monthlyRevenue = _bookingService.GetMonthlyRevenue();
+                return Ok(monthlyRevenue);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Đã xảy ra lỗi khi lấy doanh thu hàng tháng.", error = ex.Message });
+            }
+        }
+
     }
 }

@@ -24,6 +24,8 @@ import ProtectedRoute from './context/ProtectedRoute';
 import ItineraryManagement from './admin/components/ItinenaryManagement';
 import Userinfor from './pages/account-info'
 import TourSchedule from './admin/components/TourSchedule';
+import Reviews from './admin/components/ReviewMannagement'
+
 
 
 // Component AdminRoutes kiểm tra admin từ context
@@ -51,6 +53,7 @@ const AdminRoutes = () => {
         <Route path="tours/itineraries/:tourId" element={<ItineraryManagement />} />
         <Route path="tours/tourSchedule" element={<TourSchedule />} />
         <Route path="tours/tourSchedule/:tourId" element={<TourSchedule />} />
+        <Route path="tours/reviews" element={<Reviews />} />
       </Route>
     </Routes>
   );

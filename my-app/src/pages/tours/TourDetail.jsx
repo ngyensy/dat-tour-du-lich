@@ -11,6 +11,8 @@ import Itinerary from '../../components/itinerary';
 import TourDatePicker from '../../components/TourDatepicker';
 import TourReviews from './TourReviews';
 import StarRatings from "react-star-ratings";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TourDetail = () => {
   const navigate = useNavigate();  // Thay vì useHistory, sử dụng useNavigate
@@ -21,7 +23,10 @@ const TourDetail = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [averageRating, setAverageRating] = useState(0);
 
- 
+  const handleToastMessage = (message) => {
+    // Xử lý thông báo ở đây, có thể sử dụng react-toastify để hiển thị thông báo
+    toast.error(message);
+  };
 
   // Hàm để gọi API lấy dữ liệu tour dựa trên id
   const fetchTour = async () => {
@@ -126,7 +131,7 @@ const TourDetail = () => {
       <Navbar />
       <CategoryNav categoryId={tour.category?.id} tourName={tour.name}/>
 
-      <div className="container mx-auto my-8 px-32">
+      <div className="container mx-auto my-4 px-32">
         <h1 className="text-3xl mb-8">
           <strong className="">{tour.name}</strong>
         </h1>
@@ -145,7 +150,7 @@ const TourDetail = () => {
                   starDimension="20px" // Kích thước sao
                 />)
               </div>
-              </div>
+          </div>
 
             <div className="mb-4">
               <img src={`http://localhost:4000${tour.image}`} alt={tour.name} className="w-full h-[32rem] object-cover rounded-lg" />
@@ -164,6 +169,7 @@ const TourDetail = () => {
               <h2 className="text-3xl text-center font-bold mb-2">ĐÁNH GIÁ TOUR</h2>
 
               <TourReviews tourId={id} setAverageRating={setAverageRating} />
+              <ToastContainer />
             </div>
 
           </div>

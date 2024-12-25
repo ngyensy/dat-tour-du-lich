@@ -8,7 +8,6 @@ const paymentMethods = [
   { id: 1, name: 'Tiền mặt', icon: '💵' },
   { id: 2, name: 'Chuyển khoản', icon: '🏦' },
   { id: 3, name: 'Thanh toán bằng ZaloPay', icon: '', image: zalopay },
-  { id: 4, name: 'Thẻ tín dụng', icon: '💳' },
   { id: 5, name: 'Thanh toán VNPAY', icon: '', image: vnpay },
   { id: 6, name: 'Thanh toán bằng MoMo', icon: '', image: momopay },
 ];

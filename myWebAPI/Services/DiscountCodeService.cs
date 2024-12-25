@@ -9,7 +9,7 @@ namespace WebApi.Services
     public interface IDiscountCodeService
     {
         DiscountCode CreateDiscountCode(DiscountCode discountCode);
-        DiscountCode RedeemPoints(int userId, int rewardPointsRequired);
+        DiscountCode RedeemPoints(int userId, int rewardPointsRequired, double amountDiscount);
         DiscountCode GetDiscountCodeById(int id);
         IEnumerable<DiscountCode> GetAllDiscountCodes();
 
@@ -41,7 +41,7 @@ namespace WebApi.Services
             return discountCode;
         }
 
-        public DiscountCode RedeemPoints(int userId, int rewardPointsRequired)
+        public DiscountCode RedeemPoints(int userId, int rewardPointsRequired, double amountDiscount)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             if (user == null) throw new AppException("Người dùng không tồn tại.");
@@ -50,7 +50,7 @@ namespace WebApi.Services
             var discountCode = new DiscountCode
             {
                 Code = GenerateRandomCode(), // Tạo mã giảm giá tự động
-                AmountDiscount = rewardPointsRequired * 10,
+                AmountDiscount = amountDiscount,
                 RewardPointsRequired = rewardPointsRequired,
                 ExpiryDate = DateTime.UtcNow.AddDays(7),
                 UserId = user.Id

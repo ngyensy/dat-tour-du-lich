@@ -76,7 +76,7 @@ namespace WebApi.Controllers
 
             try
             {
-                var discountCode = _discountCodeService.RedeemPoints(request.UserId, request.RewardPointsRequired);
+                var discountCode = _discountCodeService.RedeemPoints(request.UserId, request.RewardPointsRequired, request.AmountDiscount);
                 return Ok(new { Code = discountCode.Code });
             }
             catch (AppException ex)
@@ -143,6 +143,7 @@ namespace WebApi.Controllers
         {
             public int UserId { get; set; }
             public int RewardPointsRequired { get; set; }
+            public double AmountDiscount { get; set;}
         }
 
         public class ValidateDiscountCodeRequest

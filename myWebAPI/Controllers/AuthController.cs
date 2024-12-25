@@ -49,6 +49,7 @@ public class AuthController : ControllerBase
             Gender = user.Gender,
             DateOfBirth = user.DateOfBirth,
             RewardPoints = user.RewardPoints,
+            NumberOfToursTaken = user.NumberOfToursTaken,
         });
     }
 

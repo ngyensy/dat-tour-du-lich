@@ -20,7 +20,7 @@ namespace WebApi.Entities
         [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5.")]
         public int Rating { get; set; } // Điểm đánh giá (1-5 sao)
 
-        public string Comment { get; set; } // Nội dung bình luận
+        public string Comment { get; set; } // Nội dung bình luận   
 
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow; // Thời gian tạo đánh giá

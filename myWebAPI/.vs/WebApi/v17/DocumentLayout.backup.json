@@ -529,7 +529,8 @@
               "RelativeToolTip": "Controllers\\UsersController.cs",
               "ViewState": "AgIAAD0AAAAAAAAAAAAAADIAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T05:36:22.654Z"
+              "WhenOpened": "2024-09-24T05:36:22.654Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -541,7 +542,8 @@
               "RelativeToolTip": "Controllers\\ToursController.cs",
               "ViewState": "AgIAAG8AAAAAAAAAAAAAAIQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-18T05:22:51.58Z"
+              "WhenOpened": "2024-10-18T05:22:51.58Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -553,7 +555,8 @@
               "RelativeToolTip": "Controllers\\BookingsController.cs",
               "ViewState": "AgIAAEEAAAAAAAAAAAAAAEoAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T17:13:33.119Z"
+              "WhenOpened": "2024-09-14T17:13:33.119Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

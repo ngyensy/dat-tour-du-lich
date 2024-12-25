@@ -12,7 +12,7 @@ const TourDatePicker = ({ tourData, onSelectDate }) => {
   return (
     <div className="flex flex-col items-center p-4">
       <label htmlFor="date-picker" className="text-lg font-semibold mb-2">
-        Chọn ngày khởi hành:
+        Chọn ngày khởi hành khác:
       </label>
       
       {/* Hiển thị danh sách các ngày từ tourSchedules */}

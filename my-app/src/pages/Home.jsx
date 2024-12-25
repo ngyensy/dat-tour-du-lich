@@ -28,7 +28,7 @@ const Home = () => {
 
         <Section 
           title="Điểm đến yêu thích" 
-          description="Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!" 
+          description="" 
           content={<Tours/>}
         />
         <Footer />
