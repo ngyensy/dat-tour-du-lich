@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartPie, faPlane, faUsers, faTags, faCalendarAlt, faComments, faSuitcase } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faPlane, faUsers, faTags, faCalendarAlt, faComments, faSuitcase, faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
 import { NavLink, Outlet } from 'react-router-dom';
 import NavAdmin from './components/NavAdmin';
 import React, { useState } from 'react';
@@ -119,6 +119,19 @@ const AdminLayout = React.memo(() => {
               >
                 <FontAwesomeIcon icon={faComments} className="mr-3" />
                 Quản lý Đánh giá
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/tours/transactions"
+                className={({ isActive }) =>
+                  `flex items-center py-2.5 px-4 font-bold ${
+                    isActive ? 'bg-gray-700 text-white' : 'hover:bg-gray-300'
+                  }`
+                }
+              >
+                <FontAwesomeIcon icon={faMoneyCheckAlt} className="mr-3" />
+                Quản lý Giao dịch
               </NavLink>
             </li>
           </ul>

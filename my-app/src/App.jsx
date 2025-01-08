@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'; 
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom'; 
 import Home from './pages/Home';
 import TourDetail from './pages/tours/TourDetail';
 import BookingPage from './pages/Booking';
@@ -11,6 +11,8 @@ import CreateTour from './components/creatTour';
 import Contact from './pages/contact';
 import Confirmation from './pages/Confirmation';
 import DiscountsPage from './pages/Doimagiamgia';
+import ChatIconWrapper from './components/ChatIconWapper';
+import About from './pages/About'
 
 // ------- Các thành phần admin ---------
 import AdminLayout from './admin/AdminLayout';
@@ -25,8 +27,7 @@ import ItineraryManagement from './admin/components/ItinenaryManagement';
 import Userinfor from './pages/account-info'
 import TourSchedule from './admin/components/TourSchedule';
 import Reviews from './admin/components/ReviewMannagement'
-
-
+import TransactionsPage from './admin/components/TransactionManagement';
 
 // Component AdminRoutes kiểm tra admin từ context
 const AdminRoutes = () => {
@@ -54,12 +55,14 @@ const AdminRoutes = () => {
         <Route path="tours/tourSchedule" element={<TourSchedule />} />
         <Route path="tours/tourSchedule/:tourId" element={<TourSchedule />} />
         <Route path="tours/reviews" element={<Reviews />} />
+        <Route path="tours/transactions" element={<TransactionsPage />} />
       </Route>
     </Routes>
   );
 };
 
 const App = () => {
+
   return (
     <AuthProvider>
       <Router>
@@ -76,9 +79,11 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/Doi-thuong" element={<DiscountsPage />} />
+          <Route path="/about" element={<About />} />
           {/* Các route cho admin */}
           <Route path="/*" element={<AdminRoutes />} /> {/* Bao bọc AdminRoutes */}
         </Routes>
+        <ChatIconWrapper />
       </Router>
     </AuthProvider>
   );

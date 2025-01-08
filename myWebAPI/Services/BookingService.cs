@@ -20,6 +20,8 @@ namespace WebApi.Services
         decimal GetTotalRevenue();
 
         List<MonthlyRevenueModel> GetMonthlyRevenue();
+        List<PopularCategoryModel> GetPopularCategories();
+        List<PopularTourModel> GetPopularTours();
         
     }
 
@@ -27,11 +29,13 @@ namespace WebApi.Services
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly ITransactionService _transactionService;
 
-        public BookingService(DataContext context, IMapper mapper)
+        public BookingService(DataContext context, IMapper mapper, ITransactionService transactionService)
         {
             _context = context;
             _mapper = mapper;
+            _transactionService = transactionService;
         }
 
         public IEnumerable<BookingModel> GetAllBookings()
@@ -53,58 +57,71 @@ namespace WebApi.Services
         }
 
         public void Create(BookingModel bookingModel)
-{
-    var tour = _context.Tours.FirstOrDefault(t => t.Id == bookingModel.TourId) 
-               ?? throw new ArgumentException("Tour không tồn tại!");
+        {
+            var tour = _context.Tours.FirstOrDefault(t => t.Id == bookingModel.TourId)
+                       ?? throw new ArgumentException("Tour không tồn tại!");
 
-    // Tính tổng số người đặt
-    int totalPeople = bookingModel.NumberOfAdults + bookingModel.NumberOfChildren;
+            // Tính tổng số người đặt
+            int totalPeople = bookingModel.NumberOfAdults + bookingModel.NumberOfChildren;
 
-    // Kiểm tra số chỗ còn lại
-    if (tour.AvailableSlots < totalPeople)
-    {
-        throw new InvalidOperationException("Số chỗ còn lại không đủ!");
-    }
+            // Kiểm tra số chỗ còn lại
+            if (tour.AvailableSlots < totalPeople)
+            {
+                throw new InvalidOperationException("Số chỗ còn lại không đủ!");
+            }
 
-    // Xử lý mã giảm giá nếu có
-    if (!string.IsNullOrEmpty(bookingModel.AppliedCode))
-    {
-        var discountCode = _context.DiscountCodes.FirstOrDefault(dc => dc.Code == bookingModel.AppliedCode) ?? throw new ArgumentException("Mã giảm giá không tồn tại!");
+            // Xử lý mã giảm giá nếu có
+            if (!string.IsNullOrEmpty(bookingModel.AppliedCode))
+            {
+                var discountCode = _context.DiscountCodes.FirstOrDefault(dc => dc.Code == bookingModel.AppliedCode) ?? throw new ArgumentException("Mã giảm giá không tồn tại!");
                 if (discountCode.IsUsed)
-        {
-            throw new InvalidOperationException("Mã giảm giá đã được sử dụng!");
+                {
+                    throw new InvalidOperationException("Mã giảm giá đã được sử dụng!");
+                }
+
+                // Đánh dấu mã giảm giá là đã sử dụng
+                discountCode.IsUsed = true;
+                _context.DiscountCodes.Update(discountCode);
+            }
+
+            // Trừ số chỗ còn lại khỏi tour
+            tour.AvailableSlots -= totalPeople;
+
+            if (tour.AvailableSlots == 0)
+            {
+                tour.IsActive = false;
+            }
+
+            // Chuyển đổi BookingModel thành Booking entity
+            var bookingEntity = _mapper.Map<Booking>(bookingModel);
+
+            // Tạo BookingId ngẫu nhiên
+            bookingEntity.Id = IdGenerator.GenerateBookingId(10);
+
+            // Chỉnh sửa thời gian đặt chỗ, loại bỏ mili giây
+            bookingEntity.BookingDate = bookingModel.BookingDate.AddMilliseconds(-bookingModel.BookingDate.Millisecond);
+
+            // Thêm booking vào cơ sở dữ liệu
+            _context.Bookings.Add(bookingEntity);
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            _context.SaveChanges();
+
+            // Sau khi tạo booking thành công, tự động tạo giao dịch cho booking này
+            var transactionModel = new TransactionModel
+            {
+                BookingId = bookingEntity.Id, // Gán BookingId cho giao dịch
+                UserId = bookingEntity?.UserId,
+                PaymentMethod = bookingModel.PaymentMethod,
+                Amount = bookingModel.TotalPrice, // Sử dụng tổng giá trị thanh toán của booking
+                Status = "Đang xử lí", // Trạng thái giao dịch có thể là "Completed"
+                TransactionDate = DateTime.Now // Ngày giờ giao dịch
+
+            };
+
+            // Tạo giao dịch cho booking
+            _transactionService.CreateTransaction(transactionModel);
         }
-
-        // Đánh dấu mã giảm giá là đã sử dụng
-        discountCode.IsUsed = true;
-        _context.DiscountCodes.Update(discountCode);
-        }
-
-        // Trừ số chỗ còn lại khỏi tour
-        tour.AvailableSlots -= totalPeople;
-
-        if (tour.AvailableSlots == 0)
-        {
-            tour.IsActive = false;
-        }
-
-        // Chuyển đổi BookingModel thành Booking entity
-        var bookingEntity = _mapper.Map<Booking>(bookingModel);
-
-        // Tạo BookingId ngẫu nhiên
-        bookingEntity.Id = IdGenerator.GenerateBookingId(10);
-
-        // Chỉnh sửa thời gian đặt chỗ, loại bỏ mili giây
-        bookingEntity.BookingDate = bookingModel.BookingDate.AddMilliseconds(-bookingModel.BookingDate.Millisecond);
-
-        // Thêm booking vào cơ sở dữ liệu
-        _context.Bookings.Add(bookingEntity);
-
-        // Lưu thay đổi vào cơ sở dữ liệu
-        _context.SaveChanges();
-    }
-
-
 
         public void Update(string id, BookingModel bookingModel)
         {
@@ -202,10 +219,14 @@ namespace WebApi.Services
 
         public List<MonthlyRevenueModel> GetMonthlyRevenue()
         {
+            // Lấy năm hiện tại
+            int currentYear = DateTime.Now.Year;
+
             // Lấy dữ liệu doanh thu từ các booking có trạng thái "Đã thanh toán"
             var monthlyRevenue = _context.Bookings
-                .Where(b => b.Status == "Đã thanh toán")
-                .GroupBy(b => new { b.BookingDate.Year, b.BookingDate.Month }) // Nhóm theo năm và tháng
+                .Where(b => b.Status == "Đã thanh toán" &&
+                            b.BookingDate.Year == currentYear) // Lọc booking theo năm hiện tại
+                .GroupBy(b => new { b.BookingDate.Year, b.BookingDate.Month }) // Nhóm theo năm và tháng của ngày booking
                 .Select(g => new MonthlyRevenueModel
                 {
                     Year = g.Key.Year,
@@ -217,9 +238,9 @@ namespace WebApi.Services
             // Tạo danh sách các tháng trong năm, với doanh thu mặc định là 0 cho mỗi tháng
             var allMonthsInYear = Enumerable.Range(1, 12).Select(month => new MonthlyRevenueModel
             {
-                Year = DateTime.Now.Year, // Hoặc có thể thay bằng một năm cụ thể nếu cần
+                Year = currentYear, // Năm hiện tại
                 Month = month,
-                TotalRevenue = 0
+                TotalRevenue = 0 // Doanh thu mặc định là 0
             }).ToList();
 
             // Ghép dữ liệu doanh thu từ cơ sở dữ liệu vào danh sách các tháng
@@ -232,7 +253,64 @@ namespace WebApi.Services
                 }
             }
 
+            // Trả về danh sách các tháng với doanh thu
             return allMonthsInYear.OrderBy(m => m.Month).ToList();
         }
+
+
+        public List<PopularCategoryModel> GetPopularCategories()
+        {
+            // Lấy danh sách các booking có trạng thái "Đã thanh toán"
+            var paidBookings = _context.Bookings
+                .Include(b => b.Tour) // Bao gồm thông tin về Tour
+                .ThenInclude(t => t.Category) // Bao gồm thông tin về Category
+                .Where(b => b.Status == "Đã thanh toán")
+                .ToList();
+
+            // Kiểm tra nếu không có booking nào thì trả về danh sách rỗng
+            if (!paidBookings.Any())
+            {
+                return new List<PopularCategoryModel>();
+            }
+
+            // Tính toán số lượng người đến từng danh mục
+            var categoryStats = paidBookings
+                .GroupBy(b => b.Tour.Category.Name) // Nhóm theo danh mục
+                .Select(group => new PopularCategoryModel
+                {
+                    Category = group.Key,
+                    TotalVisitors = group.Sum(b => b.NumberOfAdults + b.NumberOfChildren) // Tổng số người trong danh mục này
+                })
+                .OrderByDescending(c => c.TotalVisitors) // Sắp xếp theo số lượng khách giảm dần
+                .ToList();
+
+            return categoryStats;
+        }
+
+        public List<PopularTourModel> GetPopularTours()
+        {
+            var paidBookings = _context.Bookings
+                .Include(b => b.Tour)
+                .Where(b => b.Status == "Đã thanh toán")
+                .ToList();
+
+            if (!paidBookings.Any())
+            {
+                return new List<PopularTourModel>();
+            }
+
+            var tourStats = paidBookings
+                .GroupBy(b => b.Tour.Name) // Nhóm theo tên tour
+                .Select(group => new PopularTourModel
+                {
+                    TourName = group.Key,
+                    TotalVisitors = group.Sum(b => b.NumberOfAdults + b.NumberOfChildren) // Tổng số khách
+                })
+                .OrderByDescending(t => t.TotalVisitors)
+                .ToList();
+
+            return tourStats;
+        }
+
     }
 }

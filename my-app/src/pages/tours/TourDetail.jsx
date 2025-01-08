@@ -139,7 +139,7 @@ const TourDetail = () => {
           {/* Phần hình ảnh bên trái */}
           <div className="md:w-2/3 pr-4">
           {/* Hiển thị điểm trung bình */}
-          <div className="flex items-center text-lg">
+          <div className="flex items-center text-lg mb-1">
             <div>        
                 <strong>Đánh giá: <span>{averageRating.toFixed(1)}/5</span> </strong>
                 (<StarRatings

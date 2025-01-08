@@ -11,7 +11,6 @@ using WebApi.Models;
 using WebApi.Services;
 using WebApi.Services.WebApi.Services;
 using StackExchange.Redis;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -51,7 +50,8 @@ namespace WebApi
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IDiscountCodeService, DiscountCodeService>();
-            services.AddScoped<IReviewService, ReviewService>(); ;
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<ITransactionService, TransactionService>();
 
             // Configure Redis connection
             var redisConnection = "localhost:6379"; // Thay đổi địa chỉ Redis nếu cần
@@ -83,6 +83,7 @@ namespace WebApi
             // Configure authorization
             services.AddAuthorization();
             services.AddHttpContextAccessor();
+           
         }
 
         // Configure the HTTP request pipeline
@@ -111,8 +112,8 @@ namespace WebApi
             // Global error handler
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseMiddleware<JwtMiddleware>();
-
             app.UseEndpoints(x => x.MapControllers());
+            
         }
     }
 }

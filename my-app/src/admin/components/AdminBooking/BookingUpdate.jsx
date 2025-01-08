@@ -84,7 +84,7 @@ const UpdateBookingForm = ({ booking, onUpdate, onCancel }) => {
     };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="bg-gradient-to-br from-white to-gray-50 p-4 shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">Cập nhật Booking</h2>
 
       <div className="mb-2">

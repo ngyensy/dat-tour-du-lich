@@ -97,17 +97,28 @@ const FilterComponent = ({ onFilterApply }) => {
 
       {/* Điểm khởi hành */}
       <div className="mb-4">
-        <p className="font-bold mb-2">Điểm khởi hành:</p>
-        <select
-          className="p-2 border rounded-md w-full"
-          value={departurePoint}
-          onChange={(e) => setDeparturePoint(e.target.value)}
-        >
-          <option value="Tất cả">Tất cả</option>
-          <option value="Hà Nội">Hà Nội</option>
-          <option value="TP. HCM">TP. HCM</option>
-          {/* Các điểm khởi hành khác */}
-        </select>
+          <p className="font-bold mb-2">Điểm khởi hành:</p>
+          <select
+              className="p-2 border rounded-md w-full max-h-40 overflow-y-auto"
+              value={departurePoint}
+              onChange={(e) => setDeparturePoint(e.target.value)}
+          >
+              <option value="Tất cả">Tất cả</option>
+              <option value="Hà Nội">Hà Nội</option>
+              <option value="TP. HCM">TP. HCM</option>
+              <option value="Đà Nẵng">Đà Nẵng</option>
+              <option value="Hải Phòng">Hải Phòng</option>
+              <option value="Cần Thơ">Cần Thơ</option>
+              <option value="Nha Trang">Nha Trang</option>
+              <option value="Đà Lạt">Đà Lạt</option>
+              <option value="Quảng Ninh">Quảng Ninh</option>
+              <option value="Vũng Tàu">Vũng Tàu</option>
+              <option value="Huế">Huế</option>
+              <option value="Quy Nhơn">Quy Nhơn</option>
+              <option value="Phú Quốc">Phú Quốc</option>
+              <option value="Sapa">Sapa</option>
+              <option value="Hạ Long">Hạ Long</option>
+          </select>
       </div>
 
       {/* Điểm đến */}

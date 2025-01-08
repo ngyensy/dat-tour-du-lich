@@ -28,6 +28,7 @@ namespace WebApi.Helpers
         public DbSet<TourSchedule> TourSchedules { get; set; }
         public DbSet<DiscountCode> DiscountCodes { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         // Phương thức OnModelCreating để cấu hình quan hệ
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,6 +60,12 @@ namespace WebApi.Helpers
                 .HasForeignKey(ts => ts.TourId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Cấu hình mối quan hệ giữa Booking và Transaction (1-n)
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Booking)          // Một Transaction có một Booking
+                .WithMany(b => b.Transactions)   // Một Booking có thể có nhiều Transaction
+                .HasForeignKey(t => t.BookingId) // Khóa ngoại trong bảng Transaction
+                .OnDelete(DeleteBehavior.Cascade); // Khi xóa Booking, sẽ xóa tất cả các Transaction liên quan
 
             base.OnModelCreating(modelBuilder);
         }

@@ -5,15 +5,49 @@ const ChangePassword = ({ userId }) => { // Thêm userId nếu cần
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordStrength, setPasswordStrength] = useState('');
     const [error, setError] = useState(''); // Trạng thái để lưu lỗi
     const [successMessage, setSuccessMessage] = useState(''); // Trạng thái để lưu thông báo thành công
+
+    // Hàm kiểm tra độ mạnh mật khẩu
+    const checkPasswordStrength = (password) => {
+        let strength = '';
+        const lengthCriteria = password.length >= 8;
+        const uppercaseCriteria = /[A-Z]/.test(password);
+        const lowercaseCriteria = /[a-z]/.test(password);
+        const numberCriteria = /[0-9]/.test(password);
+        const specialCharCriteria = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        const fulfilledCriteria = [
+            lengthCriteria,
+            uppercaseCriteria,
+            lowercaseCriteria,
+            numberCriteria,
+            specialCharCriteria,
+        ].filter(Boolean).length;
+
+        if (fulfilledCriteria === 5) {
+            strength = 'Mạnh';
+        } else if (fulfilledCriteria >= 3) {
+            strength = 'Trung bình';
+        } else {
+            strength = 'Yếu';
+        }
+
+        return strength;
+    };
+
+    // Cập nhật độ mạnh mật khẩu khi mật khẩu mới thay đổi
+    useEffect(() => {
+        setPasswordStrength(checkPasswordStrength(newPassword));
+    }, [newPassword]);
 
     // Hàm xử lý thay đổi mật khẩu
     const handlePasswordChange = async (e) => {
         e.preventDefault();
 
         if (newPassword !== confirmPassword) {
-            setError('Mật khẩu cũ không đúng!');
+            setError('Xác nhận mật khẩu không khớp!');
             return;
         }
 
@@ -81,6 +115,15 @@ const ChangePassword = ({ userId }) => { // Thêm userId nếu cần
                             className="border border-gray-500 p-2 rounded w-full"
                             required
                         />
+                        {newPassword && (
+                            <p className="text-sm font-medium mt-2">
+                                Độ mạnh mật khẩu: <span className={`font-bold ${
+                                    passwordStrength === 'Mạnh' ? 'text-green-600' :
+                                    passwordStrength === 'Trung bình' ? 'text-yellow-600' :
+                                    'text-red-600'
+                                }`}>{passwordStrength}</span>
+                            </p>
+                        )}
                     </div>
                     <div className="mb-4">
                         <label className="block font-bold mb-2">Xác nhận mật khẩu mới:</label>

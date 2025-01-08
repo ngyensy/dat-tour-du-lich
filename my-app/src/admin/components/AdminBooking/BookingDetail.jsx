@@ -125,7 +125,7 @@ const BookingDetail = ({ booking, onBack }) => {
   const singleRoomSurcharge = bookingData.tour?.singleRoomSurcharge || 0;
 
   return (
-    <div>
+    <div className="bg-gradient-to-br from-white to-gray-50 p-4 shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">Chi tiết Booking</h2>
       <div className="p-4 border border-gray-300 rounded shadow-md">
         <div className="flex">
@@ -152,12 +152,12 @@ const BookingDetail = ({ booking, onBack }) => {
                 <strong>Yêu Cầu Đặc Biệt:</strong> {bookingData.notes}
               </div>
             )}
-            <div className="mb-2">
-              <strong>Thông Tin Liên Hệ:</strong>
-              <div>Tên Khách: {bookingData.guestName}</div>
-              <div>Email: {bookingData.guestEmail || 'N/A'}</div>
-              <div>Số Điện Thoại: {bookingData.guestPhoneNumber || 'N/A'}</div>
-              <div>Địa Chỉ: {bookingData.guestAddress || 'N/A'}</div>
+            <div className="mb-2 ">
+              <h3 className='text-2xl font-bold'>Thông Tin Liên Hệ:</h3>
+              <div><strong>Tên Khách:</strong> {bookingData.guestName}</div>
+              <div><strong>Email:</strong> {bookingData.guestEmail || 'N/A'}</div>
+              <div><strong>Số Điện Thoại:</strong> {bookingData.guestPhoneNumber || 'N/A'}</div>
+              <div><strong>Địa Chỉ:</strong> {bookingData.guestAddress || 'N/A'}</div>
             </div>
           </div>
 
@@ -169,9 +169,6 @@ const BookingDetail = ({ booking, onBack }) => {
             </div>
             <div className="mb-2">
               <strong>Tên Tour:</strong> {bookingData.tour?.name || 'N/A'}
-            </div>
-            <div className="mb-2">
-              <strong>Mô Tả Tour:</strong> {bookingData.tour?.description || 'N/A'}
             </div>
             <div className="mb-2">
               <strong>Địa Điểm Tour:</strong> {bookingData.tour?.departureLocation || 'N/A'}

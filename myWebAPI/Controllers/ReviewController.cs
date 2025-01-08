@@ -34,6 +34,12 @@ namespace WebApi.Controllers
                 return BadRequest(new { message = "Dữ liệu đánh giá không hợp lệ." });
             }
 
+            // Kiểm tra nếu người dùng đã hoàn thành tour
+            if (!_reviewService.HasUserCompletedTour(review.TourId, review.UserId))
+            {
+                return BadRequest(new { message = "Bạn chỉ có thể đánh giá khi đã trải nghiệm Tour." });
+            }
+
             var createdReview = _reviewService.AddReview(review);
             return CreatedAtAction(nameof(GetReviewsByTour), new { tourId = review.TourId }, createdReview);
         }

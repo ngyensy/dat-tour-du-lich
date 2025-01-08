@@ -13,6 +13,7 @@ namespace WebApi.Services
         Review AddReview(Review review);
         Review UpdateReview(int id, Review review);
         bool DeleteReview(int id);
+        bool HasUserCompletedTour(string tourId, int userId);
     }
 
     public class ReviewService : IReviewService
@@ -69,6 +70,12 @@ namespace WebApi.Services
             _context.Reviews.Remove(review);
             _context.SaveChanges();
             return true;
+        }
+
+        public bool HasUserCompletedTour(string tourId, int userId)
+        {
+            // Kiểm tra trong lịch sử đặt tour
+            return _context.Bookings.Any(b => b.TourId == tourId && b.UserId == userId && b.Status == "Đã thanh toán");
         }
     }
 }

@@ -90,8 +90,8 @@ const ManageReviews = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 border border-gray-300 rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Quản lí đánh giágiá</h2>
+    <div className="container mx-auto p-4 border border-gray-300 rounded-lg bg-white">
+      <h2 className="text-2xl font-bold mb-4">Quản lí đánh giá</h2>
 
       {/* Input for Tour ID */}
       <div className="mb-4">

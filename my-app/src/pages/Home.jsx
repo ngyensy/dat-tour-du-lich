@@ -6,7 +6,7 @@ import SearchBar from '../components/SearchBar';
 import Footer from '../components/Footer';
 import Discover from '../pages/tours/Discover'
 import Tours from './tours/Tours';
-import TourDiscount from './tours/TourDiscount'
+import TourDiscount from './tours/TourDiscount';
 
 const Home = () => {
     return (

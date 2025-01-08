@@ -84,24 +84,45 @@ const TourReviews = ({ tourId, setAverageRating }) => {
     try {
       const newReview = { tourId, userId: user.id, rating: parseInt(rating), comment: filteredComment };
       await axios.post("http://localhost:4000/v1/review", newReview);
-
+    
       // Lấy lại danh sách đánh giá mới từ backend
       const response = await axios.get(`http://localhost:4000/v1/review/tour/${tourId}`);
       const reviewData = Array.isArray(response.data) ? response.data : response.data.$values;
       setReviews(reviewData);
-
+    
       // Tính lại điểm trung bình sau khi thêm đánh giá mới
       const totalRating = reviewData.reduce((acc, review) => acc + review.rating, 0);
       const avgRating = totalRating / reviewData.length;
       setAverageRating(avgRating);
-
+    
       toast.success("Đã thêm đánh giá thành công!");
       setRating(0);
       setComment("");
     } catch (error) {
       console.error("Lỗi khi thêm đánh giá:", error);
-      toast.error("Không thể thêm đánh giá. Vui lòng thử lại.");
-    }
+    
+      // Kiểm tra nếu lỗi từ API (error.response)
+      if (error.response) {
+        const errorMessage =
+          error.response.data?.message || // Lấy thông báo lỗi từ backend
+          error.response.statusText || // Lấy trạng thái lỗi từ HTTP
+          "Lỗi không xác định từ máy chủ.";
+          toast.error(`${errorMessage}`, {
+            position: "top-center",
+            autoClose: 3000, // Đóng sau 3 giây
+            hideProgressBar: true, // Ẩn thanh tiến trình
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+          });
+      } else if (error.request) {
+        // Lỗi khi không nhận được phản hồi từ server
+        toast.error("Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng.");
+      } else {
+        // Các lỗi khác
+        toast.error("Đã xảy ra lỗi không xác định. Vui lòng thử lại.");
+      }
+    }    
   };
 
   // Lưu chỉnh sửa đánh giá

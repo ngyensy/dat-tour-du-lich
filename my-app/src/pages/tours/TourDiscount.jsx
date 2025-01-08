@@ -33,11 +33,7 @@ const TourDiscount = () => {
                     <TourCard key={index} tour={tour} />
                 ))}
             </div>
-            {visibleProducts < discountedTours.length && (
-                <button onClick={handleShowMore}>Hiện thêm</button>
-            )}
         </div>
     );
 };
-
 export default TourDiscount;

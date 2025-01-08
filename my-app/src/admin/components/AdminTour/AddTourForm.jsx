@@ -10,7 +10,7 @@ const AddTourForm = ({ onAddSuccess }) => {
     description: '',
     price: '',
     childPrice: '',
-    singleRoomSurcharge: '',
+    singleRoomSurcharge: 0,
     discount: '',
     departureLocation: '',
     destination: '',

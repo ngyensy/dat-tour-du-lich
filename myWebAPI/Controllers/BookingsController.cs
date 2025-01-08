@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using WebApi.Models;
@@ -130,6 +131,35 @@ namespace WebApi.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Đã xảy ra lỗi khi lấy doanh thu hàng tháng.", error = ex.Message });
+            }
+        }
+
+        // API để lấy danh sách các điểm đến yêu thích
+        [HttpGet("popular-categories")]
+        public ActionResult<List<PopularCategoryModel>> GetPopularCategories()
+        {
+            try
+            {
+                var popularCategories = _bookingService.GetPopularCategories();
+                return Ok(popularCategories);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Đã xảy ra lỗi trong quá trình xử lý yêu cầu.", error = ex.Message });
+            }
+        }
+
+                [HttpGet("popular-tours")]
+        public ActionResult<List<PopularTourModel>> GetPopularTours()
+        {
+            try
+            {
+                var popularTours = _bookingService.GetPopularTours();
+                return Ok(popularTours);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Đã xảy ra lỗi trong quá trình xử lý yêu cầu.", error = ex.Message });
             }
         }
 

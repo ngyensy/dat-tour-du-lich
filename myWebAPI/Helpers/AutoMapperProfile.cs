@@ -32,6 +32,7 @@ namespace WebApi.Helpers
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
             CreateMap<Booking, BookingModel>().ReverseMap();
             CreateMap<Category, CategoryModel>().ReverseMap();
+            CreateMap<Transaction, TransactionModel>().ReverseMap(); ;
         }
     }
 }

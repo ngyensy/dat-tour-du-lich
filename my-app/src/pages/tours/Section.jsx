@@ -20,6 +20,7 @@ const Section = ({ title, description, content }) => {
           {description}
         </p>
         {content}
+        
         {/* Nút Xem thêm */}
         <div className="flex justify-center mt-8">
           <button

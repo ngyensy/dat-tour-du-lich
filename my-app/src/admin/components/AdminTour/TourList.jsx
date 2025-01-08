@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { FaEdit, FaTrashAlt, FaRoute, FaClock } from 'react-icons/fa';
 import UpdateTourForm from '../AdminTour/UpdateTour';
 
 const TourList = ({ searchQuery, onEdit }) => {
   const [tours, setTours] = useState([]);
   const [selectedTour, setSelectedTour] = useState(null);
+  const [filterStatus, setFilterStatus] = useState('all');
   const navigate = useNavigate();
 
   const fetchTours = async () => {
@@ -48,18 +50,39 @@ const TourList = ({ searchQuery, onEdit }) => {
     navigate(`/admin/tours/tourSchedule?tourId=${tourId}`);
   };
 
-  // Lọc các tour theo mã tour hoặc tên tour
-  const filteredTours = tours.filter((tour) =>
-    tour.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    tour.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleFilterChange = (event) => {
+    setFilterStatus(event.target.value);
+  };
+
+  const filteredTours = tours
+    .filter((tour) =>
+      tour.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tour.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter((tour) => {
+      if (filterStatus === 'all') return true;
+      return filterStatus === 'active' ? tour.isActive === true : tour.isActive === false;
+    });
 
   return (
     <div className="bg-gradient-to-br from-white to-gray-50 p-4 shadow-lg rounded-lg">
       {selectedTour ? (
         <UpdateTourForm tour={selectedTour} onUpdateSuccess={handleUpdateSuccess} />
-      ) : ( 
+      ) : (
         <>
+          <div className="mb-4 flex items-center justify-end">
+            <label className="mr-2 text-gray-700 font-semibold">Lọc trạng thái:</label>
+            <select
+              value={filterStatus}
+              onChange={handleFilterChange}
+              className="px-3 py-2 border rounded shadow focus:outline-none focus:ring focus:ring-blue-300"
+            >
+              <option value="all">Tất cả</option>
+              <option value="active">Đang hoạt động</option>
+              <option value="inactive">Ngừng hoạt động</option>
+            </select>
+          </div>
+
           {filteredTours.length > 0 ? (
             <table className="min-w-full border-collapse border border-gray-300 rounded-lg overflow-hidden">
               <thead>
@@ -86,37 +109,37 @@ const TourList = ({ searchQuery, onEdit }) => {
                     </td>
                     <td className="border border-gray-400 px-4 py-2 font-semibold text-gray-800">{tour.name}</td>
                     <td className="border border-gray-400 px-6 py-2">
-                      {tour.isActive === true ? (
+                      {tour.isActive ? (
                         <span className="bg-green-200 text-green-700 px-4 py-1 rounded-full whitespace-nowrap">Đang hoạt động</span>
                       ) : (
-                        <span className="bg-red-200 text-red-700 px-3 py-1 rounded-full whitespace-nowrap">Ngừng hoạt động</span>
+                        <span className="bg-red-200 text-red-700 px-4 py-1 rounded-full whitespace-nowrap">Ngừng hoạt động</span>
                       )}
                     </td>
                     <td className="border border-gray-400 px-4 py-2">
                       <div className="grid grid-cols-2 gap-3">
                         <button
                           onClick={() => handleEdit(tour)}
-                          className="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500 shadow"
+                          className="bg-yellow-400 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-yellow-500 shadow"
                         >
-                          Sửa
+                          <FaEdit />
                         </button>
                         <button
                           onClick={() => handleDelete(tour.id)}
-                          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 shadow"
+                          className="bg-red-500 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-red-600 shadow"
                         >
-                          Xóa
+                          <FaTrashAlt />
                         </button>
                         <button
                           onClick={() => handleItinerary(tour.id)}
-                          className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 shadow"
+                          className="bg-blue-500 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-blue-600 shadow"
                         >
-                          Lịch trình
+                          <FaRoute />
                         </button>
                         <button
                           onClick={() => handleTourschedule(tour.id)}
-                          className="bg-green-400 text-white px-2 py-1 rounded hover:bg-green-500 shadow"
+                          className="bg-green-400 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-green-500 shadow"
                         >
-                          Thời gian
+                          <FaClock />
                         </button>
                       </div>
                     </td>

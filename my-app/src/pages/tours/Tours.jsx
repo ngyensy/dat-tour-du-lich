@@ -33,9 +33,6 @@ const Tours = () => {
                     <TourCard key={index} tour={tour} />
                 ))}
             </div>
-            {visibleProducts < activeTours.length && (
-                <button onClick={handleShowMore}>Hiện thêm</button>
-            )}
         </div>
     );
 };

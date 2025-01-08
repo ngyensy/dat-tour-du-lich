@@ -386,6 +386,20 @@
                     availableSlots={availableSlots}
                   />
                 </div>
+
+                <div className='flex space-x-10'>
+                  {/*Só lượng trẻ em */}
+                  <QuantityInput
+                    label="Trẻ nhỏ"
+                    note="(Dưới 5 tuổi)"
+                    value={formData.numberOfChildren}
+                    onIncrease={handleIncreaseChildren}
+                    onDecrease={handleDecreaseChildren}
+                    availableSlots={availableSlots}
+                  />
+                </div>
+
+                
                 
                 {/* Thanh số lượng phòng đơn */}
                 <SingleRoomCounter count={singleRoomCount} onChange={handleSingleRoomCountChange} />

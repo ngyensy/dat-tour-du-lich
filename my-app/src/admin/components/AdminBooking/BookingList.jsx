@@ -85,7 +85,7 @@ const BookingList = ({ onViewDetail }) => {
   }
 
   return (
-    <div>
+    <div className="bg-gradient-to-br from-white to-gray-50 p-4 shadow-lg rounded-lg">
       <h2 className="text-xl font-semibold mb-4">Danh sách Booking</h2>
 
       <div className='flex space-x-10'>
@@ -114,7 +114,7 @@ const BookingList = ({ onViewDetail }) => {
       ) : (
         <div className="table-container">
           <table className="min-w-full bg-white border border-gray-200">
-            <thead className="bg-blue-500 text-white font-bold">
+            <thead className="bg-blue-500 text-white font-semibold">
               <tr>
                 <th className="py-2 px-4 border text-center">Mã Booking</th>
                 <th className="py-2 px-4 border text-center">Tên Tour</th>
@@ -151,18 +151,18 @@ const BookingList = ({ onViewDetail }) => {
                 return (
                   <tr
                     key={booking.id}
-                    className={`border-b ${statusClass} hover:bg-gray-200 font-bold`}
+                    className={`border-b ${statusClass} hover:bg-gray-200 font-semibold`}
                   >
-                    <td className="py-2 px-4 border text-center">{booking.id}</td>
-                    <td className="py-2 px-4 border text-center">{booking.tour?.name || 'N/A'}</td>
-                    <td className="py-2 px-4 border text-center">{booking.guestName}</td>
-                    <td className="py-2 px-4 border text-center">{booking.guestPhoneNumber}</td>
-                    <td className="py-2 px-4 border text-center">
+                    <td className="py-2 px-4 border border-gray-500 text-center">{booking.id}</td>
+                    <td className="py-2 px-4 border border-gray-500 text-center">{booking.tour?.name || 'N/A'}</td>
+                    <td className="py-2 px-4 border border-gray-500 text-center">{booking.guestName}</td>
+                    <td className="py-2 px-4 border border-gray-500 text-center">{booking.guestPhoneNumber}</td>
+                    <td className="py-2 px-4 border border-gray-500 text-center">
                       {new Date(booking.bookingDate).toLocaleDateString()}
                     </td>
-                    <td className="py-2 px-4 border text-center">{booking.status}</td>
-                    <td className="py-2 px-4 border text-center">{booking.totalPrice.toLocaleString()}</td>
-                    <td className="py-2 px-4 border text-center">
+                    <td className="py-2 px-4 border border-gray-500 text-center">{booking.status}</td>
+                    <td className="py-2 px-4 border border-gray-500 text-center">{booking.totalPrice.toLocaleString()}</td>
+                    <td className="py-2 px-4 border border-gray-500 text-center">
                       <div className="flex justify-center space-x-3">
                         <button
                           onClick={() => onViewDetail(booking)}

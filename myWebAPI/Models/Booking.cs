@@ -37,7 +37,8 @@ namespace WebApi.Models
 
         public int? TourScheduleId {get; set;}
 
-         public string AppliedCode { get; set; }
+        public string AppliedCode { get; set; }
+
 
     }
 }

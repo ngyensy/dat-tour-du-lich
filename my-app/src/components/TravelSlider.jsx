@@ -47,7 +47,7 @@ const TravelSlider = () => {
         <Slider {...settings}>
         <div>
             <img
-              src="https://media.travel.com.vn/SlideShow/sl_241101_TopBannerWeb.jpg"
+              src="https://scontent.fhan5-6.fna.fbcdn.net/v/t39.30808-6/464952156_944898184339055_8095090511433641993_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeG_jqu9zKRDlJqVgPNxCSu-Pl_YVVLLgz0-X9hVUsuDPQdpXBdnFCLX4HNGailrtdh1s61_P9eWEIFjlPpUgKeU&_nc_ohc=KJ8r8N5HjRUQ7kNvgGvG6nm&_nc_zt=23&_nc_ht=scontent.fhan5-6.fna&_nc_gid=ApCu7kJHdXZxIcMgED3qJJJ&oh=00_AYCctwRUHvECRAja2_CYMXZgUAVbukJ_blZ-VqQ-uy7_5w&oe=677562AC"
               alt="Destination 2"
               className="w-full h-[640px] object-cover rounded-lg"
             />
@@ -64,13 +64,6 @@ const TravelSlider = () => {
               src="https://upcontent.vn/wp-content/uploads/2024/07/banner-du-lich-viet-nam-03-1024x640.jpg"
               alt="Destination 3"
               className="w-full h-[auto] object-cover rounded-lg"
-            />
-          </div>
-          <div>
-            <img
-              src="https://dulichviet.com.vn/images/bandidau/banner/BANNER-TET/tour-tet-du-lich-viet%20(2)(1).jpg?v=1'"
-              alt="Destination 4"
-              className="w-[640] h-[640px] object-cover rounded-lg"
             />
           </div>
         </Slider>

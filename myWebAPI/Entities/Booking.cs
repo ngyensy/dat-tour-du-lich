@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -72,6 +73,6 @@ namespace WebApi.Entities
 
         [Column("AppliedCode")]
         public string AppliedCode { get; set; }
-
+        public ICollection<Transaction> Transactions { get; set; }
     }
 }
